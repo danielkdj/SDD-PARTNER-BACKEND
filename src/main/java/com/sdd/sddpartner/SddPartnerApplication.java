@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ServeSideApplication {
+public class SddPartnerApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(ServeSideApplication.class, args);
+        SpringApplication.run(SddPartnerApplication.class, args);
     }
 
 }
