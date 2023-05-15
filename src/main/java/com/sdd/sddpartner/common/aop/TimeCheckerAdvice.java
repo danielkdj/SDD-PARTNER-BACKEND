@@ -22,7 +22,7 @@ public class TimeCheckerAdvice {
 	@Autowired
 	private PerformanceLogService service;
 
-	@Around("execution(* com.example.serveside.service.*Service*.*(..))")
+	@Around("execution(* com.sdd.sddpartner.service.*Service*.*(..))")
 	public Object timeLog(ProceedingJoinPoint pjp) throws Throwable {
 
 		long startTime = System.currentTimeMillis();
