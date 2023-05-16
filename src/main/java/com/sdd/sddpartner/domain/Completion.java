@@ -26,7 +26,7 @@ public class Completion {
 
 	//edu_info FK
 	@Column(name = "edu_id")
-	private String eduId;
+	private long eduId;
 
 	@Column(length = 4)
 	private long years;
