@@ -1,18 +1,15 @@
 package com.sdd.sddpartner.domain;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Getter
 @Setter
-@EqualsAndHashCode(of="eduNo")
+@EqualsAndHashCode(of="eduId")
 @ToString
 @Entity
 @Table(name="eduInfo")

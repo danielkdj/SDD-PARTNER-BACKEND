@@ -8,9 +8,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -25,17 +24,25 @@ public class EduServiceImpl implements EduService {
 
 	@Override
 	public Edu select(Long eduNo) throws Exception {
-		return repository.getOne(eduNo);
+		Optional<Edu> opt = repository.findById(eduNo);
+		return opt.orElseThrow(() -> new Exception("select result set null"));
 	}
 
 	@Override
 	public void update(Edu edu) throws Exception {
-		Edu eduEntity = repository.getOne(edu.getEduNo());
+		Optional<Edu> opt = repository.findById(edu.getEduNo());
+		Edu entity = opt.orElseThrow(() -> new Exception("update No null"));
+		entity.setTitle(edu.getTitle());
+		entity.setContent(edu.getContent());
+		entity.setInstitution(edu.getInstitution());
+		entity.setPresenter(edu.getPresenter());
+		entity.setPlace(edu.getPlace());
+		entity.setCount(edu.getCount());
+		entity.setEduStart(edu.getEduStart());
+		entity.setEduEnd(edu.getEduEnd());
+		//null 체크 추가해야함
 
-		eduEntity.setTitle(edu.getTitle());
-		eduEntity.setContent(edu.getContent());
-		
-		repository.save(eduEntity);
+		repository.save(entity);
 	}
 
 	@Override

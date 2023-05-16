@@ -28,8 +28,8 @@ public class EduController {
 		return new ResponseEntity<>(edu, HttpStatus.OK);
 	}
 
-	@GetMapping
-	public ResponseEntity<List<Edu>> searchList(@PathVariable("title") SearchCategoryDate search) throws Exception {
+	@PostMapping("/search")
+	public ResponseEntity<List<Edu>> searchList(@RequestBody SearchCategoryDate search) throws Exception {
 		log.info("searchList");
 
 			return new ResponseEntity<>(service.searchList(search), HttpStatus.OK);

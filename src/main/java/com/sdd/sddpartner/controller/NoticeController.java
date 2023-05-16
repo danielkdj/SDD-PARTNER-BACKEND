@@ -35,8 +35,8 @@ public class NoticeController {
 		return new ResponseEntity<>(notice, HttpStatus.OK);
 	}
 
-	@GetMapping
-	public ResponseEntity<List<Notice>> searchList(@PathVariable("title") String keyword) throws Exception {
+	@GetMapping("/{keyword}")
+	public ResponseEntity<List<Notice>> searchList(@PathVariable("keyword") String keyword) throws Exception {
 		log.info("searchList");
 
 			return new ResponseEntity<>(service.searchList(keyword), HttpStatus.OK);

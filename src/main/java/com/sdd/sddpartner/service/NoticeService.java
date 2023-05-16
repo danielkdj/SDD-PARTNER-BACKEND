@@ -5,14 +5,14 @@ import com.sdd.sddpartner.domain.Notice;
 
 public interface NoticeService {
 
-	public void create(Notice notice) throws Exception;
+	void create(Notice notice) throws Exception;
 
-	public Notice select(Long noticeNo) throws Exception;
+	Notice select(Long noticeNo) throws Exception;
 
-	public void update(Notice notice) throws Exception;
+	void update(Notice notice) throws Exception;
 
-	public void delete(Long noticeNo) throws Exception;
+	void delete(Long noticeNo) throws Exception;
 
-	public List<Notice> searchList(String keyword) throws Exception;
+	List<Notice> searchList(String keyword) throws Exception;
 
 }

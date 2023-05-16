@@ -1,7 +1,9 @@
 package com.sdd.sddpartner.service;
 
 import java.util.List;
+import java.util.Optional;
 
+import com.sdd.sddpartner.domain.Edu;
 import com.sdd.sddpartner.domain.Notice;
 import com.sdd.sddpartner.repository.NoticeRepository;
 import org.springframework.data.domain.Sort;
@@ -23,17 +25,18 @@ public class NoticeServiceImpl implements NoticeService {
 
 	@Override
 	public Notice select(Long noticeNo) throws Exception {
-		return repository.getOne(noticeNo);
+		Optional<Notice> opt = repository.findById(noticeNo);
+		return opt.orElseThrow(() -> new Exception("select result set null"));
 	}
 
 	@Override
 	public void update(Notice notice) throws Exception {
-		Notice noticeEntity = repository.getOne(notice.getNoticeNo());
-
-		noticeEntity.setTitle(notice.getTitle());
-		noticeEntity.setContent(notice.getContent());
+		Optional<Notice> opt = repository.findById(notice.getNoticeNo());
+		Notice entity = opt.orElseThrow(() -> new Exception("update No null"));
+		entity.setTitle(notice.getTitle());
+		entity.setContent(notice.getContent());
 		
-		repository.save(noticeEntity);
+		repository.save(entity);
 	}
 
 	@Override
