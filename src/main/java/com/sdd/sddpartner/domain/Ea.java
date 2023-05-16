@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -16,13 +17,9 @@ import javax.persistence.Table;
 public class Ea {
 
     @Id
-    private Long id;
+    @Column(name = "document_no")
+    private long documentNo;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
-    }
+    @Column(name = "approval_stats")
+    private long approvalStats;
 }
