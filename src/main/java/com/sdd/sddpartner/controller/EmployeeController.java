@@ -31,10 +31,10 @@ public class EmployeeController {
 
 	@PostMapping
 	public ResponseEntity<Employee> register(@Validated @RequestBody Employee emp) throws Exception {
-		log.info("emp.getUserName() = " + emp.getUserName());
+		log.info("emp.getUserName() = " + emp.getName());
 		
-		String inputPassword = emp.getUserPw();
-		emp.setUserPw(passwordEncoder.encode(inputPassword));
+		String inputPassword = emp.getPassword();
+		emp.setPassword(passwordEncoder.encode(inputPassword));
 		
 		service.register(emp);
 
@@ -78,14 +78,14 @@ public class EmployeeController {
 
 	@PostMapping(value = "/setup", produces="text/plain;charset=UTF-8")
 	public ResponseEntity<String> setupAdmin(@Validated @RequestBody Employee emp) throws Exception {
-		log.info("setupAdmin : emp.getUserName() = " + emp.getUserName());
+		log.info("setupAdmin : emp.getUserName() = " + emp.getName());
 		log.info("setupAdmin : service.countAll() = " + service.countAll());
 		
 		if(service.countAll() == 0) {
-			String inputPassword = emp.getUserPw();
-			emp.setUserPw(passwordEncoder.encode(inputPassword));
+			String inputPassword = emp.getPassword();
+			emp.setPassword(passwordEncoder.encode(inputPassword));
 			
-			emp.setJob("00");
+			emp.setEmpRank("00");
 			
 			service.setupAdmin(emp);
 	
@@ -103,11 +103,11 @@ public class EmployeeController {
 		String empID = customEmp.getEmpId();
 		log.info("register userNo = " + empID);
 
-		Employee member = service.read(empID);
+		Employee emp = service.read(empID);
 		
-		member.setUserPw("");
+		emp.setPassword("");
 		
-		return new ResponseEntity<>(member, HttpStatus.OK);
+		return new ResponseEntity<>(emp, HttpStatus.OK);
 	}
 	
 }

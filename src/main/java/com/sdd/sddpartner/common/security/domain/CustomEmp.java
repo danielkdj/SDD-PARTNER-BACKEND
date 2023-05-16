@@ -19,24 +19,24 @@ public class CustomEmp extends User {
 	}
 
 	public CustomEmp(Employee emp) {
-		super(emp.getEmpId(), emp.getUserPw(), emp.getAuthList().stream()
+		super(emp.getEmpId(), emp.getPassword(), emp.getAuthList().stream()
 				.map(auth -> new SimpleGrantedAuthority(auth.getAuth())).collect(Collectors.toList()));
 
 		this.emp = emp;
 	}
 
 	public CustomEmp(Employee Employee, Collection<? extends GrantedAuthority> authorities) {
-		super(Employee.getEmpId(), Employee.getUserPw(), authorities);
+		super(Employee.getEmpId(), Employee.getPassword(), authorities);
 		
 		this.emp = emp;
 	}
 
-	public String getUserNo() {
+	public String getEmpId() {
 		return emp.getEmpId();
 	}
 	
-	public String getUserId() {
-		return emp.getEmpId();
+	public String getEmpSSN() {
+		return emp.getEmpSSN();
 	}
 	
 }
