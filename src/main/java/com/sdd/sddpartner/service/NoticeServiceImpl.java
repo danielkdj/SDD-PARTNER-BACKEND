@@ -3,7 +3,6 @@ package com.sdd.sddpartner.service;
 import java.util.List;
 import java.util.Optional;
 
-import com.sdd.sddpartner.domain.Edu;
 import com.sdd.sddpartner.domain.Notice;
 import com.sdd.sddpartner.repository.NoticeRepository;
 import org.springframework.data.domain.Sort;
