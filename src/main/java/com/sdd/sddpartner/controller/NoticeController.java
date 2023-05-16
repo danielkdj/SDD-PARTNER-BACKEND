@@ -29,44 +29,44 @@ public class NoticeController {
 	private final NoticeService service;
 
 	@GetMapping("/{noticeNo}")
-	public ResponseEntity<Notice> read(@PathVariable("noticeNo") Long noticeNo) throws Exception {
-		Notice notice = service.read(noticeNo);
-			
+	public ResponseEntity<Notice> select(@PathVariable("noticeNo") Long noticeNo) throws Exception {
+		Notice notice = service.select(noticeNo);
+
 		return new ResponseEntity<>(notice, HttpStatus.OK);
 	}
 
 	@GetMapping
-	public ResponseEntity<List<Notice>> list() throws Exception {
-		log.info("list");
-		
-		return new ResponseEntity<>(service.list(), HttpStatus.OK);
+	public ResponseEntity<List<Notice>> searchList(@PathVariable("title") String keyword) throws Exception {
+		log.info("searchList");
+
+			return new ResponseEntity<>(service.searchList(keyword), HttpStatus.OK);
 	}
 
 	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping
-	public ResponseEntity<Notice> register(@Validated @RequestBody Notice notice) throws Exception {
-		log.info("register");
+	public ResponseEntity<Notice> create(@Validated @RequestBody Notice notice) throws Exception {
+		log.info("create");
 		
-		service.register(notice);
+		service.create(notice);
 		
-		log.info("register notice.getNoticeNo() = " + notice.getNoticeNo());
+		log.info("create notice.getNoticeNo() = " + notice.getNoticeNo());
 		
 		return new ResponseEntity<>(notice, HttpStatus.OK);
 	}
 
 	@PreAuthorize("hasRole('ADMIN')")
 	@DeleteMapping("/{noticeNo}")
-	public ResponseEntity<Void> remove(@PathVariable("noticeNo") Long noticeNo) throws Exception {
-		service.remove(noticeNo);
+	public ResponseEntity<Void> delete(@PathVariable("noticeNo") Long noticeNo) throws Exception {
+		service.delete(noticeNo);
 
 		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 	}
 
 	@PreAuthorize("hasRole('ADMIN')")
 	@PutMapping("/{noticeNo}")
-	public ResponseEntity<Notice> modify(@PathVariable("noticeNo") Long noticeNo, @Validated @RequestBody Notice notice) throws Exception {
+	public ResponseEntity<Notice> update(@PathVariable("noticeNo") Long noticeNo, @Validated @RequestBody Notice notice) throws Exception {
 		notice.setNoticeNo(noticeNo);
-		service.modify(notice);
+		service.update(notice);
 		
 		return new ResponseEntity<>(notice, HttpStatus.OK);
 	}
