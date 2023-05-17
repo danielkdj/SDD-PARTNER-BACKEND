@@ -1,6 +1,7 @@
 package com.sdd.sddpartner.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.sdd.sddpartner.domain.Notice;
 import com.sdd.sddpartner.repository.NoticeRepository;
@@ -17,33 +18,37 @@ public class NoticeServiceImpl implements NoticeService {
 	private final NoticeRepository repository;
 
 	@Override
-	public void register(Notice notice) throws Exception {
+	public void create(Notice notice) throws Exception {
 		repository.save(notice);
 	}
 
 	@Override
-	public Notice read(Long noticeNo) throws Exception {
-		return repository.getOne(noticeNo);
+	public Notice select(Long noticeNo) throws Exception {
+		Optional<Notice> opt = repository.findById(noticeNo);
+		return opt.orElseThrow(() -> new Exception("select result set null"));
 	}
 
 	@Override
-	public void modify(Notice notice) throws Exception {
-		Notice noticeEntity = repository.getOne(notice.getNoticeNo());
-
-		noticeEntity.setTitle(notice.getTitle());
-		noticeEntity.setContent(notice.getContent());
+	public void update(Notice notice) throws Exception {
+		Optional<Notice> opt = repository.findById(notice.getNoticeNo());
+		Notice entity = opt.orElseThrow(() -> new Exception("update No null"));
+		entity.setTitle(notice.getTitle());
+		entity.setContent(notice.getContent());
 		
-		repository.save(noticeEntity);
+		repository.save(entity);
 	}
 
 	@Override
-	public void remove(Long noticeNo) throws Exception {
+	public void delete(Long noticeNo) throws Exception {
 		repository.deleteById(noticeNo);
 	}
 
 	@Override
-	public List<Notice> list() throws Exception {
+	public List<Notice> searchList(String keyword) throws Exception {
+		if(keyword.length()==0){
 		return repository.findAll(Sort.by(Direction.DESC, "noticeNo"));
+		}else{
+		return repository.findByTitleContains(Sort.by(Direction.DESC, "noticeNo"), keyword);
+		}
 	}
-	
 }

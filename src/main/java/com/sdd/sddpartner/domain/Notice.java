@@ -11,7 +11,6 @@ import javax.persistence.Lob;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -30,6 +29,7 @@ public class Notice {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "notice_no")
 	private Long noticeNo;
 	
 	@Column(length = 200, nullable = false)
@@ -37,13 +37,14 @@ public class Notice {
 	
 	@Lob
 	private String content;
+
+	//employee FK
+	@Column(name = "emp_id")
+	private String empId;
 	
-	@JsonFormat(pattern="yyyy-MM-dd HH:mm")
+	@JsonFormat(pattern="yyyy-MM-dd")
 	@CreationTimestamp
-	private LocalDateTime regDate;
-	
-	@JsonFormat(pattern="yyyy-MM-dd HH:mm")
-	@UpdateTimestamp
-	private LocalDateTime updDate;
+	@Column(name = "created_at", nullable = false)
+	private LocalDateTime createdAt;
 
 }
