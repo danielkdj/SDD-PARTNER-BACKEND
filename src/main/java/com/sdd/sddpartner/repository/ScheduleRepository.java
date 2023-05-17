@@ -1,0 +1,7 @@
+package com.sdd.sddpartner.repository;
+
+import com.sdd.sddpartner.domain.Schedule;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ScheduleRepository  extends JpaRepository<Schedule, Long> {
+}
