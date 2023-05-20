@@ -37,8 +37,12 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		return super.handleExceptionInternal(ex, restError, headers, status, request);
 	}
 
+	@ExceptionHandler(NoSuchFieldException.class)
+	public ResponseEntity<?> handleNoSuchElementException() {
+		return ResponseEntity.notFound().build();
+	}
 
-	@ExceptionHandler
+	@ExceptionHandler(AccessDeniedException.class)
 	public ResponseEntity<Object> handleAccessDeniedException(AccessDeniedException ex, WebRequest request) {
 		log.info("handleAccessDeniedException");
 		

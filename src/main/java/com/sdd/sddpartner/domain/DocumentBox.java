@@ -17,33 +17,28 @@ import java.time.LocalDateTime;
 @ToString
 @Entity
 @Table(name="document_box")
-@EqualsAndHashCode(of="documentId")
 public class DocumentBox {
-
     @Id
-    @Column(name = "DOCUMENT_ID")
-    private Long documentId;
-//    @Column
-//    private String backgroundcolor;
-//    @Lob
-//    private String content;
-//    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
-//    @CreationTimestamp
-//    private LocalDateTime createAt;
-//    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
-//    @UpdateTimestamp
-//    private LocalDateTime modifiedAt;
-//    @Column
-//    private String description;
-//    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
-//    private LocalDateTime start;
-//    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
-//    private LocalDateTime end;
-    @Column
-    private String title;
-//    @Column
-//    private String url;
+    @Column(name = "ID", length = 50, nullable = false)
+    private String id;
 
-//    private Number deptNo;
+    @Column(name = "TITLE", length = 50)
+    private String title;
+
+    @Lob
+    @Column(name = "CONTENT")
+    private String content;
+
+
+    @CreationTimestamp
+    @Column(name = "CREATE_AT", nullable = false)
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    @Column(name = "MODIFIED_AT", nullable = false)
+    private LocalDateTime modifiedAt;
+
+    @Column(name = "EMP_ID", length = 50, nullable = false)
+    private String employeeId;
 
 }
