@@ -6,7 +6,7 @@ import com.sdd.sddpartner.domain.Notice;
 
 public interface NoticeService {
 
-	public void register(Notice notice) throws Exception;
+	public void register(Notice notice, String userName) throws Exception;
 
 	public Notice read(Long noticeNo) throws Exception;
 
