@@ -57,6 +57,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		.antMatchers("/").permitAll()
 		.antMatchers("/codes/**").access("permitAll")
 		.antMatchers("/users/**").access("permitAll")
+		.antMatchers("/employee/**").permitAll()
 		.antMatchers("/codegroups/**").access("hasRole('ADMIN')")
 		.antMatchers("/codedetails/**").access("hasRole('ADMIN')")
 		.antMatchers("/boards/**").access("request.method == 'GET' ? permitAll : hasAnyRole('MEMBER', 'ADMIN')")
@@ -94,7 +95,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	    
 	    CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.addAllowedOrigin("*");
+		config.addAllowedOrigin("http://localhost:3030/");
         config.addAllowedHeader("*");
         config.addAllowedMethod("OPTIONS");
         config.addAllowedMethod("HEAD");
