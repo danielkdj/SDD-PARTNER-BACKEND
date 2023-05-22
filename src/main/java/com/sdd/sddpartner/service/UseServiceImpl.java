@@ -33,17 +33,17 @@ public class UseServiceImpl implements UseService {
 				.orElseGet(() -> repository.save(newEa));
 	}
 
-	@Override
-	public List<Ea> uselist() throws Exception {
-		List<Ea> uses = repository.findAllByApprovalStageAndSecondApprovalAndCategoryId(Sort.by(Direction.DESC, "documentNo"), Long.valueOf(2),"E103", Long.valueOf(1));
-		List<Ea> cars  = repository.findAllByApprovalStageAndSecondApprovalAndCategoryId(Sort.by(Direction.DESC, "documentNo"), Long.valueOf(2),"E103", Long.valueOf(2));
-
-		for(Ea car : cars){
-			uses.add(car);
-		}
-
-		return uses;
-	}
+//	@Override
+//	public List<Ea> uselist() throws Exception {
+//		List<Ea> uses = repository.findAllByApprovalStageAndSecondApprovalAndCategoryId(Sort.by(Direction.DESC, "documentNo"), Long.valueOf(2),"E103", Long.valueOf(1));
+//		List<Ea> cars  = repository.findAllByApprovalStageAndSecondApprovalAndCategoryId(Sort.by(Direction.DESC, "documentNo"), Long.valueOf(2),"E103", Long.valueOf(2));
+//
+//		for(Ea car : cars){
+//			uses.add(car);
+//		}
+//
+//		return uses;
+//	}
 	@Override
 	public List<Ea> schedulelist(Long categoryId) throws Exception {
 		List<Ea> uses = repository.findAllByCategoryIdAndCompletedAtNotNull(Sort.by(Direction.DESC, "documentNo"), categoryId);
@@ -51,7 +51,7 @@ public class UseServiceImpl implements UseService {
 	}
 	@Override
 	public List<Ea> fourlist() throws Exception {
-		List<Long> categoryId = new ArrayList<Long>();
+		List<Long> categoryId = new ArrayList<>();
 		categoryId.add(Long.valueOf(2));
 		categoryId.add(Long.valueOf(1));
 

@@ -6,17 +6,17 @@ import java.util.List;
 
 public interface UseService {
 
-	public Ea read(Long documentNo) throws Exception;
+	Ea read(Long documentNo) throws Exception;
 
-	public void modify(Ea notice) throws Exception;
+	void modify(Ea notice) throws Exception;
 
-	public List<Ea> uselist() throws Exception;
+	//List<Ea> uselist() throws Exception;
 
     List<Ea> schedulelist(Long categoryId) throws Exception;
 
-    public List<Ea> fourlist() throws Exception;
-	public List<Ea> categorylist(Long category) throws Exception;
+    List<Ea> fourlist() throws Exception;
+	List<Ea> categorylist(Long category) throws Exception;
 
-	public List<Ea> searchlist(String title) throws Exception;
+	List<Ea> searchlist(String title) throws Exception;
 
 }
