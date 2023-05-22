@@ -5,13 +5,13 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDate;
 
 @JsonIgnoreProperties(value="hibernateLazyInitializer") 
 @Data
@@ -22,128 +22,158 @@ import java.util.List;
 public class Employee {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "emp_id")
+	@Column(name = "emp_id", length = 50)
 	private String empId;
 
+	@ColumnDefault(" ")
 	@Column(length = 100, nullable = false)
 	private String name;
 
+	@ColumnDefault(" ")
 	@Column(length = 100, nullable = false)
 	private String password;
 
-	@Column(length = 100, nullable = false)
+	@Column
 	private String empImg;
 
-	// 주민등록번호
-	@Column(length = 100, nullable = false)
-	private String empSSN;
+	private String empImgDisplay;
 
+	// 주민등록번호
+	@ColumnDefault(" ")
+	@Column(length = 100, nullable = false)
+	private String empSsn;
+
+	@ColumnDefault("N")
 	@Column(length = 100, nullable = false)
 	private String gender;
 
+	@ColumnDefault("N")
 	@Column(length = 1, nullable = false)
 	private String marriage;
 
+	@ColumnDefault(" ")
 	@Column(length = 100, nullable = false)
 	private String phone;
 
+	@ColumnDefault(" ")
 	@Column(length = 100, nullable = false)
 	private String email;
 
+	@ColumnDefault(" ")
 	@Column(nullable = false)
-	private int salary;
+	private Integer salary;
 
+	@ColumnDefault(" ")
 	@Column(length = 200, nullable = false)
 	private String accountNo;
 
+	@ColumnDefault(" ")
 	@Column(length = 500, nullable = false)
 	private String address;
 
 	// 직위 (사장, 이사, 부장, 과장, 대리, 사원)
+	@ColumnDefault(" ")
 	@Column(length = 100, nullable = false)
 	private String empSpot;
 
 	// 직책 (팀장, 실장, 본부장, 파트장)
+	@ColumnDefault(" ")
 	@Column(length = 100)
 	private String empPosition;
 
 	// 호봉
+	@ColumnDefault(" ")
 	@Column(length = 100, nullable = false)
 	private String empRank;
 
 	// 재직상태(재직, 퇴직, 퇴직예정, 휴직, 휴직예정, 입사예정, 수습)
+	@ColumnDefault(" ")
 	@Column(nullable = false)
-	private int empStatus;
+	private Integer empStatus;
 
 	// 채용구분 (공채, 특채)
+	@ColumnDefault(" ")
 	@Column(nullable = false)
-	private int classification;
+	private Integer classification;
 
 	// 고용구분 (정규직, 시간제, 무기계약직, 계약직, 파견직)
+	@ColumnDefault(" ")
 	@Column(nullable = false)
-	private int empClassification;
+	private Integer empClassification;
 
 	// 입사구분 (신입, 경력)
+	@ColumnDefault(" ")
 	@Column(nullable = false)
-	private int admission;
+	private Integer admission;
 
 	@Column(nullable = false)
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	@CreationTimestamp
-	private LocalDateTime hireDate;
+	private LocalDate hireDate;
 
 	// 퇴사일
-	@Column
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	@UpdateTimestamp
-	private LocalDateTime leaveDate;
+	@Column()
+	@JsonFormat(pattern = "yyyy-MM-dd")
+	private LocalDate leaveDate;
 
 	// 퇴사사유
 	@Column(length = 100)
 	private String leaveReason;
 
 	// 퇴사여부
-	@Column(length = 1, nullable = false)
+	@ColumnDefault("N")
+	@Column(length = 100, nullable = false)
 	private String leaveIs;
 
 	// 퇴사코드
-	@Column
-	private int leaveCode;
+	@Column()
+	private Integer leaveCode;
 
 	@Column(length = 100)
 	private String awards;
 
-	@Column(length = 100)
+	@ColumnDefault(" ")
+	@Column(length = 100, nullable = false)
 	private String qualifications;
 
-	@Column(length = 20, nullable = false)
+	@ColumnDefault("'11'")
+	@Column(length = 20)
 	private String permission;
 
+	@ColumnDefault(" ")
 	@Column(nullable = false)
-	private int deptNo;
+	private Integer deptNo;
 
-	@Column(nullable = false)
-	private int annual;
+	@Column()
+	private Integer annual;
 
-	@Column
-	private int offYear;
+	@Column()
+	private Integer offYear;
 
-	@Column
-	private int offChildcare;
+	@Column()
+	private Integer offChildcare;
 
-	@Column
-	private int offMarriage;
+	@Column()
+	private Integer offMarriage;
 
-	@Column
-	private int offPregnancy;
+	@Column()
+	private Integer offChildbirth;
 
-	@Column
-	private int offChildbirth;
+	@Column()
+	private Integer offReward;
 
-	@Column
-	private int offReward;
+	@Column()
+	private Integer offPregnancy;
 
+	@PrePersist
+	@PreUpdate
+	public void ensurePermissionIsNotEmpty() {
+		if (permission == null || permission.isEmpty()) {
+			permission = "11";
+		}
+	}
+
+	/*@Column(nullable = false)
 	private String coin;
 
 	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
@@ -156,6 +186,6 @@ public class Employee {
 
 	public void clearAuthList() {
 		authList.clear();
-	}
+	}*/
 
 }
