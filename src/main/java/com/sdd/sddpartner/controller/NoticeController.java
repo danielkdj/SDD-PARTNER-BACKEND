@@ -32,6 +32,17 @@ public class NoticeController {
 		log.info("list");
 		return new ResponseEntity<>(service.list(), HttpStatus.OK);
 	}
+	@GetMapping("/main")
+	public ResponseEntity<List<Notice>> threelist() throws Exception {
+		log.info("list");
+		return new ResponseEntity<>(service.threelist(), HttpStatus.OK);
+	}
+
+	@GetMapping("/search/{title}")
+	public ResponseEntity<List<Notice>> searchlist(@PathVariable("title") String title) throws Exception {
+		log.info("list");
+		return new ResponseEntity<>(service.searchlist(title), HttpStatus.OK);
+	}
 
 //	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping

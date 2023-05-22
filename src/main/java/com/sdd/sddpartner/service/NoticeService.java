@@ -14,6 +14,8 @@ public interface NoticeService {
 
 	public void remove(Long noticeNo) throws Exception;
 
+	public List<Notice> threelist() throws Exception;
 	public List<Notice> list() throws Exception;
-	
+	public List<Notice> searchlist(String title) throws Exception;
+
 }
