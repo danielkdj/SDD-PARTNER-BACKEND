@@ -4,8 +4,7 @@ import java.util.List;
 
 import com.sdd.sddpartner.domain.Notice;
 import com.sdd.sddpartner.domain.Employee;
-import com.sdd.sddpartner.domain.NoticeDto;
-import com.sdd.sddpartner.repository.EmpRepository;
+import com.sdd.sddpartner.repository.EmployeeRepository;
 import com.sdd.sddpartner.repository.NoticeRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
@@ -20,11 +19,11 @@ import lombok.RequiredArgsConstructor;
 public class NoticeServiceImpl implements NoticeService {
 
 	private final NoticeRepository repository;
-	private final EmpRepository empRepository;
+	private final EmployeeRepository empRepository;
 
 	@Override
-	public void register(Notice notice, String empName) throws Exception {
-		Employee emp = empRepository.findByName(empName);
+	public void register(Notice notice, String empId) throws Exception {
+		Employee emp = empRepository.getOne(empId);
 		log.info("유저정보 출력"+ emp.toString());
 		notice.setEmployee(emp);
 		repository.save(notice);

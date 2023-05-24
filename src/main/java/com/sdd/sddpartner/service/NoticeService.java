@@ -7,7 +7,7 @@ import com.sdd.sddpartner.domain.NoticeDto;
 
 public interface NoticeService {
 
-	void register(Notice notice, String userName) throws Exception;
+	void register(Notice notice, String empId) throws Exception;
 
 	Notice read(Long noticeNo) throws Exception;
 

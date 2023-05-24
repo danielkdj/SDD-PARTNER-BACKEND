@@ -61,8 +61,8 @@ public class NoticeController {
 		//String username = authentication.getName();
 //		if(username.length()==0){
 //		}
-			String username="류준열";
-		service.register(notice, username);
+			String empId="EMP-123456";
+		service.register(notice, empId);
 		
 		log.info("register notice.getNoticeNo() = " + notice.getNoticeNo());
 		
