@@ -3,9 +3,10 @@ package com.sdd.sddpartner.service;
 import java.util.List;
 
 import com.sdd.sddpartner.domain.Notice;
-import com.sdd.sddpartner.domain.User;
+import com.sdd.sddpartner.domain.Employee;
+import com.sdd.sddpartner.domain.NoticeDto;
+import com.sdd.sddpartner.repository.EmpRepository;
 import com.sdd.sddpartner.repository.NoticeRepository;
-import com.sdd.sddpartner.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
@@ -19,13 +20,13 @@ import lombok.RequiredArgsConstructor;
 public class NoticeServiceImpl implements NoticeService {
 
 	private final NoticeRepository repository;
-	private final UserRepository userRepository;
+	private final EmpRepository empRepository;
 
 	@Override
-	public void register(Notice notice, String userName) throws Exception {
-		User user = userRepository.findByUserName(userName);
-		log.info("유저정보 출력"+ user.toString());
-		notice.setUsers(user);
+	public void register(Notice notice, String empName) throws Exception {
+		Employee emp = empRepository.findByName(empName);
+		log.info("유저정보 출력"+ emp.toString());
+		notice.setEmployee(emp);
 		repository.save(notice);
 	}
 
