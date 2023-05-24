@@ -1,9 +1,6 @@
 package com.sdd.sddpartner.service;
 
 import com.sdd.sddpartner.domain.Completion;
-import com.sdd.sddpartner.domain.Department;
-import com.sdd.sddpartner.domain.Notice;
-
 import java.util.List;
 
 public interface ComService {
