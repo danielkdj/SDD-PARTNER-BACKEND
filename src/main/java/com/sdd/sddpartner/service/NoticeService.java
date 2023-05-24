@@ -3,7 +3,6 @@ package com.sdd.sddpartner.service;
 import java.util.List;
 
 import com.sdd.sddpartner.domain.Notice;
-import com.sdd.sddpartner.domain.NoticeDto;
 
 public interface NoticeService {
 

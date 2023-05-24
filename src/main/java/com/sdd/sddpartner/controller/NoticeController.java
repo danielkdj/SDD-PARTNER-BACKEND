@@ -88,8 +88,8 @@ public class NoticeController {
 	private List<NoticeDto> getNoticeDtoList(List<Notice> noticeList){
 		List<NoticeDto> noticeDtoList = new ArrayList<>();
 
-		for (int i = 0; i < noticeList.size(); i++ ){
-			NoticeDto noticeDto= new NoticeDto(noticeList.get(i));
+		for (Notice notice : noticeList) {
+			NoticeDto noticeDto = new NoticeDto(notice);
 			noticeDtoList.add(noticeDto);
 		}
 		return noticeDtoList;

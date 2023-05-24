@@ -24,7 +24,7 @@ public class NoticeServiceImpl implements NoticeService {
 	@Override
 	public void register(Notice notice, String empId) throws Exception {
 		Employee emp = empRepository.getOne(empId);
-		log.info("유저정보 출력"+ emp.toString());
+		log.info("유저정보 출력"+ emp);
 		notice.setEmployee(emp);
 		repository.save(notice);
 	}

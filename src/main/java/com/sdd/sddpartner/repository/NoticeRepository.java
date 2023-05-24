@@ -1,7 +1,6 @@
 package com.sdd.sddpartner.repository;
 
 import com.sdd.sddpartner.domain.Notice;
-import com.sdd.sddpartner.domain.NoticeDto;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 
