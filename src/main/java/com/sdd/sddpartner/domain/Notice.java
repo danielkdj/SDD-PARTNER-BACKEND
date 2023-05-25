@@ -1,5 +1,6 @@
 package com.sdd.sddpartner.domain;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import javax.persistence.*;
@@ -35,9 +36,8 @@ public class Notice{
 	private LocalDateTime createdAt;
 
 	@ManyToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name = "emp_id")
-	private Employee employee;
-
+	@JoinColumn(name = "user_id")
+	private User users;
 
 
 }
