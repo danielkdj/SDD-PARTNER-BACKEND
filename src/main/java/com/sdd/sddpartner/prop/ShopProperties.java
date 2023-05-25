@@ -9,10 +9,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @Component
-@ConfigurationProperties("org.hdcd")
+@ConfigurationProperties("com.sdd.sddpartner")
 public class ShopProperties {
-	
-	private String uploadPath;
 
 	private String secretKey;
 	
