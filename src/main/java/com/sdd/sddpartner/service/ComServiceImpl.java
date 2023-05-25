@@ -18,10 +18,10 @@ public class ComServiceImpl implements ComService {
 
 	private final ComRepository repository;
 
-	@Override
-	public Completion read(Long ComNo) throws Exception {
-		return repository.getOne(ComNo);
-	}
+//	@Override
+//	public Completion read(Long ComNo) throws Exception {
+//		return repository.getOne(ComNo);
+//	}
 	@Override
 	public List<Completion> list() throws Exception {
 		return repository.findAll(Sort.by(Direction.ASC, "comNo"));
