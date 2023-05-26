@@ -33,39 +33,36 @@ public class UseServiceImpl implements UseService {
 				.orElseGet(() -> repository.save(newEa));
 	}
 
-//	@Override
-//	public List<Ea> uselist() throws Exception {
-//		List<Ea> uses = repository.findAllByApprovalStageAndSecondApprovalAndCategoryId(Sort.by(Direction.DESC, "documentNo"), Long.valueOf(2),"E103", Long.valueOf(1));
-//		List<Ea> cars  = repository.findAllByApprovalStageAndSecondApprovalAndCategoryId(Sort.by(Direction.DESC, "documentNo"), Long.valueOf(2),"E103", Long.valueOf(2));
-//
-//		for(Ea car : cars){
-//			uses.add(car);
-//		}
-//
-//		return uses;
-//	}
 	@Override
-	public List<Ea> schedulelist(Long categoryId) throws Exception {
-		List<Ea> uses = repository.findAllByCategoryIdAndCompletedAtNotNull(Sort.by(Direction.DESC, "documentNo"), categoryId);
+	public List<Ea> scheduleList(List<Long> categoryId) throws Exception {
+		Long approve = new Long(2);
+		List<Ea> uses = repository.findAllByCategoryItem_CategoryIdInAndApprovalStatus(Sort.by(Direction.DESC, "documentNo"), categoryId, approve);
 		return uses;
 	}
+
 	@Override
-	public List<Ea> fourlist() throws Exception {
+	public List<Ea> fourList() throws Exception {
 		List<Long> categoryId = new ArrayList<>();
-		categoryId.add(Long.valueOf(2));
-		categoryId.add(Long.valueOf(1));
+		categoryId.add(new Long(12));
+		categoryId.add(new Long(13));
+		categoryId.add(new Long(14));
+		categoryId.add(new Long(15));
 
-		List<Ea> uses = repository.findTop4ByCategoryIdIn(Sort.by(Direction.DESC, "documentNo"), categoryId);
+		List<Ea> uses = repository.findTop4ByCategoryItem_CategoryIdIn(Sort.by(Direction.DESC, "documentNo"), categoryId);
 		return uses;
 	}
 	@Override
-	public List<Ea> categorylist(Long categoryId) throws Exception {
-		return repository.findAllByCategoryId(Sort.by(Direction.DESC, "documentNo"),categoryId);
+	public List<Ea> categoryList(List<Long> categoryId) throws Exception {
+		return repository.findAllByCategoryItem_CategoryIdIn(Sort.by(Direction.DESC, "documentNo"),categoryId);
 	}
 
 	@Override
-	public List<Ea> searchlist(String title) throws Exception {
-		return repository.findByTitleContaining(Sort.by(Direction.DESC, "documentNo"),title);
+	public List<Ea> searchList(List<Long> categoryId, List<Long> approve) throws Exception {
+		return repository.findByCategoryItem_CategoryIdInAndApprovalStatusIn(Sort.by(Direction.DESC, "documentNo"), categoryId, approve);
 	}
+	public List<Ea> searchListTitle(List<Long> categoryId, List<Long> approve, String title) throws Exception {
+		return repository.findByCategoryItem_CategoryIdInAndApprovalStatusInAndTitleContaining(Sort.by(Direction.DESC, "documentNo"), categoryId, approve, title);
+	}
+
 
 }

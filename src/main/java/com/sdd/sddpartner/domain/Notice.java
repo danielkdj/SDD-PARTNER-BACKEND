@@ -11,6 +11,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Getter
 @Setter
@@ -32,6 +33,7 @@ public class Notice{
 	
 	@JsonFormat(pattern="yyyy-MM-dd HH:mm")
 	@CreationTimestamp
+	//@DateTimeFormat(pattern="yyyy-MM-dd HH:mm")
 	private LocalDateTime createdAt;
 
 	@ManyToOne(fetch=FetchType.EAGER)

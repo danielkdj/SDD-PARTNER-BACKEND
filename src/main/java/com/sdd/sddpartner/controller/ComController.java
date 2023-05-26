@@ -2,6 +2,7 @@ package com.sdd.sddpartner.controller;
 
 import com.sdd.sddpartner.domain.ComDto;
 import com.sdd.sddpartner.domain.Completion;
+import com.sdd.sddpartner.domain.EaDto;
 import com.sdd.sddpartner.service.ComService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,12 +25,6 @@ public class ComController {
 		log.info("list");
 		List<ComDto> comDtoList = getComDtoList(service.list());
 		return new ResponseEntity<>(comDtoList, HttpStatus.OK);
-	}
-	@GetMapping("{comNo}")
-	public ResponseEntity<ComDto> read(@PathVariable("comNo") Long comNo) throws Exception {
-		ComDto compDto = new ComDto(service.read(comNo));
-
-		return new ResponseEntity<>(compDto, HttpStatus.OK);
 	}
 
 	@PatchMapping("/{comNo}")
