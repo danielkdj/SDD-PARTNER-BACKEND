@@ -11,7 +11,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import javax.persistence.*;
 import java.time.LocalDate;
 
-@JsonIgnoreProperties(value="hibernateLazyInitializer") 
+@JsonIgnoreProperties(value="hibernateLazyInitializer")
 @Data
 @EqualsAndHashCode(of="empId")
 @ToString
@@ -123,8 +123,11 @@ public class Employee {
 	@Column(length = 20)
 	private String permission;
 
-	@Column(nullable = false)
-	private Integer deptNo;
+
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name = "dept_no")
+	private Department dept;
+
 
 	@Column()
 	private Integer annual;
@@ -237,8 +240,10 @@ public class Employee {
 		if (other.getPermission() != null) {
 			setPermission(other.getPermission());
 		}
-		if (other.getDeptNo() != null) {
-			setDeptNo(other.getDeptNo());
+
+		if (other.getDept().getDeptNo() != null) {
+			this.dept.setDeptNo(other.getDept().getDeptNo());
+
 		}
 		if (other.getAnnual() != null) {
 			setAnnual(other.getAnnual());
@@ -262,20 +267,20 @@ public class Employee {
 			setOffPregnancy(other.getOffPregnancy());
 		}
 	}
+   /*@Column(nullable = false)
+   private String coin;
 
-	/*@Column(nullable = false)
-	private String coin;
 
-	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
-	@JoinColumn(name = "emp_id")
-	private List<EmployeeAuth> authList = new ArrayList<EmployeeAuth>();
+   @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+   @JoinColumn(name = "emp_id")
+   private List<EmployeeAuth> authList = new ArrayList<EmployeeAuth>();
 
-	public void addAuth(EmployeeAuth auth) {
-		authList.add(auth);
-	}
+   public void addAuth(EmployeeAuth auth) {
+      authList.add(auth);
+   }
 
-	public void clearAuthList() {
-		authList.clear();
-	}*/
+   public void clearAuthList() {
+      authList.clear();
+   }*/
 
 }
