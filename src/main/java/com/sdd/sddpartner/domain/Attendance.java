@@ -18,11 +18,14 @@ import java.util.Date;
 @Table(name = "attendance")
 public class Attendance {
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "emp_id",referencedColumnName = "emp_id", nullable = false, updatable = false,insertable = false)
+    private Employee employee;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     private Long Id;
-
 
     @Column(name = "EMP_ID")
     private String empId;

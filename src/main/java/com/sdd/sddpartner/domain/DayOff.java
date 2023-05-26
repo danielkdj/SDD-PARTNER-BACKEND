@@ -15,6 +15,11 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "DAYOFF")
 public class DayOff {
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "emp_id",referencedColumnName = "emp_id", nullable = false, updatable = false, insertable = false)
+    private Employee employee;
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "dayoff_sequence_generator")
     @SequenceGenerator(name = "dayoff_sequence_generator", sequenceName = "DAYOFF_SEQUENCE", allocationSize = 1)

@@ -8,5 +8,5 @@ import java.util.List;
 
 
 public interface DayOffDistinctionRepository extends JpaRepository<DayOffDistinction, Long> {
-    List<DayOffDistinction> findAllByOrderByOffCodeDesc();
+//    List<DayOffDistinction> findAllByOrderByOffCodeDesc();
 }

@@ -1,6 +1,8 @@
 package com.sdd.sddpartner.controller;
 
 import com.sdd.sddpartner.domain.Salary;
+
+import com.sdd.sddpartner.dto.SalaryDto;
 import com.sdd.sddpartner.service.SalaryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,13 +28,15 @@ public class SalaryController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<List<Salary>> list() throws Exception {
+    public ResponseEntity<List<SalaryDto>> list() throws Exception {
         return new ResponseEntity<>(service.list(), HttpStatus.OK);
     }
 
-    @GetMapping("/id/{salaryId}")
-    public ResponseEntity<Salary> read(@PathVariable("salaryId") Long salaryId) throws Exception {
-        Salary salary = service.read(salaryId);
+    @GetMapping("/id/{empId}")
+    public ResponseEntity<SalaryDto> read(@PathVariable("empId") String empId) throws Exception {
+
+        // Assuming you have a method in your service to find Salary by empId.
+        SalaryDto salary = service.read(empId);
         return new ResponseEntity<>(salary, HttpStatus.OK);
     }
 

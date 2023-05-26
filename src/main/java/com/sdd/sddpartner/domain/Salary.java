@@ -17,28 +17,33 @@ import java.time.LocalDate;
 @Entity
 public class Salary {
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "emp_id",referencedColumnName = "emp_id", nullable = false, updatable = false, insertable = false)
+    private Employee employee;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "emp_id")
+    @Column(name = "EMP_ID")
     private String empId;
 
     @JsonFormat(pattern="yyyy-MM")
-    @Column(name = "salary_date")
+    @Column(name = "SALARY_DATE")
     private LocalDate salaryDate;
 
-    @Column(name = "bonus")
+    @Column(name = "BONUS")
     private Long bonus;
 
-    @Column(name = "tot_salary")
+    @Column(name = "TOT_SALARY")
     private Long totalSalary;
 
-    @Column(name = "tax")
+    @Column(name = "TAX")
     private Long tax;
 
-    @Column(name = "payment")
+    @Column(name = "PAYMENT")
     private Long payment;
+
 
 
     // Add getters, setters, and any necessary methods

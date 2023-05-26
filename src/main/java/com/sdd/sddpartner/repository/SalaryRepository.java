@@ -7,5 +7,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 @Repository
 public interface SalaryRepository extends JpaRepository<Salary, Long> {
-    List<Salary> findAllByOrderByIdDesc();
+
+    Salary findByEmpId(String empId);
+    List<Salary> findAllByEmpId(String empId);
+    Salary findTopByEmpIdOrderBySalaryDateDesc(String empId);
 }
