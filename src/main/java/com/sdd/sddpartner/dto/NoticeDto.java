@@ -1,6 +1,7 @@
-package com.sdd.sddpartner.domain;
+package com.sdd.sddpartner.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.sdd.sddpartner.domain.Notice;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
