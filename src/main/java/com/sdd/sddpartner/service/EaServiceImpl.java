@@ -79,7 +79,7 @@ public class EaServiceImpl implements EaService{
         List<Object[]> valueArrays = repository.findEaApproval();
 
         List<EaDto> eaList = new ArrayList<>();
-
+        
         for(Object[] valueArray : valueArrays) {
             EaDto ea = new EaDto();
 
