@@ -2,7 +2,6 @@ package com.sdd.sddpartner.controller;
 
 import com.sdd.sddpartner.domain.ComDto;
 import com.sdd.sddpartner.domain.Completion;
-import com.sdd.sddpartner.domain.EaDto;
 import com.sdd.sddpartner.service.ComService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

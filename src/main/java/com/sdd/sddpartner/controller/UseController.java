@@ -2,8 +2,6 @@ package com.sdd.sddpartner.controller;
 
 import com.sdd.sddpartner.domain.Ea;
 import com.sdd.sddpartner.domain.EaDto;
-import com.sdd.sddpartner.domain.Notice;
-import com.sdd.sddpartner.domain.NoticeDto;
 import com.sdd.sddpartner.service.UseService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

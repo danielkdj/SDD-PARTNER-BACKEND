@@ -35,7 +35,7 @@ public class UseServiceImpl implements UseService {
 
 	@Override
 	public List<Ea> scheduleList(List<Long> categoryId) throws Exception {
-		Long approve = new Long(2);
+		Long approve = 2L;
 		List<Ea> uses = repository.findAllByCategoryItem_CategoryIdInAndApprovalStatus(Sort.by(Direction.DESC, "documentNo"), categoryId, approve);
 		return uses;
 	}
@@ -43,10 +43,10 @@ public class UseServiceImpl implements UseService {
 	@Override
 	public List<Ea> fourList() throws Exception {
 		List<Long> categoryId = new ArrayList<>();
-		categoryId.add(new Long(12));
-		categoryId.add(new Long(13));
-		categoryId.add(new Long(14));
-		categoryId.add(new Long(15));
+		categoryId.add(12L);
+		categoryId.add(13L);
+		categoryId.add(14L);
+		categoryId.add(15L);
 
 		List<Ea> uses = repository.findTop4ByCategoryItem_CategoryIdIn(Sort.by(Direction.DESC, "documentNo"), categoryId);
 		return uses;
@@ -60,9 +60,9 @@ public class UseServiceImpl implements UseService {
 	public List<Ea> searchList(List<Long> categoryId, List<Long> approve) throws Exception {
 		return repository.findByCategoryItem_CategoryIdInAndApprovalStatusIn(Sort.by(Direction.DESC, "documentNo"), categoryId, approve);
 	}
-	public List<Ea> searchListTitle(List<Long> categoryId, List<Long> approve, String title) throws Exception {
-		return repository.findByCategoryItem_CategoryIdInAndApprovalStatusInAndTitleContaining(Sort.by(Direction.DESC, "documentNo"), categoryId, approve, title);
-	}
+//	public List<Ea> searchListTitle(List<Long> categoryId, List<Long> approve, String title) throws Exception {
+//		return repository.findByCategoryItem_CategoryIdInAndApprovalStatusInAndTitleContaining(Sort.by(Direction.DESC, "documentNo"), categoryId, approve, title);
+//	}
 
 
 }
