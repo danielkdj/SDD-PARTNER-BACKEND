@@ -1,7 +1,7 @@
 package com.sdd.sddpartner.service;
 
 import com.sdd.sddpartner.domain.Employee;
-import com.sdd.sddpartner.domain.EmployeeAuth;
+
 import com.sdd.sddpartner.domain.PdsFile;
 import com.sdd.sddpartner.repository.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,13 +26,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public void register(Employee emp) throws Exception {
 		Employee empEntity = new Employee();
 
-		EmployeeAuth empAuth = new EmployeeAuth();
-		empAuth.setAuth("ROLE_EMPLOYEE");
-		
+//		EmployeeAuth empAuth = new EmployeeAuth();
+//		empAuth.setAuth("ROLE_EMPLOYEE");
+
 //		empEntity.addAuth(empAuth);
-		
+
 		repository.save(empEntity);
-		
+
 		emp.setEmpId(empEntity.getEmpId());
 	}
 
@@ -114,11 +114,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public void setupAdmin(Employee emp) throws Exception {
 		Employee empEntity = new Employee();
-	
-		EmployeeAuth empAuth = new EmployeeAuth();
-		empAuth.setAuth("ROLE_ADMIN");
-		/*empEntity.addAuth(empAuth);*/
-		
+
+//		EmployeeAuth empAuth = new EmployeeAuth();
+//		empAuth.setAuth("ROLE_ADMIN");
+//		empEntity.addAuth(empAuth);
+
 		repository.save(empEntity);
 	}
 	

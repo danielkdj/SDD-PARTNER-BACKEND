@@ -1,16 +1,12 @@
 package com.sdd.sddpartner.service;
 
 import java.util.List;
-import java.util.Optional;
 
-import com.sdd.sddpartner.domain.Employee;
 import com.sdd.sddpartner.domain.Notice;
-import com.sdd.sddpartner.domain.User;
+import com.sdd.sddpartner.domain.Employee;
 import com.sdd.sddpartner.repository.EmployeeRepository;
 import com.sdd.sddpartner.repository.NoticeRepository;
-import com.sdd.sddpartner.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.aspectj.weaver.ast.Not;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
@@ -23,13 +19,13 @@ import lombok.RequiredArgsConstructor;
 public class NoticeServiceImpl implements NoticeService {
 
 	private final NoticeRepository repository;
-	private final UserRepository userRepository;
+	private final EmployeeRepository empRepository;
 
 	@Override
-	public void register(Notice notice, String userName) throws Exception {
-		User user = userRepository.findByUserName(userName);
-		log.info("유저정보 출력"+ user.toString());
-		notice.setUsers(user);
+	public void register(Notice notice, String empId) throws Exception {
+		Employee emp = empRepository.getOne(empId);
+		log.info("유저정보 출력"+ emp);
+		notice.setEmployee(emp);
 		repository.save(notice);
 	}
 
@@ -58,5 +54,14 @@ public class NoticeServiceImpl implements NoticeService {
 	public List<Notice> list() throws Exception {
 		return repository.findAll(Sort.by(Direction.DESC, "noticeNo"));
 	}
-	
+	@Override
+	public List<Notice> threelist() throws Exception {
+		return repository.findTop3By(Sort.by(Direction.DESC, "noticeNo"));
+	}
+
+	@Override
+	public List<Notice> searchlist(String title) throws Exception {
+		return repository.findByTitleContaining(Sort.by(Direction.DESC, "noticeNo"),title);
+	}
+
 }

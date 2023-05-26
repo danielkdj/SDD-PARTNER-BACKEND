@@ -1,6 +1,5 @@
 package com.sdd.sddpartner.domain;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import javax.persistence.*;
@@ -33,11 +32,13 @@ public class Notice{
 	
 	@JsonFormat(pattern="yyyy-MM-dd HH:mm")
 	@CreationTimestamp
+	//@DateTimeFormat(pattern="yyyy-MM-dd HH:mm")
 	private LocalDateTime createdAt;
 
 	@ManyToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name = "user_id")
-	private User users;
+	@JoinColumn(name = "emp_id")
+	private Employee employee;
+
 
 
 }
