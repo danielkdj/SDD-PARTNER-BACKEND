@@ -1,0 +1,490 @@
+DROP TABLE EMPLOYEE CASCADE CONSTRAINTS;
+DROP TABLE DEPARTMENT CASCADE CONSTRAINTS;
+DROP TABLE EA CASCADE CONSTRAINTS;
+DROP TABLE CATEGORY_ITEM CASCADE CONSTRAINTS;
+DROP TABLE EDU_INFO CASCADE CONSTRAINTS;
+DROP TABLE MAILINFO CASCADE CONSTRAINTS;
+DROP TABLE NOTICE CASCADE CONSTRAINTS;
+DROP TABLE DRV CASCADE CONSTRAINTS;
+DROP TABLE EDU CASCADE CONSTRAINTS;
+DROP TABLE TEAM_CALENDAR CASCADE CONSTRAINTS;
+DROP TABLE SALARY CASCADE CONSTRAINTS;
+DROP TABLE COMPLETION CASCADE CONSTRAINTS;
+DROP TABLE DAYOFF CASCADE CONSTRAINTS;
+DROP TABLE COUNSELING CASCADE CONSTRAINTS;
+DROP TABLE DAYOFF_DISTINCTION CASCADE CONSTRAINTS;
+DROP TABLE ATTENDANCE CASCADE CONSTRAINTS;
+DROP TABLE DOCUMENT_BOX CASCADE CONSTRAINTS;
+DROP TABLE AD CASCADE CONSTRAINTS;
+DROP TABLE INSURANCE CASCADE CONSTRAINTS;
+DROP TABLE DISPATCH CASCADE CONSTRAINTS;
+DROP TABLE SCHEDULE CASCADE CONSTRAINTS;
+
+create table EMPLOYEE
+(
+    EMP_ID             VARCHAR2(50)                    not null,
+    NAME               VARCHAR2(100)                   not null,
+    PASSWORD           VARCHAR2(100)                   not null,
+    EMP_SSN            VARCHAR2(100)                   not null,
+    GENDER             VARCHAR2(100)                   not null,
+    MARRIAGE           CHAR               default 'N'  not null,
+    PHONE              VARCHAR2(100)                   not null,
+    EMAIL              VARCHAR2(100)                   not null,
+    SALARY             NUMBER                          not null,
+    ACCOUNT_NO         VARCHAR2(200)    default 0    	not null,
+    ADDRESS            VARCHAR2(500)                   not null,
+    EMP_SPOT           VARCHAR2(100)                   not null,
+    EMP_POSITION       VARCHAR2(100),
+    EMP_RANK           VARCHAR2(100)                   not null,
+    EMP_STATUS         NUMBER                          not null,
+    CLASSIFICATION     NUMBER                          not null,
+    EMP_CLASSIFICATION NUMBER                          not null,
+    ADMISSION          NUMBER                          not null,
+    HIRE_DATE          DATE                            not null,
+    LEAVE_DATE         DATE,
+    LEAVE_REASON       VARCHAR2(100),
+    LEAVE_IS           VARCHAR2(100)      default 'N'  not null,
+    AWARDS             VARCHAR2(100),
+    QUALIFICATIONS     VARCHAR2(100),
+    PERMISSION         VARCHAR2(20)       default '11' not null,
+    DEPT_NO            NUMBER                          not null,
+    ANNUAL             NUMBER,
+    OFF_YEAR           NUMBER,
+    OFF_CHILDCARE      NUMBER,
+    OFF_MARRIAGE       NUMBER,
+    OFF_PRAGNANCY      NUMBER,
+    OFF_CHILDBIRTH     NUMBER,
+    OFF_REWARD         NUMBER,
+    OFF_PREGNANCY      NUMBER(10),
+    LEAVE_CODE         NUMBER,
+    EMP_IMG            VARCHAR2(2000),
+    EMP_IMG_DISPLAY    VARCHAR2(2000)
+);
+
+
+CREATE TABLE NOTICE (
+                        NOTICE_NO	NUMBER	GENERATED ALWAYS as IDENTITY(START with 1 INCREMENT by 1),
+                        TITLE	VARCHAR2(200)	NOT NULL,
+                        EMP_ID	VARCHAR2(50)	NOT NULL,
+                        CREATED_AT	DATE	NOT NULL,
+                        CONTENT	NCLOB	NULL
+);
+
+CREATE TABLE EA
+(
+    DOCUMENT_NO    NUMBER       GENERATED ALWAYS as IDENTITY(START with 1 INCREMENT by 1),
+    EMP_ID         VARCHAR2(50) not null,
+    TITLE          VARCHAR2(80) not null,
+    CONTENT        NCLOB        not null,
+    START_DATE     DATE,
+    END_DATE       DATE,
+    APPROVAL_STATUS NUMBER,
+    CREATED_AT     DATE,
+    CATEGORY_ID    NUMBER       not null
+);
+
+CREATE TABLE DRV (
+                     DRV_NO	 NUMBER	GENERATED ALWAYS as IDENTITY(START with 1 INCREMENT by 1),
+                     DOCUMENT_NO	NUMBER	NOT NULL,
+                     DRIVER	VARCHAR2(50)	NOT NULL,
+                     DEPT_NAME	VARCHAR2(50)	NOT NULL,
+                     CAR	VARCHAR2(50)	NOT NULL,
+                     REASON	VARCHAR2(100)	NOT NULL,
+                     DRV_START	DATE	NOT NULL,
+                     DRV_END	DATE	NOT NULL,
+                     DRV_RETURN	DATE	NULL,
+                     BEFORE_MILEAGE	NUMBER(10)	NULL,
+                     AFFTER_MILEAGE	NUMBER(10)	NULL
+);
+
+CREATE TABLE DEPARTMENT (
+                            DEPT_NO	NUMBER	NOT NULL,
+                            DEPT_NAME	VARCHAR2(50)	NOT NULL,
+                            DESCRIPTION	VARCHAR2(50)	NOT NULL
+);
+
+CREATE TABLE EDU (
+                     EDU_NO	NUMBER GENERATED ALWAYS as IDENTITY(START with 1 INCREMENT by 1),
+                     EDU_ID	NUMBER	NOT NULL,
+                     EMP_ID	VARCHAR2(50)	NOT NULL,
+                     CREATED_AT	DATE	 DEFAULT SYSDATE NOT NULL	,
+                     TITLE	VARCHAR2(200)	NOT NULL,
+                     INSTITUTION	VARCHAR2(200)	NULL,
+                     PRESENTER	VARCHAR2(50)	NULL,
+                     PLACE	 VARCHAR2(200)	NULL,
+                     CONTENT	NCLOB	NULL,
+                     COUNT	NUMBER	NULL,
+                     EDU_START	DATE 	NULL,
+                     EDU_END	DATE	 NULL
+);
+
+CREATE TABLE CATEGORY_ITEM (
+                               CATEGORY_ID	NUMBER	NOT NULL,
+                               CATEGORY	VARCHAR2(50)	NOT NULL,
+                               SUB_CATEGORY	VARCHAR2(50)	NOT NULL
+);
+
+CREATE TABLE TEAM_CALENDAR (
+                               ID   VARCHAR(50)   NOT NULL,
+                               TITLE   VARCHAR2(255)   NOT NULL,
+                               CONTENT   NCLOB   NOT NULL,
+                               ALLDAY CHAR(1) NOT NULL,
+                               START_TIMESTAMP   TIMESTAMP    NOT NULL,
+                               END_TIMESTAMP   TIMESTAMP    NOT NULL,
+                               BACKGROUNDCOLOR   VARCHAR2(10)   NULL,
+                               DESCRIPTION    VARCHAR2(100)   NOT NULL,
+                               CREATE_AT   TIMESTAMP    NOT NULL,
+                               MODIFIED_AT   TIMESTAMP    NOT NULL,
+                               DEPT_NO   NUMBER   NOT NULL
+);
+
+CREATE TABLE EDU_INFO (
+                          EDU_ID	NUMBER	NOT NULL,
+                          NAME	VARCHAR2(50)	NOT NULL,
+                          DESCRIPTION	VARCHAR2(200)	NOT NULL
+);
+
+CREATE TABLE SALARY (
+                        ID	NUMBER	NOT NULL,
+                        SALARY_DATE	DATE	NOT NULL,
+                        BONUS	NUMBER	NULL,
+                        TOT_SALARY	NUMBER	NOT NULL,
+                        TAX	NUMBER	NULL,
+                        PAYMENT	NUMBER	NULL,
+                        EMP_ID	VARCHAR2(50)	NOT NULL
+);
+
+CREATE TABLE COMPLETION (
+                            COM_NO	NUMBER GENERATED ALWAYS as IDENTITY(START with 1 INCREMENT by 1),
+                            EMP_ID	VARCHAR2(50)	NOT NULL,
+                            EDU_ID	NUMBER	NOT NULL,
+                            YEARS	NUMBER	NOT NULL,
+                            QUARTERS 	NUMBER	DEFAULT 1 NOT NULL	,
+                            COMPLETION	CHAR(1) DEFAULT 'N'	NOT NULL
+);
+
+CREATE TABLE DAYOFF (
+                        ID	NUMBER	NOT NULL,
+                        START_DATE	DATE	NULL,
+                        END_DATE	DATE	NULL,
+                        EMP_ID	VARCHAR2(50)	NOT NULL,
+                        OFF_CODE	NUMBER	NOT NULL
+);
+
+CREATE TABLE MAILINFO (
+                          MAIL_NO	NUMBER	NOT NULL,
+                          EMP_ID	VARCHAR2(50)	NOT NULL,
+                          SENDER_EMAIL	VARCHAR2(200)	NOT NULL,
+                          RECIPMENT_EMAIL	VARCHAR2(200)	NOT NULL,
+                          MAIL_TITLE	VARCHAR2(80)	NOT NULL,
+                          MAIL_CONTENT	NCLOB	NULL,
+                          SEND_DATE	DATE	NOT NULL
+);
+
+CREATE TABLE COUNSELING (
+                            COUN_ID	NUMBER	NOT NULL,
+                            EMP_ID	VARCHAR2(50)	NOT NULL,
+                            DEPT_NO	NUMBER	NOT NULL,
+                            COUN_TITLE	VARCHAR2(80)	NOT NULL,
+                            COUN_CONTENT	NCLOB	NOT NULL,
+                            COUN_ANSWER	NCLOB	NOT NULL,
+                            REQUESTED_AT	DATE	NOT NULL,
+                            COUN_AT	DATE	NOT NULL
+);
+
+CREATE TABLE DAYOFF_DISTINCTION (
+                                    OFF_CODE	NUMBER	NOT NULL,
+                                    OFF_NAME	VARCHAR2(100)	NULL
+);
+
+CREATE TABLE ATTENDANCE (
+                            ID	NUMBER	NOT NULL,
+                            START_TIME	TIMESTAMP	NULL,
+                            END_TIME	TIMESTAMP	NULL,
+                            EXTRA_TIME	NUMBER	NULL,
+                            WORKING_HOUR	NUMBER	NULL,
+                            START_DATE	TIMESTAMP	NULL,
+                            EMP_ID	VARCHAR2(50)	NOT NULL
+);
+
+CREATE TABLE DOCUMENT_BOX (
+                              ID	VARCHAR(50)	NOT NULL,
+                              TITLE	VARCHAR2(50)	NULL,
+                              CONTENT	NCLOB	NULL,
+                              FILE_UUID	VARCHAR2(50)	NULL,
+                              CREATE_AT	TIMESTAMP	NOT NULL,
+                              MODIFIED_AT       TIMESTAMP	NOT NULL,
+                              EMP_ID	VARCHAR2(50)	NOT NULL
+);
+
+CREATE TABLE AD (
+                    AD_NO	NUMBER	NOT NULL,
+                    EMP_ID	VARCHAR2(50)	NOT NULL,
+                    DEPT_NO	NUMBER	NOT NULL,
+                    SSN_SUBMIT	CHAR(1) DEFAULT 'N'	NOT NULL,
+                    CONTRACTS_SUBMIT	CHAR(1) DEFAULT 'N'	NOT NULL,
+                    HEALTH_CHK_SUBMIT	CHAR(1) DEFAULT 'N'	NOT NULL,
+                    BANKBOOK_SUBMIT	CHAR(1) DEFAULT 'N'	NOT NULL,
+                    CREATED_AT	DATE	NOT NULL,
+                    MODIFIED_AT	DATE	NOT NULL
+);
+
+CREATE TABLE INSURANCE (
+                           INSURANCE_NO	NUMBER	NOT NULL,
+                           EMP_ID	VARCHAR2(50)	NOT NULL,
+                           DEPT_NO	NUMBER	NOT NULL,
+                           INSURANCE_STATUS	CHAR(1) DEFAULT 'N'	NOT NULL	,
+                           REGIST_AT	DATE	NOT NULL,
+                           DELETE_AT	DATE	NULL
+);
+
+CREATE TABLE DISPATCH (
+                          DISPATCH_NO	NUMBER	NOT NULL,
+                          EMP_ID	VARCHAR2(50)	NOT NULL,
+                          DEPT_NO	NUMBER	NOT NULL,
+                          DISPATCH_PLACE	VARCHAR2(200) DEFAULT 'N'	NOT NULL	,
+                          REGIST_AT	DATE 	NOT NULL,
+                          UPDATE_AT	DATE	 NOT NULL
+);
+
+ALTER TABLE EMPLOYEE ADD CONSTRAINT PK_EMPLOYEE PRIMARY KEY (
+                                                             EMP_ID
+    );
+
+ALTER TABLE NOTICE ADD CONSTRAINT PK_NOTICE PRIMARY KEY (
+                                                         NOTICE_NO
+    );
+
+ALTER TABLE EA ADD CONSTRAINT PK_EA PRIMARY KEY (
+                                                 DOCUMENT_NO
+    );
+
+ALTER TABLE DRV ADD CONSTRAINT PK_DRV PRIMARY KEY (
+                                                   DRV_NO
+    );
+
+ALTER TABLE DEPARTMENT ADD CONSTRAINT PK_DEPARTMENT PRIMARY KEY (
+                                                                 DEPT_NO
+    );
+
+ALTER TABLE EDU ADD CONSTRAINT PK_EDU PRIMARY KEY (
+                                                   EDU_NO
+    );
+
+ALTER TABLE CATEGORY_ITEM ADD CONSTRAINT PK_CATEGORY_ITEM PRIMARY KEY (
+                                                                       CATEGORY_ID
+    );
+
+ALTER TABLE TEAM_CALENDAR ADD CONSTRAINT PK_TEAM_CALENDAR PRIMARY KEY (
+                                                                       ID
+    );
+
+ALTER TABLE EDU_INFO ADD CONSTRAINT PK_EDU_INFO PRIMARY KEY (
+                                                             EDU_ID
+    );
+
+ALTER TABLE SALARY ADD CONSTRAINT PK_SALARY PRIMARY KEY (
+                                                         ID
+    );
+
+ALTER TABLE COMPLETION ADD CONSTRAINT PK_COMPLETION PRIMARY KEY (
+                                                                 COM_NO
+    );
+
+ALTER TABLE DAYOFF ADD CONSTRAINT PK_DAYOFF PRIMARY KEY (
+                                                         ID
+    );
+
+ALTER TABLE MAILINFO ADD CONSTRAINT PK_MAILINFO PRIMARY KEY (
+                                                             MAIL_NO
+    );
+
+ALTER TABLE COUNSELING ADD CONSTRAINT PK_COUNSELING PRIMARY KEY (
+                                                                 COUN_ID
+    );
+
+ALTER TABLE DAYOFF_DISTINCTION ADD CONSTRAINT PK_DAYOFF_DISTINCTION PRIMARY KEY (
+                                                                                 OFF_CODE
+    );
+
+ALTER TABLE ATTENDANCE ADD CONSTRAINT PK_ATTENDANCE PRIMARY KEY (
+                                                                 ID
+    );
+
+ALTER TABLE DOCUMENT_BOX ADD CONSTRAINT PK_DOCUMENT_BOX PRIMARY KEY (
+                                                                     ID
+    );
+
+ALTER TABLE AD ADD CONSTRAINT PK_AD PRIMARY KEY (
+                                                 AD_NO
+    );
+
+ALTER TABLE INSURANCE ADD CONSTRAINT PK_INSURANCE PRIMARY KEY (
+                                                               INSURANCE_NO
+    );
+
+ALTER TABLE DISPATCH ADD CONSTRAINT PK_DISPATCH PRIMARY KEY (
+                                                             DISPATCH_NO
+    );
+
+ALTER TABLE EMPLOYEE ADD CONSTRAINT FK_DEPARTMENT_TO_EMPLOYEE_1 FOREIGN KEY (
+                                                                             DEPT_NO
+    )
+    REFERENCES DEPARTMENT (
+                           DEPT_NO
+        );
+
+ALTER TABLE NOTICE ADD CONSTRAINT FK_EMPLOYEE_TO_NOTICE_1 FOREIGN KEY (
+                                                                       EMP_ID
+    )
+    REFERENCES EMPLOYEE (
+                         EMP_ID
+        );
+
+ALTER TABLE EA ADD CONSTRAINT FK_EMPLOYEE_TO_EA_1 FOREIGN KEY (
+                                                               EMP_ID
+    )
+    REFERENCES EMPLOYEE (
+                         EMP_ID
+        );
+
+ALTER TABLE EA ADD CONSTRAINT FK_CATEGORY_ITEM_TO_EA_1 FOREIGN KEY (
+                                                                    CATEGORY_ID
+    )
+    REFERENCES CATEGORY_ITEM (
+                              CATEGORY_ID
+        );
+
+ALTER TABLE DRV ADD CONSTRAINT FK_EA_TO_DRV_1 FOREIGN KEY (
+                                                           DOCUMENT_NO
+    )
+    REFERENCES EA (
+                   DOCUMENT_NO
+        );
+
+ALTER TABLE EDU ADD CONSTRAINT FK_EDU_INFO_TO_EDU_1 FOREIGN KEY (
+                                                                 EDU_ID
+    )
+    REFERENCES EDU_INFO (
+                         EDU_ID
+        );
+
+
+ALTER TABLE EDU ADD CONSTRAINT FK_EMPLOYEE_TO_EDU_1 FOREIGN KEY (
+                                                                 EMP_ID
+    )
+    REFERENCES EMPLOYEE (
+                         EMP_ID
+        );
+
+ALTER TABLE TEAM_CALENDAR ADD CONSTRAINT FK_DEPARTMENT_TO_TEAM_CALENDAR_1 FOREIGN KEY (
+                                                                                       DEPT_NO
+    )
+    REFERENCES DEPARTMENT (
+                           DEPT_NO
+        );
+
+ALTER TABLE SALARY ADD CONSTRAINT FK_EMPLOYEE_TO_SALARY_1 FOREIGN KEY (
+                                                                       EMP_ID
+    )
+    REFERENCES EMPLOYEE (
+                         EMP_ID
+        );
+
+ALTER TABLE COMPLETION ADD CONSTRAINT FK_EMPLOYEE_TO_COMPLETION_1 FOREIGN KEY (
+                                                                               EMP_ID
+    )
+    REFERENCES EMPLOYEE (
+                         EMP_ID
+        );
+
+ALTER TABLE COMPLETION ADD CONSTRAINT FK_EDU_INFO_TO_COMPLETION_1 FOREIGN KEY (
+                                                                               EDU_ID
+    )
+    REFERENCES EDU_INFO (
+                         EDU_ID
+        );
+
+ALTER TABLE DAYOFF ADD CONSTRAINT FK_EMPLOYEE_TO_DAYOFF_1 FOREIGN KEY (
+                                                                       EMP_ID
+    )
+    REFERENCES EMPLOYEE (
+                         EMP_ID
+        );
+
+ALTER TABLE DAYOFF ADD CONSTRAINT FK_DAYOFF_DISTINCTION_TO_DAYOFF_1 FOREIGN KEY (
+                                                                                 OFF_CODE
+    )
+    REFERENCES DAYOFF_DISTINCTION (
+                                   OFF_CODE
+        );
+
+ALTER TABLE COUNSELING ADD CONSTRAINT FK_EMPLOYEE_TO_COUNSELING_1 FOREIGN KEY (
+                                                                               EMP_ID
+    )
+    REFERENCES EMPLOYEE (
+                         EMP_ID
+        );
+
+ALTER TABLE COUNSELING ADD CONSTRAINT FK_DEPARTMENT_TO_COUNSELING_1 FOREIGN KEY (
+                                                                                 DEPT_NO
+    )
+    REFERENCES DEPARTMENT (
+                           DEPT_NO
+        );
+
+ALTER TABLE ATTENDANCE ADD CONSTRAINT FK_EMPLOYEE_TO_ATTENDANCE_1 FOREIGN KEY (
+                                                                               EMP_ID
+    )
+    REFERENCES EMPLOYEE (
+                         EMP_ID
+        );
+
+ALTER TABLE DOCUMENT_BOX ADD CONSTRAINT FK_EMPLOYEE_TO_DOCUMENT_BOX_1 FOREIGN KEY (
+                                                                                   EMP_ID
+    )
+    REFERENCES EMPLOYEE (
+                         EMP_ID
+        );
+
+ALTER TABLE AD ADD CONSTRAINT FK_EMPLOYEE_TO_AD_1 FOREIGN KEY (
+                                                               EMP_ID
+    )
+    REFERENCES EMPLOYEE (
+                         EMP_ID
+        );
+
+ALTER TABLE AD ADD CONSTRAINT FK_DEPARTMENT_TO_AD_1 FOREIGN KEY (
+                                                                 DEPT_NO
+    )
+    REFERENCES DEPARTMENT (
+                           DEPT_NO
+        );
+
+ALTER TABLE INSURANCE ADD CONSTRAINT FK_EMPLOYEE_TO_INSURANCE_1 FOREIGN KEY (
+                                                                             EMP_ID
+    )
+    REFERENCES EMPLOYEE (
+                         EMP_ID
+        );
+
+ALTER TABLE INSURANCE ADD CONSTRAINT FK_DEPARTMENT_TO_INSURANCE_1 FOREIGN KEY (
+                                                                               DEPT_NO
+    )
+    REFERENCES DEPARTMENT (
+                           DEPT_NO
+        );
+
+ALTER TABLE DISPATCH ADD CONSTRAINT FK_EMPLOYEE_TO_DISPATCH_1 FOREIGN KEY (
+                                                                           EMP_ID
+    )
+    REFERENCES EMPLOYEE (
+                         EMP_ID
+        );
+
+ALTER TABLE DISPATCH ADD CONSTRAINT FK_DEPARTMENT_TO_DISPATCH_1 FOREIGN KEY (
+                                                                             DEPT_NO
+    )
+    REFERENCES DEPARTMENT (
+                           DEPT_NO
+        );
