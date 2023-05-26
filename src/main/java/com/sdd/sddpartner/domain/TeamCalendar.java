@@ -52,5 +52,4 @@ public class TeamCalendar {
 
     @Column(name = "DEPT_NO", nullable = false)
     private int departmentNumber;
-
 }

@@ -25,7 +25,6 @@ public class TeamCalendarController {
         log.info(id);
         return new ResponseEntity<>(teamCalendar, HttpStatus.OK);
     }
-
     @GetMapping
     public ResponseEntity<List<TeamCalendar>> list() throws Exception {
         log.info("list");

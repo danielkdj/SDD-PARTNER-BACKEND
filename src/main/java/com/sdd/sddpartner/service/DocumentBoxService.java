@@ -12,4 +12,5 @@ public interface DocumentBoxService {
     public void remove(String id) throws Exception;
     public void write(DocumentBox documentBox) throws Exception;
     public void modify(DocumentBox documentBox) throws Exception;
+
 }

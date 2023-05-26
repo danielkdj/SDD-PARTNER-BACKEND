@@ -8,8 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface TeamCalendarRepository extends JpaRepository<TeamCalendar, String> {
-
-
     public List<TeamCalendar> readTeamCalendarsByDepartmentNumber(int departmentNumber);
 
 }

@@ -30,11 +30,6 @@ public class TeamCalendarServiceImpl implements TeamCalendarService {
     public List<TeamCalendar> list() throws Exception {
         return teamCalendarRepository.findAll();
     }
-//
-//    @Override
-//    public void remove(Long id) throws Exception {
-//
-//    }
 
     @Override
     public void write(TeamCalendar teamCalendar) throws Exception {

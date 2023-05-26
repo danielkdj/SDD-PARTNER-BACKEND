@@ -11,7 +11,4 @@ public interface TeamCalendarService {
     public void write(TeamCalendar teamCalendar) throws Exception;
 
     void modify(TeamCalendar teamCalendar) throws Exception;
-
-
-
 }
