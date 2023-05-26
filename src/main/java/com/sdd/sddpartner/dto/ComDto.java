@@ -1,5 +1,6 @@
-package com.sdd.sddpartner.domain;
+package com.sdd.sddpartner.dto;
 
+import com.sdd.sddpartner.domain.Completion;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

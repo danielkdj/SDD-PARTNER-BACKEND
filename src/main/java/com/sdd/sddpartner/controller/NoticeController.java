@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.sdd.sddpartner.domain.Notice;
-import com.sdd.sddpartner.domain.NoticeDto;
+import com.sdd.sddpartner.dto.NoticeDto;
 import com.sdd.sddpartner.service.NoticeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

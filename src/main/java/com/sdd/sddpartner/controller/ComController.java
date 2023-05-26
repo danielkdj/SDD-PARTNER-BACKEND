@@ -1,6 +1,6 @@
 package com.sdd.sddpartner.controller;
 
-import com.sdd.sddpartner.domain.ComDto;
+import com.sdd.sddpartner.dto.ComDto;
 import com.sdd.sddpartner.domain.Completion;
 import com.sdd.sddpartner.service.ComService;
 import lombok.RequiredArgsConstructor;
