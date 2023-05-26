@@ -1,6 +1,5 @@
 package com.sdd.sddpartner.controller;
 
-import com.sdd.sddpartner.domain.EaDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -10,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import com.sdd.sddpartner.domain.Ea;
+import com.sdd.sddpartner.dto.EaDto;
 import com.sdd.sddpartner.service.EaService;
 
 @Slf4j
@@ -17,6 +17,7 @@ import com.sdd.sddpartner.service.EaService;
 @RestController
 @RequestMapping("/ea")
 public class EaController {
+
 
     private final EaService service;
     @GetMapping("/eaDetail/{documentNo}")

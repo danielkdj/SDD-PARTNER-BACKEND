@@ -1,7 +1,7 @@
 package com.sdd.sddpartner.service;
 
 import com.sdd.sddpartner.domain.Ea;
-import com.sdd.sddpartner.domain.EaDto;
+import com.sdd.sddpartner.dto.EaDto;
 
 import java.util.List;
 
