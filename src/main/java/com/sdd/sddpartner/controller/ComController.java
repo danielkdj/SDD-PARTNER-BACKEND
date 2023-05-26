@@ -25,12 +25,6 @@ public class ComController {
 		List<ComDto> comDtoList = getComDtoList(service.list());
 		return new ResponseEntity<>(comDtoList, HttpStatus.OK);
 	}
-	@GetMapping("{comNo}")
-	public ResponseEntity<ComDto> read(@PathVariable("comNo") Long comNo) throws Exception {
-		ComDto compDto = new ComDto(service.read(comNo));
-
-		return new ResponseEntity<>(compDto, HttpStatus.OK);
-	}
 
 	@PatchMapping("/{comNo}")
 	public ResponseEntity<Completion> modify(@PathVariable("comNo") Long comNo) throws Exception {
