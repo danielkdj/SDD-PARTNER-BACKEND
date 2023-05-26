@@ -123,9 +123,11 @@ public class Employee {
 	@Column(length = 20)
 	private String permission;
 
+
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "dept_no")
 	private Department dept;
+
 
 	@Column()
 	private Integer annual;
@@ -238,8 +240,10 @@ public class Employee {
 		if (other.getPermission() != null) {
 			setPermission(other.getPermission());
 		}
+
 		if (other.getDept().getDeptNo() != null) {
 			this.dept.setDeptNo(other.getDept().getDeptNo());
+
 		}
 		if (other.getAnnual() != null) {
 			setAnnual(other.getAnnual());
@@ -263,9 +267,9 @@ public class Employee {
 			setOffPregnancy(other.getOffPregnancy());
 		}
 	}
-
    /*@Column(nullable = false)
    private String coin;
+
 
    @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
    @JoinColumn(name = "emp_id")
