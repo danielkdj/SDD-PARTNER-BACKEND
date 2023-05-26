@@ -18,6 +18,7 @@ import com.sdd.sddpartner.service.EaService;
 @RequestMapping("/ea")
 public class EaController {
 
+
     private final EaService service;
     @GetMapping("/eaDetail/{documentNo}")
     public ResponseEntity<EaDto> read(@PathVariable Long documentNo) throws Exception {
