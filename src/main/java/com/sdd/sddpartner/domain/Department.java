@@ -23,4 +23,5 @@ public class Department {
 
 	@Column(length = 50, name = "description")
 	private String description;
+
 }

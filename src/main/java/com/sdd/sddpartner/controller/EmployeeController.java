@@ -3,7 +3,7 @@ package com.sdd.sddpartner.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.sdd.sddpartner.common.security.domain.CustomEmp;
+//import com.sdd.sddpartner.common.security.domain.CustomEmp;
 import com.sdd.sddpartner.common.util.UploadFileUtils;
 import com.sdd.sddpartner.domain.Employee;
 import com.sdd.sddpartner.prop.ShopProperties;
@@ -111,18 +111,18 @@ public class EmployeeController {
 		return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
 	}
 		
-	@PreAuthorize("hasAnyRole('ADMIN','EMPLOYEE')")
-	@GetMapping("/myinfo")
-	public ResponseEntity<Employee> getMyInfo(@AuthenticationPrincipal CustomEmp customEmp) throws Exception {
-		String empID = customEmp.getEmpId();
-		log.info("register userNo = " + empID);
-
-		Employee emp = service.read(empID);
-		
-		emp.setPassword("");
-		
-		return new ResponseEntity<>(emp, HttpStatus.OK);
-	}
+//	@PreAuthorize("hasAnyRole('ADMIN','EMPLOYEE')")
+//	@GetMapping("/myinfo")
+//	public ResponseEntity<Employee> getMyInfo(@AuthenticationPrincipal CustomEmp customEmp) throws Exception {
+//		String empID = customEmp.getEmpId();
+//		log.info("register userNo = " + empID);
+//
+//		Employee emp = service.read(empID);
+//
+//		emp.setPassword("");
+//
+//		return new ResponseEntity<>(emp, HttpStatus.OK);
+//	}
 
 	// HR 사용 메소드
 	@GetMapping("/ep")

@@ -1,7 +1,7 @@
 package com.sdd.sddpartner.repository;
 
+import com.sdd.sddpartner.dto.EaDto;
 import com.sdd.sddpartner.domain.Ea;
-import com.sdd.sddpartner.domain.EaDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
