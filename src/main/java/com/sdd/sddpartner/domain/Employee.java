@@ -2,9 +2,7 @@ package com.sdd.sddpartner.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -13,11 +11,17 @@ import java.time.LocalDate;
 
 @JsonIgnoreProperties(value="hibernateLazyInitializer") 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @EqualsAndHashCode(of="empId")
-@ToString
 @Entity
 @Table(name="EMPLOYEE")
 public class Employee {
+
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name = "dept_no", referencedColumnName = "deptNo")
+	private Department dept;
 
 	@Id
 	@Column(name = "EMP_ID", length = 50)
@@ -122,9 +126,6 @@ public class Employee {
 	@ColumnDefault("'11'")
 	@Column(length = 20)
 	private String permission;
-
-	@Column(nullable = false)
-	private Integer deptNo;
 
 	@Column()
 	private Integer annual;
@@ -237,8 +238,8 @@ public class Employee {
 		if (other.getPermission() != null) {
 			setPermission(other.getPermission());
 		}
-		if (other.getDeptNo() != null) {
-			setDeptNo(other.getDeptNo());
+		if (other.getDept() != null) {
+			setDept(other.getDept());
 		}
 		if (other.getAnnual() != null) {
 			setAnnual(other.getAnnual());

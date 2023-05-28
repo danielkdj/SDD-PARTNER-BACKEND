@@ -24,7 +24,7 @@ public interface EmployeeService {
 	public String getCoin(String empId) throws Exception;
 
 	// HR 사용
-	public List<Employee> findAll() throws Exception;
+	List<Employee> findAll() throws Exception;
 
 	Employee save(Employee emp) throws Exception;
 

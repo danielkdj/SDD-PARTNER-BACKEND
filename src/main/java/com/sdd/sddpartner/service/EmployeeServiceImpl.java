@@ -2,15 +2,13 @@ package com.sdd.sddpartner.service;
 
 import com.sdd.sddpartner.domain.Employee;
 import com.sdd.sddpartner.domain.EmployeeAuth;
-import com.sdd.sddpartner.domain.PdsFile;
 import com.sdd.sddpartner.repository.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -20,7 +18,6 @@ import java.util.Optional;
 public class EmployeeServiceImpl implements EmployeeService {
 
 	private final EmployeeRepository repository;
-	private ArrayList<Employee> empList;
 
 	@Override
 	public void register(Employee emp) throws Exception {
@@ -159,33 +156,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Transactional
 	public Employee update(String empId, Employee emp) {
 		Employee existingEmployee = findById(empId);
-		// employee의 모든 컬럼
-		existingEmployee.setName(emp.getName());
-		existingEmployee.setPassword(emp.getPassword());
-		existingEmployee.setEmpImg(emp.getEmpImg());
-		existingEmployee.setEmpSsn(emp.getEmpSsn());
-		existingEmployee.setGender(emp.getGender());
-		existingEmployee.setMarriage(emp.getMarriage());
-		existingEmployee.setPhone(emp.getPhone());
-		existingEmployee.setEmail(emp.getEmail());
-		existingEmployee.setSalary(emp.getSalary());
-		existingEmployee.setAccountNo(emp.getAccountNo());
-		existingEmployee.setAddress(emp.getAddress());
-		existingEmployee.setEmpSpot(emp.getEmpSpot());
-		existingEmployee.setEmpPosition(emp.getEmpPosition());
-		existingEmployee.setEmpRank(emp.getEmpRank());
-		existingEmployee.setEmpStatus(emp.getEmpStatus());
-		existingEmployee.setClassification(emp.getClassification());
-		existingEmployee.setEmpClassification(emp.getEmpClassification());
-		existingEmployee.setAdmission(emp.getAdmission());
-		existingEmployee.setHireDate(emp.getHireDate());
-		existingEmployee.setLeaveDate(emp.getLeaveDate());
-		existingEmployee.setLeaveReason(emp.getLeaveReason());
-		existingEmployee.setLeaveIs(emp.getLeaveIs());
-		existingEmployee.setLeaveCode(emp.getLeaveCode());
-		existingEmployee.setAwards(emp.getAwards());
-		existingEmployee.setQualifications(emp.getQualifications());
-
+		existingEmployee.updateFrom(emp);
 		return repository.save(existingEmployee);
 	}
 

@@ -1,5 +1,8 @@
 package com.sdd.sddpartner.controller;
 
+import com.twilio.Twilio;
+import com.twilio.rest.api.v2010.account.Message;
+import com.twilio.type.PhoneNumber;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -11,7 +14,6 @@ import com.sdd.sddpartner.service.EmployeeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSource;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +25,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.PostConstruct;
 import java.io.File;
 import java.util.List;
 import java.util.Locale;
@@ -36,12 +39,16 @@ import java.util.Objects;
 public class EmployeeController {
 
 	private final EmployeeService service;
-	
 	private final PasswordEncoder passwordEncoder;
-	
 	private final MessageSource messageSource;
-
 	private final ShopProperties shopProperties;
+	private final String ACCOUNT_SID = "AC3773a6b49ca7ffaf5c1fb3104188844a";
+	private final String AUTH_TOKEN = "243158d500afd4c91f3b0789705ee282";
+	private final String FROM_NUMBER = "+13158175187";
+	@PostConstruct
+	public void init() {
+		Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
+	}
 
 	@PostMapping("/register")
 	public ResponseEntity<Employee> register(@Validated @RequestBody Employee emp) throws Exception {
@@ -115,12 +122,8 @@ public class EmployeeController {
 	@GetMapping("/myinfo")
 	public ResponseEntity<Employee> getMyInfo(@AuthenticationPrincipal CustomEmp customEmp) throws Exception {
 		String empID = customEmp.getEmpId();
-		log.info("register userNo = " + empID);
-
 		Employee emp = service.read(empID);
-		
 		emp.setPassword("");
-		
 		return new ResponseEntity<>(emp, HttpStatus.OK);
 	}
 
@@ -149,6 +152,9 @@ public class EmployeeController {
 	}
 
 	private String saveImageToFile(MultipartFile file, String empId) throws Exception {
+		if (file == null || file.isEmpty()) {
+			return null;
+		}
 		String fileName = empId + "." + Objects.requireNonNull(file.getOriginalFilename()).split("\\.")[1];
 		String filePath = "C:/SDD/public/img/" + fileName;
 		File dest = new File(filePath);
@@ -158,19 +164,39 @@ public class EmployeeController {
 
 	@PostMapping(value = "/ep/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ResponseEntity<Employee> createEmployee(@RequestPart("emp") String empJson, @RequestPart(value = "file", required = false) MultipartFile file) throws Exception {
-		// String 형태로 들어온 emp 객체를 Employee 객체로 변환
 		ObjectMapper objectMapper = new ObjectMapper();
 		objectMapper.registerModule(new JavaTimeModule());
 		objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
 		Employee emp = objectMapper.readValue(empJson, Employee.class);
 
-		String imageUrl = saveImageToFile(file, emp.getEmpId());
-
-		emp.setEmpImg(imageUrl);
+		if (file != null && !file.isEmpty()) {
+			String imageUrl = saveImageToFile(file, emp.getEmpId());
+			emp.setEmpImg(imageUrl);
+		}
 		Employee createdEmployee = service.save(emp);
 
+		String formattedPhoneNumber = convertToE164Format(createdEmployee.getPhone());
+		String msg = "SSD-Partner 입니다. 당신의 사번: " + createdEmployee.getEmpId() + "이며, 초기비밀번호: " + createdEmployee.getEmpId() + " 입니다. 비밀번호는 꼭 변경해서 사용하세요!";
+		sendSms(formattedPhoneNumber, msg);
+
 		return new ResponseEntity<>(createdEmployee, HttpStatus.CREATED);
+	}
+
+	private void sendSms(String phoneNumber, String msg) {
+		Message message = Message.creator(
+						new PhoneNumber(phoneNumber),
+						new PhoneNumber(FROM_NUMBER),
+						msg)
+				.create();
+
+		System.out.println("Sent message w/ SID: " + message.getSid());
+	}
+
+	private String convertToE164Format(String phoneNumber) {
+		String formattedPhoneNumber = phoneNumber.replaceAll("-", "");
+		formattedPhoneNumber = "+82" + formattedPhoneNumber.substring(1);
+		return formattedPhoneNumber;
 	}
 
 	@PutMapping("/ep/update/{empId}")
@@ -181,9 +207,11 @@ public class EmployeeController {
 
 		Employee emp = objectMapper.readValue(empJson, Employee.class);
 
-		String imageUrl = saveImageToFile(file, emp.getEmpId());
+		if (file != null && !file.isEmpty()) {
+			String imageUrl = saveImageToFile(file, emp.getEmpId());
+			emp.setEmpImg(imageUrl);
+		}
 
-		emp.setEmpImg(imageUrl);
 		Employee updatedEmployee = service.update(empId, emp);
 		return new ResponseEntity<>(updatedEmployee, HttpStatus.OK);
 	}
@@ -198,5 +226,4 @@ public class EmployeeController {
 		service.delete(empId);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
-
 }

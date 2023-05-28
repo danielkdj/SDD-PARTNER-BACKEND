@@ -21,7 +21,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, String>{
 			" e.accountNo, e.address, e.empSpot, e.empPosition, e.empRank," +
 			" e.empStatus, e.classification, e.empClassification, e.admission, e.hireDate," +
 			" e.leaveDate, e.leaveReason, e.leaveIs, e.leaveCode, e.awards," +
-			" e.qualifications, e.permission, e.deptNo, e.annual, e.offYear," +
+			" e.qualifications, e.permission, e.dept.deptNo, e.annual, e.offYear," +
 			" e.offChildcare, e.offMarriage, e.offPregnancy, e.offChildbirth, e.offReward "
 			+ "FROM Employee e "
 			+ "ORDER BY e.hireDate DESC")
