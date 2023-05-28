@@ -4,7 +4,6 @@ import com.sdd.sddpartner.domain.Completion;
 import com.sdd.sddpartner.repository.ComRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.aspectj.weaver.ast.Literal;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
