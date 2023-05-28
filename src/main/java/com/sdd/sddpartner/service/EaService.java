@@ -6,7 +6,7 @@ import com.sdd.sddpartner.dto.EaDto;
 import java.util.List;
 
 public interface EaService {
-    public EaDto read(Long documentNo) throws Exception;
+    public Ea read(Long documentNo) throws Exception;
 
     public List<Ea> list() throws Exception;
 
@@ -16,4 +16,7 @@ public interface EaService {
 
     public List<EaDto> eaApprovallist() throws Exception;
 
+    public void modifyApproval(Ea ea);
+
+    public void modifyReject(Ea ea);
 }

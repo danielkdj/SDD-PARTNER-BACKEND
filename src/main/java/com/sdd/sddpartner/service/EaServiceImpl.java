@@ -18,28 +18,11 @@ public class EaServiceImpl implements EaService{
     private final EaRepository repository;
 
     @Override
-    public EaDto read(Long documentNo) throws Exception {
+    public Ea read(Long documentNo) throws Exception {
 
-        Ea ea = repository.getEaOne(documentNo);
+        Ea ea = repository.getOne(documentNo);
 
-        EaDto eaDto = new EaDto(ea);
-
-//        ea.setDocumentNo((Long)valueArray[0]);
-//        ea.setEmpId((String)valueArray[1]);
-//        ea.setName((String)valueArray[2]);
-//        ea.setCategoryId((Long)valueArray[3]);
-//        ea.setCategory((String)valueArray[4]);
-//        ea.setSubCategory((String)valueArray[5]);
-//        ea.setTitle((String)valueArray[6]);
-//        ea.setContent((String)valueArray[7]);
-//        ea.setStartDate((LocalDateTime) valueArray[8]);
-//        ea.setEndDate((LocalDateTime) valueArray[9]);
-//        ea.setApprovalStatus((Long)valueArray[10]);
-//        ea.setCreatedAt((LocalDate) valueArray[11]);
-//        ea.setDeptNo((Long)valueArray[12]);
-//        ea.setDeptName((String)valueArray[13]);
-
-        return eaDto;
+        return ea;
     }
 
     @Override
@@ -71,7 +54,10 @@ public class EaServiceImpl implements EaService{
         eaEntity.setContent(ea.getContent());
         eaEntity.setStartDate(ea.getStartDate());
         eaEntity.setEndDate(ea.getEndDate());
-        eaEntity.setApprovalStatus(ea.getApprovalStatus());
+        eaEntity.setApprovalStatus(1L);
+        eaEntity.setCreatedAt(LocalDate.now());
+        eaEntity.setCategoryId(ea.getCategoryId());
+        eaEntity.setEmpId(ea.getEmpId());
 
         repository.save(eaEntity);
     }
@@ -101,5 +87,34 @@ public class EaServiceImpl implements EaService{
         }
 
         return eaList;
+    }
+
+    @Override
+    public void modifyApproval(Ea ea) {
+        Ea eaEntity = repository.getOne(ea.getDocumentNo());
+
+//        eaEntity.setTitle(ea.getTitle());
+//        eaEntity.setContent(ea.getContent());
+//        eaEntity.setCreatedAt(ea.getCreatedAt());
+        eaEntity.setApprovalStatus(2L);
+//        eaEntity.setStartDate(ea.getStartDate());
+//        eaEntity.setEndDate(ea.getEndDate());
+
+        repository.save(eaEntity);
+    }
+
+    @Override
+    public void modifyReject(Ea ea) {
+        Ea eaEntity = repository.getOne(ea.getDocumentNo());
+
+//        eaEntity.setDocumentNo(ea.getDocumentNo());
+//        eaEntity.setTitle(ea.getTitle());
+//        eaEntity.setContent(ea.getContent());
+//        eaEntity.setCreatedAt(ea.getCreatedAt());
+        eaEntity.setApprovalStatus(3L);
+//        eaEntity.setStartDate(ea.getStartDate());
+//        eaEntity.setEndDate(ea.getEndDate());
+
+        repository.save(eaEntity);
     }
 }
