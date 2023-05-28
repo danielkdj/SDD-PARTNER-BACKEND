@@ -26,6 +26,39 @@ public class ComController {
 		return new ResponseEntity<>(comDtoList, HttpStatus.OK);
 	}
 
+	@GetMapping("/search/{eduId}/{completion}/{deptNo}/{year}/{quarter}")
+	public ResponseEntity<List<ComDto>> searchList(
+			@PathVariable("eduId") Long eduId,
+			@PathVariable("completion") Character completion,
+			@PathVariable("deptNo") Long deptNo,
+			@PathVariable(value = "year") Long year,
+			@PathVariable(value = "quarter") Long quarter) throws Exception {
+
+		List<Long> eduIds = getEduIdsDefaltList(eduId);
+		List<Character> completions = getCompletionsDefaltList(completion);
+		List<Long> deptNos = getDeptNoDefaltList(deptNo);
+		List<Long> quarters = getQuarterDefaltList(quarter);
+
+		log.info("list");
+		List<ComDto> comDtoList = getComDtoList(service.searchList(eduIds,completions, deptNos, year, quarters));
+		return new ResponseEntity<>(comDtoList, HttpStatus.OK);
+	}
+	@GetMapping("/count/{eduId}/{completion}/{year}/{quarter}")
+	public ResponseEntity<Long> count(
+			@PathVariable("eduId") Long eduId,
+			@PathVariable("completion") Character completion,
+			@PathVariable(value = "year") Long year,
+			@PathVariable(value = "quarter", required = false) Long quarter) throws Exception {
+
+		List<Long> eduIds = getEduIdsDefaltList(eduId);
+		List<Character> completions = getCompletionsDefaltList(completion);
+		List<Long> quarters = getQuarterDefaltList(quarter);
+
+		log.info("count");
+		Long comCount = service.count(eduIds,completions,year,quarters);
+		return new ResponseEntity<>(comCount, HttpStatus.OK);
+	}
+
 	@PatchMapping("/{comNo}")
 	public ResponseEntity<Completion> modify(@PathVariable("comNo") Long comNo) throws Exception {
 		service.modify(comNo);
@@ -42,5 +75,54 @@ public class ComController {
 		return comDtoList;
 	}
 
-	
+	private List<Long> getEduIdsDefaltList(Long eduId){
+		List<Long> eduIds = new ArrayList<>();
+			if(eduId==0){
+				eduIds.add(1L);
+				eduIds.add(2L);
+				eduIds.add(3L);
+				eduIds.add(4L);
+				eduIds.add(5L);
+			}else{
+				eduIds.add(eduId);
+			}
+		return eduIds;
+	}
+	private List<Character> getCompletionsDefaltList(Character completion){
+		List<Character> completions = new ArrayList<>();
+			if(completion.equals('A')){
+				completions.add('Y');
+				completions.add('N');
+			}else{
+				completions.add(completion);
+			}
+		return completions;
+	}
+	private List<Long> getDeptNoDefaltList(Long deptNo){
+		List<Long> deptNos = new ArrayList<>();
+			if(deptNo == 0){
+				deptNos.add(1L);
+				deptNos.add(2L);
+				deptNos.add(3L);
+				deptNos.add(4L);
+			}else{
+				deptNos.add(deptNo);
+			}
+		return deptNos;
+	}
+	private List<Long> getQuarterDefaltList(Long quarter){
+		List<Long> quarters = new ArrayList<>();
+		if(quarter == 0){
+			quarters.add(0L);
+			quarters.add(1L);
+			quarters.add(2L);
+			quarters.add(3L);
+			quarters.add(4L);
+		}else {
+			quarters.add(0L);
+			quarters.add(quarter);
+		}
+		return quarters;
+	}
+
 }
