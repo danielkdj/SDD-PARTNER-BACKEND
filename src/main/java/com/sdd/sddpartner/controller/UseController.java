@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -38,7 +37,7 @@ public class UseController {
 	//전자결재 목록출력
 	@GetMapping("/category/{categoryId}")
 	public ResponseEntity<List<EaDto>> categoryList(@PathVariable("categoryId") List<Long> categoryId) throws Exception {
-		categoryId = setCategoryDefalt(categoryId);
+		categoryId = setCategoryDefault(categoryId);
 
 		List<EaDto> eaDtoList = getEaDtoList(service.categoryList(categoryId));
 		return new ResponseEntity<>(eaDtoList, HttpStatus.OK);
@@ -47,7 +46,7 @@ public class UseController {
 	//전자결재 승인건(=사용일정) 목록출력
 	@GetMapping("/schedule/{categoryId}")
 	public ResponseEntity<List<EaDto>> scheduleList(@PathVariable("categoryId") List<Long> categoryId) throws Exception {
-		categoryId = setCategoryDefalt(categoryId);
+		categoryId = setCategoryDefault(categoryId);
 
 		List<EaDto> eaDtoList = getEaDtoList(service.scheduleList(categoryId));
 		return new ResponseEntity<>(eaDtoList, HttpStatus.OK);
@@ -56,7 +55,7 @@ public class UseController {
 	//항목, 상태 검색
 	@GetMapping("/search/{categoryId}/{approve}")
 	public ResponseEntity<List<EaDto>> searchList(@PathVariable("categoryId") List<Long> categoryId, @PathVariable("approve") List<Long> approve) throws Exception {
-		categoryId = setCategoryDefalt(categoryId);
+		categoryId = setCategoryDefault(categoryId);
 		approve = setApproveDefalt(approve);
 
 		List<EaDto> eaDtoList = getEaDtoList(service.searchList(categoryId, approve));
@@ -64,13 +63,11 @@ public class UseController {
 	}
 
 	//@PreAuthorize("hasRole('ADMIN')")
-	@PatchMapping("/{documentNo}")
-	public ResponseEntity<EaDto> modify(@PathVariable("documentNo") Long documentNo, @Validated @RequestBody Ea ea) throws Exception {
-		ea.setDocumentNo(documentNo);
-		service.modify(ea);
+	@PatchMapping("/{documentNo}/{approve}")
+	public ResponseEntity<Void> modify(@PathVariable("documentNo") Long documentNo, @PathVariable("approve") Long approve) throws Exception {
+		service.modify(documentNo,approve);
 
-		EaDto eaDto = new EaDto(ea);
-		return new ResponseEntity<>(eaDto, HttpStatus.OK);
+		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 	}
 
 	//entityList를 dtoList로 변환
@@ -85,16 +82,16 @@ public class UseController {
 	}
 
 	//categoryId 1이면 회의실, 2이면 차량검색으로 categoryId값 수정
-	private  List<Long> setCategoryDefalt(List<Long> categoryId){
+	private  List<Long> setCategoryDefault(List<Long> categoryId){
 		if(categoryId.get(0)==1){
 			categoryId.clear();
-			categoryId.add(0, 12L);
-			categoryId.add(1, 13L);
+			categoryId.add(12L);
+			categoryId.add(13L);
 		}
 		if(categoryId.get(0)==2){
 			categoryId.clear();
-			categoryId.add(0, 14L);
-			categoryId.add(1, 15L);
+			categoryId.add(14L);
+			categoryId.add(15L);
 		}
 		return  categoryId;
 	}
@@ -109,6 +106,5 @@ public class UseController {
 		}
 		return approve;
 	}
-
 
 }

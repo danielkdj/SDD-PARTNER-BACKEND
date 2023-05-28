@@ -18,14 +18,20 @@ public class ComServiceImpl implements ComService {
 
 	private final ComRepository repository;
 
-//	@Override
-//	public Completion read(Long ComNo) throws Exception {
-//		return repository.getOne(ComNo);
-//	}
 	@Override
 	public List<Completion> list() throws Exception {
 		return repository.findAll(Sort.by(Direction.ASC, "comNo"));
 	}
+
+	@Override
+	public List<Completion> searchList(List<Long> eduIds, List<Character> completions,List<Long> deptNos, Long years, List<Long> quarters) {
+		return repository.findByEduInfo_EduIdInAndCompletionInAndEmployee_Dept_DeptNoInAndYearsAndQuartersIn(Sort.by(Direction.ASC, "comNo"), eduIds, completions, deptNos, years, quarters);
+	}
+	@Override
+	public Long count(List<Long> eduIds, List<Character> completions, Long years, List<Long> quarters) {
+		return repository.countByEduInfo_EduIdInAndCompletionInAndYearsAndQuartersIn(Sort.by(Direction.ASC, "comNo"), eduIds, completions, years, quarters);
+	}
+
 	public void modify(Long comNo) throws Exception {
 		repository.findById(comNo)
 				.map(completion -> {
@@ -40,14 +46,5 @@ public class ComServiceImpl implements ComService {
 				})
 				.orElseThrow();
 	}
-
-//	@Override
-//	public List<Completion> list(Completion search) throws Exception {
-//		return repository.findByEduInfo_EduIdContainingAndYearsContainingAndQuartersContainingAndCompletionContaining(Sort.by(Direction.ASC, "comNo"), search.getEduInfo().getEduId(), search.getYears(), search.getQuarters(), search.getCompletion());
-//	}
-//	@Override
-//	public List<Completion> list(Completion search) throws Exception {
-//		return repository.findByCompletionContaining(Sort.by(Direction.ASC, "comNo"), search.getCompletion());
-//	}
 
 }

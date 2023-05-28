@@ -23,8 +23,6 @@ public class Completion {
 	@JoinColumn(name= "emp_id")
 	private Employee employee;
 
-//	private String empId;
-	
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name= "edu_id")
 	private EduInfo eduInfo;
