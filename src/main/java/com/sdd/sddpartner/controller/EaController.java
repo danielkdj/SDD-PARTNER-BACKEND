@@ -21,8 +21,8 @@ public class EaController {
 
     private final EaService service;
     @GetMapping("/eaDetail/{documentNo}")
-    public ResponseEntity<EaDto> read(@PathVariable Long documentNo) throws Exception {
-        EaDto ea = service.read(documentNo);
+    public ResponseEntity<Ea> read(@PathVariable Long documentNo) throws Exception {
+        Ea ea = service.read(documentNo);
 
         log.info("list---------------------------------------------------------");
 
@@ -55,31 +55,31 @@ public class EaController {
         return new ResponseEntity<>(ea, HttpStatus.OK);
     }
 
-    @PutMapping("/{documentNo}")
-    public ResponseEntity<Ea> modify(@PathVariable("documentNo") Long documentNo,
-                                     @Validated @RequestBody Ea ea) throws Exception {
-        ea.setDocumentNo(documentNo);
-        service.modify(ea);
-
-        return new ResponseEntity<>(ea, HttpStatus.OK);
-    }
-
-
-    @PutMapping("/eaApprovalStatus/{documentNo}")
-    public ResponseEntity<Ea> modifyApprovalStage(@PathVariable("documentNo") Long documentNo,
-                                                  @Validated @RequestBody Ea ea) throws Exception {
-        ea.setApprovalStatus(ea.getApprovalStatus()  + 1);
-        service.modify(ea);
-
-        return new ResponseEntity<>(ea, HttpStatus.OK);
-    }
-
-//    @PutMapping("/eaApprovalStatus/{documentNo}")
-//    public ResponseEntity<Ea> rejectApprovalStage(@PathVariable("documentNo") Long documentNo,
-//                                                  @Validated @RequestBody Ea ea) throws Exception {
-//        ea.setApprovalStatus(ea.getApprovalStatus()  + 2);
+//    @PutMapping("/{documentNo}")
+//    public ResponseEntity<Ea> modify(@PathVariable("documentNo") Long documentNo,
+//                                     @Validated @RequestBody Ea ea) throws Exception {
+//        ea.setDocumentNo(documentNo);
 //        service.modify(ea);
 //
 //        return new ResponseEntity<>(ea, HttpStatus.OK);
 //    }
+
+    @PutMapping("/eaApprovalStatus/{documentNo}")
+    public ResponseEntity<Ea> modifyApprovalStatus(@PathVariable("documentNo") Long documentNo,
+                                                  @Validated @RequestBody Ea ea) throws Exception {
+        ea.setDocumentNo(documentNo);
+        service.modifyApproval(ea);
+
+        return new ResponseEntity<>(ea, HttpStatus.OK);
+    }
+
+    @PutMapping("/eaRejectStatus/{documentNo}")
+    public ResponseEntity<Ea> modifyApprovalReject(@PathVariable("documentNo") Long documentNo,
+                                                   @Validated @RequestBody Ea ea) throws Exception {
+        ea.setDocumentNo(documentNo);
+        service.modifyReject(ea);
+
+        return new ResponseEntity<>(ea, HttpStatus.OK);
+    }
+
 }
