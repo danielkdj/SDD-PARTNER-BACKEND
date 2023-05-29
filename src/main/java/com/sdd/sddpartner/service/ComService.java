@@ -10,6 +10,6 @@ public interface ComService {
 	List<Completion> searchList(List<Long> eduIds, List<Character> completions, List<Long> deptNos, Long years, List<Long> quarters) throws Exception;
 	Long count(List<Long> eduIds, List<Character> completions, Long year, List<Long> quarters);
 	void modify(Long comNo) throws Exception;
+	List<Completion> register(Long eduId, Long years, Long quarters);
 
-	Integer register(Long eduId, Long years, Long quarters);
 }
