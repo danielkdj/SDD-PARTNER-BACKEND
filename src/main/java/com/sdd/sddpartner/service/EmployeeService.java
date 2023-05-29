@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface EmployeeService {
 
-	/*public void register(Employee emp) throws Exception;
+/*	public void register(Employee emp) throws Exception;
 
 	public Employee read(String empId) throws Exception;
 

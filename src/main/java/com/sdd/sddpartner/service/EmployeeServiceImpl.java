@@ -2,7 +2,7 @@ package com.sdd.sddpartner.service;
 
 import com.sdd.sddpartner.domain.Employee;
 
-import com.sdd.sddpartner.domain.EmployeeAuth;
+
 
 import com.sdd.sddpartner.repository.EmployeeRepository;
 import lombok.RequiredArgsConstructor;

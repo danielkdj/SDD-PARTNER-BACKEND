@@ -25,6 +25,8 @@ import lombok.ToString;
 @Table(name="member_auth")
 public class MemberAuth {
 
+
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long userAuthNo;

@@ -17,6 +17,11 @@ import java.time.LocalDateTime;
 @Table(name="employee_auth")
 public class EmployeeAuth {
 
+
+/*	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "emp_id", referencedColumnName = "emp_id", insertable = false, updatable = false)
+	private Employee employee;*/
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private String empAuthNo;

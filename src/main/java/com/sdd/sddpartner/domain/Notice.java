@@ -20,6 +20,8 @@ import lombok.ToString;
 @Table(name="notice")
 public class Notice{
 
+
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long noticeNo;

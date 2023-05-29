@@ -23,14 +23,14 @@ public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
 		res.setContentType("application/json;charset=UTF-8");
 		
 		ApiErrorInfo apiErrorInfo = new ApiErrorInfo();
-		//if (InsufficientAuthenticationException.class == authException.getClass()) {
-		//	apiErrorInfo.setMessage("Not Logined!!!");
-		//	res.setStatus(HttpStatus.UNAUTHORIZED.value());
-		//}
-		//else {
-		//	apiErrorInfo.setMessage("Bas Request!!!");
-		//	res.setStatus(HttpStatus.BAD_REQUEST.value());
-		//}
+		if (InsufficientAuthenticationException.class == authException.getClass()) {
+			apiErrorInfo.setMessage("Not Logined!!!");
+			res.setStatus(HttpStatus.UNAUTHORIZED.value());
+		}
+		else {
+			apiErrorInfo.setMessage("Bas Request!!!");
+			res.setStatus(HttpStatus.BAD_REQUEST.value());
+		}
 		
 		String jsonString = objectMappger.writeValueAsString(apiErrorInfo);
 		res.getWriter().write(jsonString);

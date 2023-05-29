@@ -4,7 +4,7 @@ import com.sdd.sddpartner.domain.Completion;
 import java.util.List;
 
 public interface ComService {
-	//Completion read(Long ComNo) throws Exception;
+	Completion read(Long ComNo) throws Exception;
 
 	List<Completion> list() throws Exception;
 	List<Completion> searchList(List<Long> eduIds, List<Character> completions, List<Long> deptNos, Long years, List<Long> quarters) throws Exception;
