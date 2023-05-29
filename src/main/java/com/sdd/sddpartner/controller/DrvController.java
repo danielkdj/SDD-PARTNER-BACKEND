@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -44,7 +45,7 @@ public class DrvController {
     }
 	@PatchMapping("/{drvNo}")
 	public ResponseEntity<DrvDto> modify(@PathVariable("drvNo") Long drvNo,
-										@RequestBody Drv drv) throws Exception {
+										 @Validated @RequestBody Drv drv) throws Exception {
 		drv.setDrvNo(drvNo);
 		service.modify(drv);
 

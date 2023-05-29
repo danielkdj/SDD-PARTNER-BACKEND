@@ -35,7 +35,7 @@ public class DrvServiceImpl implements DrvService {
 
 	@Override
 	public List<Drv> list() throws Exception {
-		return repository.findAll(Sort.by(Direction.DESC, "drvStart"));
+		return repository.findAll(Sort.by(Direction.DESC, "drvStart", "beforeMileage"));
 	}
 
 	@Override
@@ -47,7 +47,6 @@ public class DrvServiceImpl implements DrvService {
 	public void modify(Drv newDrv) throws Exception {
 		repository.findById(newDrv.getDrvNo())
 				.map(drv -> {
-					drv.setDrvReturn(newDrv.getDrvReturn());
 					drv.setBeforeMileage(newDrv.getBeforeMileage());
 					drv.setAfterMileage(newDrv.getAfterMileage());
 					return repository.save(drv);

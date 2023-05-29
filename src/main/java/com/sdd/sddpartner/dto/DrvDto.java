@@ -25,10 +25,9 @@ public class DrvDto {
 
 	@JsonFormat(pattern="yyyy-MM-dd HH:mm")
 	private LocalDateTime drvEnd;
-	@JsonFormat(pattern="yyyy-MM-dd HH:mm")
-	private LocalDateTime drvReturn;
 	private Long beforeMileage;
 	private Long afterMileage;
+	private Long actualMileage;
 
 
 	// Constructor to create DrvDto object from Drv
@@ -42,9 +41,12 @@ public class DrvDto {
 		this.drvStart = drv.getDrvStart();
 		this.drvEnd = drv.getDrvEnd();
 
-		this.drvReturn = drv.getDrvReturn();
 		this.beforeMileage = drv.getBeforeMileage();
-		this.afterMileage = drv.getBeforeMileage();
+		this.afterMileage = drv.getAfterMileage();
+
+		if(this.beforeMileage != null && this.afterMileage != null ){
+			this.actualMileage = afterMileage-beforeMileage;
+		}
 	}
 
 

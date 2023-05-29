@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -32,10 +33,6 @@ public class Drv {
     @JsonFormat(pattern="yyyy-MM-dd HH:mm")
     @Column(name = "drv_end")
     private LocalDateTime drvEnd;
-
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm")
-    @Column(name = "drv_return")
-    private LocalDateTime drvReturn;
 
     private Long beforeMileage;
     private Long afterMileage;
