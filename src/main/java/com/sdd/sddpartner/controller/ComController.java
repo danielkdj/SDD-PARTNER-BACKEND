@@ -67,12 +67,12 @@ public class ComController {
 
 		//1-1~4Q
 		for(int i = 1; i<5; i++){
-		Long count1 = service.count(getEduIdsDefaltList(1L),getCompletionsDefaltList('A'),year,getQuarterDefaltList(Long.valueOf(i)));
+		Long count1 = service.count(getEduIdsDefaltList(1L),getCompletionsDefaltList('A'),year,getQuarterDefaltList((long) i));
 		countList.add(count1);
 		}
 		//2~5 0Q
 		for(int i = 2; i<6; i++){
-		Long count1 = service.count(getEduIdsDefaltList(Long.valueOf(i)),getCompletionsDefaltList('A'),year,getQuarterDefaltList(0L));
+		Long count1 = service.count(getEduIdsDefaltList((long)i),getCompletionsDefaltList('A'),year,getQuarterDefaltList(0L));
 		countList.add(count1);
 		}
 		//1-1~4Q
