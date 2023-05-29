@@ -68,6 +68,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 				.antMatchers("/coins/**").access("hasRole('MEMBER')")
 				.antMatchers("/useritems/**").access("hasAnyRole('MEMBER', 'ADMIN')")
 				.antMatchers("/pds/**").access("request.method == 'GET' ? permitAll : hasRole('ADMIN')")
+				.antMatchers("/use/**").permitAll()
+				.antMatchers("/notice/**").permitAll()
+				.antMatchers("/drv/**").permitAll()
+				.antMatchers("/com/**").permitAll()
+				.antMatchers("/employee/**").permitAll()
+				.antMatchers("/counseling/**").permitAll()
+				.antMatchers("/attendance/**").access("permitAll")
+				.antMatchers("/dayOffs/**").access("permitAll")
+				.antMatchers("/dayOffDistinctions/**").access("permitAll")
+				.antMatchers("/salary/**").access("permitAll")
+				.antMatchers("/ea/**").permitAll()
 				.anyRequest().authenticated();
 
 		http.exceptionHandling()
@@ -97,6 +108,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
 		config.addAllowedOrigin("http://localhost:3030/");
+		config.addAllowedOrigin("http://localhost:3030/**");
         config.addAllowedHeader("*");
         config.addAllowedMethod("OPTIONS");
         config.addAllowedMethod("HEAD");
