@@ -14,7 +14,15 @@ public interface EaService {
 
     public void modify(Ea ea) throws Exception;
 
-    public List<EaDto> eaApprovallist() throws Exception;
+    public List<EaDto> eaApprovalList() throws Exception;
+
+    public List<EaDto> eaAttendanceList() throws Exception;
+
+    public List<EaDto> eaVacationList() throws Exception;
+
+    public List<EaDto> eaAffairList() throws Exception;
+
+    public List<EaDto> eaHRList() throws Exception;
 
     public void modifyApproval(Ea ea);
 

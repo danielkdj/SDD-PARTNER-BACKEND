@@ -42,7 +42,34 @@ public class EaController {
     public ResponseEntity<List<EaDto>> eaApprovalList() throws Exception {
         log.info("eaApprovalList");
 
-        return new ResponseEntity<>(service.eaApprovallist(), HttpStatus.OK);
+        return new ResponseEntity<>(service.eaApprovalList(), HttpStatus.OK);
+    }
+
+    @GetMapping("/eaAttendanceList")
+    public ResponseEntity<List<EaDto>> eaAttendanceList() throws Exception {
+        log.info("eaAttendanceList");
+
+        return new ResponseEntity<>(service.eaAttendanceList(), HttpStatus.OK);
+    }
+    @GetMapping("/eaVacationList")
+    public ResponseEntity<List<EaDto>> eaVacationList() throws Exception {
+        log.info("eaVacationList");
+
+        return new ResponseEntity<>(service.eaVacationList(), HttpStatus.OK);
+    }
+
+    @GetMapping("/eaAffairList")
+    public ResponseEntity<List<EaDto>> eaAffairList() throws Exception {
+        log.info("eaAffairList");
+
+        return new ResponseEntity<>(service.eaAffairList(), HttpStatus.OK);
+    }
+
+    @GetMapping("/eaHRList")
+    public ResponseEntity<List<EaDto>> eaHRList() throws Exception {
+        log.info("eaHRList");
+
+        return new ResponseEntity<>(service.eaHRList(), HttpStatus.OK);
     }
 
     @PostMapping(value = "/createEa")
@@ -81,5 +108,7 @@ public class EaController {
 
         return new ResponseEntity<>(ea, HttpStatus.OK);
     }
+
+
 
 }
