@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -96,7 +95,6 @@ public class Employee {
 
 	@Column(nullable = false)
 	@JsonFormat(pattern = "yyyy-MM-dd")
-	@CreationTimestamp
 	private LocalDate hireDate;
 
 	// 퇴사일
@@ -263,20 +261,4 @@ public class Employee {
 			setOffPregnancy(other.getOffPregnancy());
 		}
 	}
-
-	/*@Column(nullable = false)
-	private String coin;
-
-	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
-	@JoinColumn(name = "emp_id")
-	private List<EmployeeAuth> authList = new ArrayList<EmployeeAuth>();
-
-	public void addAuth(EmployeeAuth auth) {
-		authList.add(auth);
-	}
-
-	public void clearAuthList() {
-		authList.clear();
-	}*/
-
 }

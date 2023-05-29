@@ -4,6 +4,9 @@ import com.sdd.sddpartner.domain.Employee;
 import com.sdd.sddpartner.domain.EmployeeAuth;
 import com.sdd.sddpartner.repository.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,17 +22,20 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	private final EmployeeRepository repository;
 
-	@Override
+	@Autowired
+	private PasswordEncoder encoder;
+
+/*	@Override
 	public void register(Employee emp) throws Exception {
 		Employee empEntity = new Employee();
 
 		EmployeeAuth empAuth = new EmployeeAuth();
 		empAuth.setAuth("ROLE_EMPLOYEE");
-		
+
 //		empEntity.addAuth(empAuth);
-		
+
 		repository.save(empEntity);
-		
+
 		emp.setEmpId(empEntity.getEmpId());
 	}
 
@@ -43,8 +49,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 		Employee empEntity = repository.getOne(emp.getEmpId());
 		empEntity.setName(emp.getName());
 		empEntity.setEmpPosition(emp.getEmpPosition());
-		
-		/*List<EmployeeAuth> empAuthList = empEntity.getAuthList();
+
+		*//*List<EmployeeAuth> empAuthList = empEntity.getAuthList();
 		List<EmployeeAuth> authList = emp.getAuthList();
 		for(int i = 0; i < authList.size(); i++) {
 			EmployeeAuth auth = authList.get(i);
@@ -53,8 +59,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 				EmployeeAuth empAuth = empAuthList.get(i);
 				empAuth.setAuth(auth.getAuth());
 			}
-		}*/
-		
+		}*//*
+
 		repository.save(empEntity);
 	}
 
@@ -102,29 +108,29 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 		return empList;
 	}
-	
+
 	@Override
 	public long countAll() throws Exception {
 		return repository.count();
 	}
-	
+
 	@Override
 	public void setupAdmin(Employee emp) throws Exception {
 		Employee empEntity = new Employee();
-	
+
 		EmployeeAuth empAuth = new EmployeeAuth();
 		empAuth.setAuth("ROLE_ADMIN");
-		/*empEntity.addAuth(empAuth);*/
-		
+		*//*empEntity.addAuth(empAuth);*//*
+
 		repository.save(empEntity);
 	}
-	
+
 	@Override
 	public String getCoin(String empId) throws Exception {
 		Employee emp = repository.getOne(empId);
 		
-		return null; /*emp.getCoin();*/
-	}
+		return null; *//*emp.getCoin();*//*
+	}*/
 
 	// HR 사용
 	@Override
@@ -135,7 +141,15 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	@Transactional
 	public Employee save(Employee emp) {
-		return repository.save(emp);
+		String rawPassword = emp.getPassword();
+		String encodedPassword = encoder.encode(rawPassword);
+		emp.setPassword(encodedPassword);
+		try {
+			return repository.save(emp);
+		} catch (DataAccessException e) {
+			System.err.println("데이터베이스 저장 중 오류 발생: " + e.getMessage());
+			throw e;
+		}
 	}
 
 	@Override

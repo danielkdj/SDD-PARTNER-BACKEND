@@ -1,13 +1,12 @@
 package com.sdd.sddpartner.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.twilio.Twilio;
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.sdd.sddpartner.common.security.domain.CustomEmp;
-import com.sdd.sddpartner.common.util.UploadFileUtils;
 import com.sdd.sddpartner.domain.Employee;
 import com.sdd.sddpartner.prop.ShopProperties;
 import com.sdd.sddpartner.service.EmployeeService;
@@ -17,18 +16,16 @@ import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.util.FileCopyUtils;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.PostConstruct;
 import java.io.File;
+import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
+import java.util.Map;
 import java.util.Objects;
 
 @Slf4j
@@ -48,83 +45,6 @@ public class EmployeeController {
 	@PostConstruct
 	public void init() {
 		Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
-	}
-
-	@PostMapping("/register")
-	public ResponseEntity<Employee> register(@Validated @RequestBody Employee emp) throws Exception {
-		log.info("emp.getName() = " + emp.getName());
-		
-		String inputPassword = emp.getPassword();
-		emp.setPassword(passwordEncoder.encode(inputPassword));
-		
-		service.register(emp);
-
-		log.info("register emp.getEmpId() = " + emp.getEmpId());
-		
-		return new ResponseEntity<>(emp, HttpStatus.OK);
-	}
-
-	@PreAuthorize("hasRole('ADMIN')")
-	@GetMapping
-	public ResponseEntity<List<Employee>> list() throws Exception {
-		return new ResponseEntity<>(service.list(), HttpStatus.OK);
-	}
-
-	@GetMapping("/{empId}")
-	public ResponseEntity<Employee> read(@PathVariable("empId") String empId) throws Exception {
-		Employee emp = service.read(empId);
-		
-		return new ResponseEntity<>(emp, HttpStatus.OK);
-	}
-
-	@PreAuthorize("hasRole('ADMIN')")
-	@DeleteMapping("/{empId}")
-	public ResponseEntity<Void> remove(@PathVariable("empId") String empId) throws Exception {
-		service.remove(empId);
-
-		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
-	}
-
-	@PreAuthorize("hasAnyRole('ADMIN','EMPLOYEE')")
-	@PutMapping("/{empId}")
-	public ResponseEntity<Employee> modify(@PathVariable("empId") String empId, @Validated @RequestBody Employee emp) throws Exception {
-		log.info("modify : emp.getEmpId() = " + emp.getEmpId());
-		log.info("modify : empId = " + empId);
-		
-		emp.setEmpId(empId);
-		service.modify(emp);
-		
-		return new ResponseEntity<>(emp, HttpStatus.OK);
-	}
-
-	@PostMapping(value = "/setup", produces="text/plain;charset=UTF-8")
-	public ResponseEntity<String> setupAdmin(@Validated @RequestBody Employee emp) throws Exception {
-		log.info("setupAdmin : emp.getUserName() = " + emp.getName());
-		log.info("setupAdmin : service.countAll() = " + service.countAll());
-		
-		if(service.countAll() == 0) {
-			String inputPassword = emp.getPassword();
-			emp.setPassword(passwordEncoder.encode(inputPassword));
-			
-			emp.setEmpRank("00");
-			
-			service.setupAdmin(emp);
-	
-			return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
-		}
-		
-		String message = messageSource.getMessage("common.cannotSetupAdmin", null, Locale.KOREAN);
-		
-		return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
-	}
-		
-	@PreAuthorize("hasAnyRole('ADMIN','EMPLOYEE')")
-	@GetMapping("/myinfo")
-	public ResponseEntity<Employee> getMyInfo(@AuthenticationPrincipal CustomEmp customEmp) throws Exception {
-		String empID = customEmp.getEmpId();
-		Employee emp = service.read(empID);
-		emp.setPassword("");
-		return new ResponseEntity<>(emp, HttpStatus.OK);
 	}
 
 	// HR 사용 메소드
@@ -163,24 +83,44 @@ public class EmployeeController {
 	}
 
 	@PostMapping(value = "/ep/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	public ResponseEntity<Employee> createEmployee(@RequestPart("emp") String empJson, @RequestPart(value = "file", required = false) MultipartFile file) throws Exception {
+	public ResponseEntity<Map<String, Object>> createEmployee(@RequestPart("emp") String empJson, @RequestPart(value = "file", required = false) MultipartFile file) throws Exception {
 		ObjectMapper objectMapper = new ObjectMapper();
 		objectMapper.registerModule(new JavaTimeModule());
 		objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
-		Employee emp = objectMapper.readValue(empJson, Employee.class);
+		Map<String, Object> response = new HashMap<>();
 
-		if (file != null && !file.isEmpty()) {
-			String imageUrl = saveImageToFile(file, emp.getEmpId());
-			emp.setEmpImg(imageUrl);
+		try {
+			Employee emp = objectMapper.readValue(empJson, Employee.class);
+
+			if (emp.getHireDate() == null) {
+				emp.setHireDate(LocalDate.now());
+			}
+
+			String rawPassword = emp.getPassword();
+
+			if (file != null && !file.isEmpty()) {
+				String imageUrl = saveImageToFile(file, emp.getEmpId());
+				emp.setEmpImg(imageUrl);
+			}
+
+			Employee createdEmployee = service.save(emp);
+
+			if(createdEmployee != null) {
+				String formattedPhoneNumber = convertToE164Format(createdEmployee.getPhone());
+				String msg = "SSD-Partner 입니다. 당신의 사번: " + createdEmployee.getEmpId() + "이며, 초기비밀번호: " + rawPassword + " 입니다. 비밀번호는 꼭 변경해서 사용하세요!";
+				sendSms(formattedPhoneNumber, msg);
+				response.put("success", true);
+				response.put("employee", createdEmployee);
+				return new ResponseEntity<>(response, HttpStatus.CREATED);
+			} else {
+				response.put("success", false);
+				return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+		} catch (JsonProcessingException e) {
+			response.put("success", false);
+			return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		Employee createdEmployee = service.save(emp);
-
-		String formattedPhoneNumber = convertToE164Format(createdEmployee.getPhone());
-		String msg = "SSD-Partner 입니다. 당신의 사번: " + createdEmployee.getEmpId() + "이며, 초기비밀번호: " + createdEmployee.getEmpId() + " 입니다. 비밀번호는 꼭 변경해서 사용하세요!";
-		sendSms(formattedPhoneNumber, msg);
-
-		return new ResponseEntity<>(createdEmployee, HttpStatus.CREATED);
 	}
 
 	private void sendSms(String phoneNumber, String msg) {
@@ -225,5 +165,37 @@ public class EmployeeController {
 	public ResponseEntity<Void> deleteEmployee(@PathVariable String empId) throws Exception{
 		service.delete(empId);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	}
+
+	@PostMapping("/ep/login")
+	public ResponseEntity<String> login(@RequestBody Employee loginRequest) throws Exception {
+		Employee existingEmployee = service.findById(loginRequest.getEmpId());
+
+		// 요청된 사번에 해당하는 사원이 없다면 오류 메시지를 반환
+		if (existingEmployee == null) {
+			return new ResponseEntity<>("사원을 찾을 수 없습니다", HttpStatus.NOT_FOUND);
+		}
+
+		boolean passwordMatch;
+		// 기존 비밀번호가 이미 암호화되어 있는지 확인
+		if (passwordEncoder.matches(existingEmployee.getPassword(), loginRequest.getPassword())) {
+			// 비밀번호가 이미 암호화되어 있다면, 요청으로부터 받은 비밀번호의 암호화된 버전과 비교
+			passwordMatch = passwordEncoder.matches(loginRequest.getPassword(), existingEmployee.getPassword());
+		} else {
+			// 비밀번호가 암호화되어 있지 않다면, 직접 비교
+			passwordMatch = existingEmployee.getPassword().equals(loginRequest.getPassword());
+
+			// 비밀번호가 암호화되어 있지 않고 일치한다면, 비밀번호를 암호화하여 데이터베이스에 저장
+			if (passwordMatch) {
+				String encodedPassword = passwordEncoder.encode(loginRequest.getPassword());
+				existingEmployee.setPassword(encodedPassword);
+				service.save(existingEmployee);
+			}
+		}
+		// 비밀번호가 일치하지 않는다면 오류 메시지를 반환
+		if (!passwordMatch) {
+			return new ResponseEntity<>("잘못된 로그인 정보입니다", HttpStatus.UNAUTHORIZED);
+		}
+		return new ResponseEntity<>("로그인 성공", HttpStatus.OK);
 	}
 }
