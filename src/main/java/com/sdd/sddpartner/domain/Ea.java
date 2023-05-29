@@ -2,6 +2,8 @@ package com.sdd.sddpartner.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -18,12 +20,6 @@ public class Ea {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "DOCUMENT_NO")
     private Long documentNo;
-
-    @Column(name = "EMP_ID")
-    private String empId;
-
-    @Column(name = "CATEGORY_ID")
-    private Long categoryId;
 
     @Column(nullable = false, name = "TITLE")
     private String title;
@@ -44,13 +40,15 @@ public class Ea {
 
     @JsonFormat(pattern="yyyy-MM-dd")
     @Column(name = "CREATED_AT")
+    @CreatedDate
     private LocalDate createdAt;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "CATEGORY_ID", insertable = false, updatable = false, nullable = false)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "CATEGORY_ID")
     private CategoryItem categoryItem;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "EMP_ID", insertable = false, updatable = false, nullable = false)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "EMP_ID")
     private Employee employee;
+
 }
