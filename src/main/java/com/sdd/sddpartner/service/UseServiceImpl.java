@@ -59,15 +59,19 @@ public class UseServiceImpl implements UseService {
 					return repository.save(ea);
 				})
 				.orElseThrow();
+
+
 	}
-//	@Override
-//	public void modifyAndCreate(Long documentNo, Long approve) throws Exception {
-//		repository.findById(documentNo)
-//				.map(ea -> {
-//					ea.setApprovalStatus(approve);
-//					return repository.save(ea);
-//				})
-//				.orElseThrow();
-//
-//	}
+	@Override
+	public void modifyAndCreate(Long documentNo, Long approve) throws Exception {
+		repository.findById(documentNo)
+				.map(ea -> {
+					ea.setApprovalStatus(approve);
+					return repository.save(ea);
+				})
+				.orElseThrow();
+
+
+
+	}
 }

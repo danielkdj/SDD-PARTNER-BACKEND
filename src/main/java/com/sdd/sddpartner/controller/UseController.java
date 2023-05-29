@@ -2,6 +2,7 @@ package com.sdd.sddpartner.controller;
 
 import com.sdd.sddpartner.domain.Ea;
 import com.sdd.sddpartner.dto.EaDto;
+import com.sdd.sddpartner.service.DrvService;
 import com.sdd.sddpartner.service.UseService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +20,7 @@ import java.util.List;
 public class UseController {
 
 	private final UseService service;
+	private final DrvService dvrService;
 
 	@GetMapping("/{documentNo}")
 	public ResponseEntity<EaDto> read(@PathVariable("documentNo") Long documentNo) throws Exception {
@@ -66,6 +68,15 @@ public class UseController {
 	@PatchMapping("/{documentNo}/{approve}")
 	public ResponseEntity<Void> modify(@PathVariable("documentNo") Long documentNo, @PathVariable("approve") Long approve) throws Exception {
 		service.modify(documentNo,approve);
+
+		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+	}
+	@PatchMapping("/car/{documentNo}/{approve}")
+	public ResponseEntity<Void> modifyAndCreate(@PathVariable("documentNo") Long documentNo, @PathVariable("approve") Long approve) throws Exception {
+		service.modifyAndCreate(documentNo,approve);
+		if(approve==2){
+		dvrService.register(documentNo);
+		}
 
 		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 	}
