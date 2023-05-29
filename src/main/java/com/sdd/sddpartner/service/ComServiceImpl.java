@@ -31,6 +31,10 @@ public class ComServiceImpl implements ComService {
 	public Long count(List<Long> eduIds, List<Character> completions, Long years, List<Long> quarters) {
 		return repository.countByEduInfo_EduIdInAndCompletionInAndYearsAndQuartersIn(Sort.by(Direction.ASC, "comNo"), eduIds, completions, years, quarters);
 	}
+	@Override
+	public Integer register(Long eduId, Long years, Long quarters) {
+		return repository.insertCompletionFromEmployee(eduId, years, quarters);
+	}
 
 	public void modify(Long comNo) throws Exception {
 		repository.findById(comNo)
@@ -46,5 +50,7 @@ public class ComServiceImpl implements ComService {
 				})
 				.orElseThrow();
 	}
+
+
 
 }

@@ -11,4 +11,5 @@ public interface ComService {
 	Long count(List<Long> eduIds, List<Character> completions, Long year, List<Long> quarters);
 	void modify(Long comNo) throws Exception;
 
+	Integer register(Long eduId, Long years, Long quarters);
 }
