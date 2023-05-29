@@ -42,19 +42,21 @@ public class ComServiceImpl implements ComService {
 	public List<Completion> register(Long eduId, Long years, Long quarters) {
 		List<Completion> addList = new ArrayList<>();
 
-		Completion newCompletion = new Completion();
-			newCompletion.setCompletion('N');
-			newCompletion.setYears(years);
-			newCompletion.setQuarters(quarters);
-			newCompletion.setEduInfo(eduInfoRepository.getOne(eduId));
-
 		List<Employee> allEmployeeList =employeeRepository.findAll();
 
 		for(Employee e : allEmployeeList) {
-			newCompletion.setEmployee(e);
-			repository.save(newCompletion);
+			if(!repository.existsByYearsAndQuartersAndEmployee_EmpIdAndEduInfo_EduId(years, quarters, e.getEmpId(), eduId)){
+				Completion newCompletion = new Completion();
+				newCompletion.setCompletion('N');
+				newCompletion.setYears(years);
+				newCompletion.setQuarters(quarters);
+				newCompletion.setEduInfo(eduInfoRepository.getOne(eduId));
+				newCompletion.setEmployee(e);
 
-			addList.add(newCompletion);
+				repository.save(newCompletion);
+
+				addList.add(newCompletion);
+			}
 		}
 
 		return addList;
