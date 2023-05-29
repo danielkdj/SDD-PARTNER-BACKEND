@@ -34,6 +34,17 @@ public class UseServiceImpl implements UseService {
 		List<Ea> uses = repository.findTop4ByCategoryItem_CategoryIdIn(Sort.by(Direction.DESC, "documentNo"), categoryId);
 		return uses;
 	}
+
+	@Override
+	public Long mainCount(Long holdApprove, List<Long> categoryIdList) {
+		return repository.countByApprovalStatusAndCategoryItem_CategoryIdIn(holdApprove, categoryIdList);
+	}
+
+	@Override
+	public Ea mainDate(List<Long> categoryIdList, Long approve) {
+		return repository.findTopByCategoryItem_CategoryIdInAndApprovalStatus(Sort.by(Direction.ASC, "createdAt"), categoryIdList, approve);
+	}
+
 	@Override
 	public List<Ea> categoryList(List<Long> categoryId) throws Exception {
 		return repository.findAllByCategoryItem_CategoryIdIn(Sort.by(Direction.DESC, "documentNo"),categoryId);
@@ -59,8 +70,6 @@ public class UseServiceImpl implements UseService {
 					return repository.save(ea);
 				})
 				.orElseThrow();
-
-
 	}
 	@Override
 	public void modifyAndCreate(Long documentNo, Long approve) throws Exception {

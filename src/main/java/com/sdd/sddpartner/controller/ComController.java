@@ -58,6 +58,15 @@ public class ComController {
 		Long comCount = service.count(eduIds,completions,year,quarters);
 		return new ResponseEntity<>(comCount, HttpStatus.OK);
 	}
+	@PostMapping("{eduId}/{years}/{quarters}")
+	public ResponseEntity<List<Completion>> register(
+			@PathVariable("eduId") Long eduId,
+		 	@PathVariable("years") Long years,
+			@PathVariable("quarters") Long quarters) throws Exception {
+
+		log.info("completion register: "+ eduId.toString(),years.toString(),quarters.toString());
+		return new ResponseEntity<>(service.register(eduId,years,quarters), HttpStatus.OK);
+	}
 
 	@PatchMapping("/{comNo}")
 	public ResponseEntity<Completion> modify(@PathVariable("comNo") Long comNo) throws Exception {
