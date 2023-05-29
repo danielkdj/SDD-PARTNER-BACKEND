@@ -2,6 +2,7 @@ package com.sdd.sddpartner.service;
 
 import com.sdd.sddpartner.domain.Ea;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface UseService {
@@ -13,4 +14,6 @@ public interface UseService {
 	List<Ea> searchList(List<Long> categoryId, List<Long> approve) throws Exception;
 	void modify(Long documentNo, Long approve) throws Exception;
 	void modifyAndCreate(Long documentNo, Long approve) throws Exception;
+    Long mainCount(Long holdApprove, List<Long> categoryIdList);
+	Ea mainDate(List<Long> categoryIdList, Long approve);
 }
