@@ -12,4 +12,5 @@ public interface UseService {
     List<Ea> scheduleList(List<Long> categoryId) throws Exception;
 	List<Ea> searchList(List<Long> categoryId, List<Long> approve) throws Exception;
 	void modify(Long documentNo, Long approve) throws Exception;
+	void modifyAndCreate(Long documentNo, Long approve) throws Exception;
 }
