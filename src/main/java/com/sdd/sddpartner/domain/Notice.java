@@ -2,17 +2,9 @@ package com.sdd.sddpartner.domain;
 
 import java.time.LocalDateTime;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.EqualsAndHashCode;
@@ -26,7 +18,7 @@ import lombok.ToString;
 @ToString
 @Entity
 @Table(name="notice")
-public class Notice {
+public class Notice{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,10 +32,13 @@ public class Notice {
 	
 	@JsonFormat(pattern="yyyy-MM-dd HH:mm")
 	@CreationTimestamp
-	private LocalDateTime regDate;
-	
-	@JsonFormat(pattern="yyyy-MM-dd HH:mm")
-	@UpdateTimestamp
-	private LocalDateTime updDate;
+	//@DateTimeFormat(pattern="yyyy-MM-dd HH:mm")
+	private LocalDateTime createdAt;
+
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name = "emp_id")
+	private Employee employee;
+
+
 
 }

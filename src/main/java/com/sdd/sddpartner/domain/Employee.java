@@ -8,7 +8,7 @@ import org.hibernate.annotations.ColumnDefault;
 import javax.persistence.*;
 import java.time.LocalDate;
 
-@JsonIgnoreProperties(value="hibernateLazyInitializer") 
+@JsonIgnoreProperties(value="hibernateLazyInitializer")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -125,6 +125,7 @@ public class Employee {
 	@Column(length = 20)
 	private String permission;
 
+
 	@Column()
 	private Integer annual;
 
@@ -238,6 +239,7 @@ public class Employee {
 		}
 		if (other.getDept() != null) {
 			setDept(other.getDept());
+
 		}
 		if (other.getAnnual() != null) {
 			setAnnual(other.getAnnual());
@@ -261,4 +263,6 @@ public class Employee {
 			setOffPregnancy(other.getOffPregnancy());
 		}
 	}
+
 }
+

@@ -1,7 +1,9 @@
 package com.sdd.sddpartner.service;
 
 import com.sdd.sddpartner.domain.Employee;
+
 import com.sdd.sddpartner.domain.EmployeeAuth;
+
 import com.sdd.sddpartner.repository.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -118,9 +120,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public void setupAdmin(Employee emp) throws Exception {
 		Employee empEntity = new Employee();
 
+
 		EmployeeAuth empAuth = new EmployeeAuth();
 		empAuth.setAuth("ROLE_ADMIN");
 		*//*empEntity.addAuth(empAuth);*//*
+
 
 		repository.save(empEntity);
 	}
@@ -179,5 +183,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public void delete(String empId) {
 		repository.deleteById(empId);
 	}
+
 
 }

@@ -6,14 +6,16 @@ import com.sdd.sddpartner.domain.Notice;
 
 public interface NoticeService {
 
-	public void register(Notice notice) throws Exception;
+	void register(Notice notice, String empId) throws Exception;
 
-	public Notice read(Long noticeNo) throws Exception;
+	Notice read(Long noticeNo) throws Exception;
 
-	public void modify(Notice notice) throws Exception;
+	void modify(Notice notice) throws Exception;
 
-	public void remove(Long noticeNo) throws Exception;
+	void remove(Long noticeNo) throws Exception;
 
-	public List<Notice> list() throws Exception;
-	
+	List<Notice> threelist() throws Exception;
+	List<Notice> list() throws Exception;
+	List<Notice> searchlist(String title) throws Exception;
+
 }

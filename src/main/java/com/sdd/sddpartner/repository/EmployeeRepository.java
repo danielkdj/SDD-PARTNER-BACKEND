@@ -1,3 +1,4 @@
+
 package com.sdd.sddpartner.repository;
 
 import com.sdd.sddpartner.domain.Employee;
@@ -10,7 +11,7 @@ import java.util.List;
 
 @Repository("employeeRepository")
 public interface EmployeeRepository extends JpaRepository<Employee, String>{
-	
+
 	List<Employee> findByEmpId(String empId);
 
 	@Query("SELECT e FROM Employee e WHERE LOWER(e.name) LIKE LOWER(CONCAT('%', :name, '%'))")
@@ -27,4 +28,6 @@ public interface EmployeeRepository extends JpaRepository<Employee, String>{
 			+ "ORDER BY e.hireDate DESC")
 	List<Object[]> listAllEmployee();
 
+
 }
+

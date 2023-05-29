@@ -7,6 +7,7 @@ import com.twilio.type.PhoneNumber;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+
 import com.sdd.sddpartner.domain.Employee;
 import com.sdd.sddpartner.prop.ShopProperties;
 import com.sdd.sddpartner.service.EmployeeService;
@@ -39,6 +40,7 @@ public class EmployeeController {
 	private final PasswordEncoder passwordEncoder;
 	private final MessageSource messageSource;
 	private final ShopProperties shopProperties;
+
 	private final String ACCOUNT_SID = "AC3773a6b49ca7ffaf5c1fb3104188844a";
 	private final String AUTH_TOKEN = "243158d500afd4c91f3b0789705ee282";
 	private final String FROM_NUMBER = "+13158175187";
@@ -46,6 +48,7 @@ public class EmployeeController {
 	public void init() {
 		Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
 	}
+
 
 	// HR 사용 메소드
 	@GetMapping("/ep")
