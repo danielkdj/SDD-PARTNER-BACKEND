@@ -2,15 +2,18 @@ package com.sdd.sddpartner.service;
 
 import com.sdd.sddpartner.domain.Employee;
 
-import com.sdd.sddpartner.domain.PdsFile;
+import com.sdd.sddpartner.domain.EmployeeAuth;
+
 import com.sdd.sddpartner.repository.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -20,14 +23,16 @@ import java.util.Optional;
 public class EmployeeServiceImpl implements EmployeeService {
 
 	private final EmployeeRepository repository;
-	private ArrayList<Employee> empList;
 
-	@Override
+	@Autowired
+	private PasswordEncoder encoder;
+
+/*	@Override
 	public void register(Employee emp) throws Exception {
 		Employee empEntity = new Employee();
 
-//		EmployeeAuth empAuth = new EmployeeAuth();
-//		empAuth.setAuth("ROLE_EMPLOYEE");
+		EmployeeAuth empAuth = new EmployeeAuth();
+		empAuth.setAuth("ROLE_EMPLOYEE");
 
 //		empEntity.addAuth(empAuth);
 
@@ -46,8 +51,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 		Employee empEntity = repository.getOne(emp.getEmpId());
 		empEntity.setName(emp.getName());
 		empEntity.setEmpPosition(emp.getEmpPosition());
-		
-		/*List<EmployeeAuth> empAuthList = empEntity.getAuthList();
+
+		*//*List<EmployeeAuth> empAuthList = empEntity.getAuthList();
 		List<EmployeeAuth> authList = emp.getAuthList();
 		for(int i = 0; i < authList.size(); i++) {
 			EmployeeAuth auth = authList.get(i);
@@ -56,8 +61,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 				EmployeeAuth empAuth = empAuthList.get(i);
 				empAuth.setAuth(auth.getAuth());
 			}
-		}*/
-		
+		}*//*
+
 		repository.save(empEntity);
 	}
 
@@ -105,29 +110,31 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 		return empList;
 	}
-	
+
 	@Override
 	public long countAll() throws Exception {
 		return repository.count();
 	}
-	
+
 	@Override
 	public void setupAdmin(Employee emp) throws Exception {
 		Employee empEntity = new Employee();
 
-//		EmployeeAuth empAuth = new EmployeeAuth();
-//		empAuth.setAuth("ROLE_ADMIN");
-//		empEntity.addAuth(empAuth);
+
+		EmployeeAuth empAuth = new EmployeeAuth();
+		empAuth.setAuth("ROLE_ADMIN");
+		*//*empEntity.addAuth(empAuth);*//*
+
 
 		repository.save(empEntity);
 	}
-	
+
 	@Override
 	public String getCoin(String empId) throws Exception {
 		Employee emp = repository.getOne(empId);
 		
-		return null; /*emp.getCoin();*/
-	}
+		return null; *//*emp.getCoin();*//*
+	}*/
 
 	// HR 사용
 	@Override
@@ -138,7 +145,15 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	@Transactional
 	public Employee save(Employee emp) {
-		return repository.save(emp);
+		String rawPassword = emp.getPassword();
+		String encodedPassword = encoder.encode(rawPassword);
+		emp.setPassword(encodedPassword);
+		try {
+			return repository.save(emp);
+		} catch (DataAccessException e) {
+			System.err.println("데이터베이스 저장 중 오류 발생: " + e.getMessage());
+			throw e;
+		}
 	}
 
 	@Override
@@ -159,33 +174,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Transactional
 	public Employee update(String empId, Employee emp) {
 		Employee existingEmployee = findById(empId);
-		// employee의 모든 컬럼
-		existingEmployee.setName(emp.getName());
-		existingEmployee.setPassword(emp.getPassword());
-		existingEmployee.setEmpImg(emp.getEmpImg());
-		existingEmployee.setEmpSsn(emp.getEmpSsn());
-		existingEmployee.setGender(emp.getGender());
-		existingEmployee.setMarriage(emp.getMarriage());
-		existingEmployee.setPhone(emp.getPhone());
-		existingEmployee.setEmail(emp.getEmail());
-		existingEmployee.setSalary(emp.getSalary());
-		existingEmployee.setAccountNo(emp.getAccountNo());
-		existingEmployee.setAddress(emp.getAddress());
-		existingEmployee.setEmpSpot(emp.getEmpSpot());
-		existingEmployee.setEmpPosition(emp.getEmpPosition());
-		existingEmployee.setEmpRank(emp.getEmpRank());
-		existingEmployee.setEmpStatus(emp.getEmpStatus());
-		existingEmployee.setClassification(emp.getClassification());
-		existingEmployee.setEmpClassification(emp.getEmpClassification());
-		existingEmployee.setAdmission(emp.getAdmission());
-		existingEmployee.setHireDate(emp.getHireDate());
-		existingEmployee.setLeaveDate(emp.getLeaveDate());
-		existingEmployee.setLeaveReason(emp.getLeaveReason());
-		existingEmployee.setLeaveIs(emp.getLeaveIs());
-		existingEmployee.setLeaveCode(emp.getLeaveCode());
-		existingEmployee.setAwards(emp.getAwards());
-		existingEmployee.setQualifications(emp.getQualifications());
-
+		existingEmployee.updateFrom(emp);
 		return repository.save(existingEmployee);
 	}
 

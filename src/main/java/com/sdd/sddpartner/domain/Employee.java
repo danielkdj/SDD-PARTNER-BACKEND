@@ -2,22 +2,25 @@ package com.sdd.sddpartner.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 
 @JsonIgnoreProperties(value="hibernateLazyInitializer")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @EqualsAndHashCode(of="empId")
-@ToString
 @Entity
 @Table(name="EMPLOYEE")
 public class Employee {
+
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name = "dept_no", referencedColumnName = "deptNo")
+	private Department dept;
 
 	@Id
 	@Column(name = "EMP_ID", length = 50)
@@ -92,7 +95,6 @@ public class Employee {
 
 	@Column(nullable = false)
 	@JsonFormat(pattern = "yyyy-MM-dd")
-	@CreationTimestamp
 	private LocalDate hireDate;
 
 	// 퇴사일
@@ -122,11 +124,6 @@ public class Employee {
 	@ColumnDefault("'11'")
 	@Column(length = 20)
 	private String permission;
-
-
-	@ManyToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name = "dept_no")
-	private Department dept;
 
 
 	@Column()
@@ -240,9 +237,8 @@ public class Employee {
 		if (other.getPermission() != null) {
 			setPermission(other.getPermission());
 		}
-
-		if (other.getDept().getDeptNo() != null) {
-			this.dept.setDeptNo(other.getDept().getDeptNo());
+		if (other.getDept() != null) {
+			setDept(other.getDept());
 
 		}
 		if (other.getAnnual() != null) {
@@ -267,20 +263,6 @@ public class Employee {
 			setOffPregnancy(other.getOffPregnancy());
 		}
 	}
-   /*@Column(nullable = false)
-   private String coin;
-
-
-   @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
-   @JoinColumn(name = "emp_id")
-   private List<EmployeeAuth> authList = new ArrayList<EmployeeAuth>();
-
-   public void addAuth(EmployeeAuth auth) {
-      authList.add(auth);
-   }
-
-   public void clearAuthList() {
-      authList.clear();
-   }*/
 
 }
+
