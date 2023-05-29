@@ -1,6 +1,7 @@
 package com.sdd.sddpartner.service;
 
 import com.sdd.sddpartner.domain.Ea;
+import com.sdd.sddpartner.domain.Employee;
 import com.sdd.sddpartner.dto.EaDto;
 import com.sdd.sddpartner.repository.EaRepository;
 
@@ -9,13 +10,17 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sdd.sddpartner.repository.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
 public class EaServiceImpl implements EaService{
+
     private final EaRepository repository;
+
+    private final EmployeeRepository empRepository;
 
     @Override
     public Ea read(Long documentNo) throws Exception {
@@ -32,18 +37,25 @@ public class EaServiceImpl implements EaService{
 
     @Override
     public void register(Ea ea) throws Exception {
-        Ea eaEntity = new Ea();
+       String empId =  ea.getEmployee().getEmpId();
 
-        eaEntity.setTitle(ea.getTitle());
-        eaEntity.setContent(ea.getContent());
-        eaEntity.setStartDate(ea.getStartDate());
-        eaEntity.setEndDate(ea.getEndDate());
-        eaEntity.setApprovalStatus(1L);
-        eaEntity.setCreatedAt(LocalDate.now());
-        eaEntity.setCategoryId(ea.getCategoryId());
-        eaEntity.setEmpId(ea.getEmpId());
+       Employee emp = empRepository.getOne(empId);
 
-        repository.save(eaEntity);
+       ea.setEmployee(emp);
+
+       ea.setCreatedAt(LocalDate.now());
+//        Ea eaEntity = new Ea();
+//
+//        eaEntity.setTitle(ea.getTitle());
+//        eaEntity.setContent(ea.getContent());
+//        eaEntity.setStartDate(ea.getStartDate());
+//        eaEntity.setEndDate(ea.getEndDate());
+//        eaEntity.setApprovalStatus(1L);
+//        eaEntity.setCreatedAt(LocalDate.now());
+//        eaEntity.getCategoryItem().setCategoryId(ea.getCategoryItem().getCategoryId());
+//        eaEntity.getEmployee().setEmpId(ea.getEmployee().getEmpId());
+
+        repository.save(ea);
     }
 
     @Override
@@ -56,8 +68,8 @@ public class EaServiceImpl implements EaService{
         eaEntity.setEndDate(ea.getEndDate());
         eaEntity.setApprovalStatus(1L);
         eaEntity.setCreatedAt(LocalDate.now());
-        eaEntity.setCategoryId(ea.getCategoryId());
-        eaEntity.setEmpId(ea.getEmpId());
+        eaEntity.getCategoryItem().setCategoryId(ea.getCategoryItem().getCategoryId());
+        eaEntity.getEmployee().setEmpId(ea.getEmployee().getEmpId());
 
         repository.save(eaEntity);
     }
