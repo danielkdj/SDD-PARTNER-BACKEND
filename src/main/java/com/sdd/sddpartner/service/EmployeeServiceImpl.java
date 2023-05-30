@@ -181,6 +181,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
+	public boolean isEmployeeRegistered(String empId) throws Exception {
+		Employee employee = repository.findByEmpId(empId);
+		return employee != null;
+	}
+
+	@Override
 	public List<Employee> findByName(String name) {
 		return repository.findByName(name);
 	}
