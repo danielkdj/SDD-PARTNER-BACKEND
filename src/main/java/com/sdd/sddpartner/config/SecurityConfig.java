@@ -79,6 +79,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 				.antMatchers("/dayOffDistinctions/**").access("permitAll")
 				.antMatchers("/salary/**").access("permitAll")
 				.antMatchers("/ea/**").permitAll()
+				.antMatchers("/document/**").permitAll()
 				.anyRequest().authenticated();
 
 		http.exceptionHandling()
