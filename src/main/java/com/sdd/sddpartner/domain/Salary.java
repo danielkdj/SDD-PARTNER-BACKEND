@@ -28,7 +28,7 @@ public class Salary {
     @Column(name = "EMP_ID")
     private String empId;
 
-    @JsonFormat(pattern="yyyy-MM")
+    @JsonFormat(pattern="yyyy-MM-dd")
     @Column(name = "SALARY_DATE")
     private LocalDate salaryDate;
 

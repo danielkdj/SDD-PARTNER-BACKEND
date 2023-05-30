@@ -35,7 +35,7 @@ public class SalaryController {
     @GetMapping("/id/{empId}")
     public ResponseEntity<SalaryDto> read(@PathVariable("empId") String empId) throws Exception {
 
-        // Assuming you have a method in your service to find Salary by empId.
+
         SalaryDto salary = service.read(empId);
         return new ResponseEntity<>(salary, HttpStatus.OK);
     }

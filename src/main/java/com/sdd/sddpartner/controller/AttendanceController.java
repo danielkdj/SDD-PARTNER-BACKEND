@@ -3,6 +3,7 @@ package com.sdd.sddpartner.controller;
 import com.sdd.sddpartner.domain.Attendance;
 import com.sdd.sddpartner.service.AttendanceService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Slf4j
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/attendance")
@@ -25,8 +26,13 @@ public class AttendanceController {
         return new ResponseEntity<>(attendance, HttpStatus.CREATED);
     }
 
-    @GetMapping("/List")
+    @GetMapping("/list")
     public ResponseEntity<List<Attendance>> list() throws Exception {
+
+        return new ResponseEntity<>(service.list(), HttpStatus.OK);
+    }
+    @GetMapping("/list/id/{empId}")
+    public ResponseEntity<List<Attendance>> listEmp() throws Exception {
 
         return new ResponseEntity<>(service.list(), HttpStatus.OK);
     }

@@ -39,11 +39,17 @@ public class SalaryServiceImpl implements SalaryService {
 
     @Override
     public void modify(Salary salary) throws Exception {
-        Salary salaryEntity = repository.getOne(salary.getId());
-
-        // Add code here to modify the fields of the salaryEntity as needed
-
-        repository.save(salaryEntity);
+        repository.findById(salary.getId())
+                .ifPresentOrElse(salaryEntity -> {
+                    salaryEntity.setBonus(salary.getBonus());
+                    salaryEntity.setTotalSalary(salary.getTotalSalary());
+                    salaryEntity.setSalaryDate(salary.getSalaryDate());
+                    salaryEntity.setTax(salary.getTax());
+                    salaryEntity.setPayment(salary.getPayment());
+                    // save 메서드 호출 없음
+                }, () -> {
+                    throw new NoSuchElementException("Salary with id " + salary.getId() + " not found");
+                });
     }
 
     @Override

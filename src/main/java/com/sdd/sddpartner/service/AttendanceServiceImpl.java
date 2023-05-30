@@ -38,4 +38,10 @@ public class AttendanceServiceImpl implements AttendanceService {
 
         return attendanceRepository.findAll();
     }
+
+    @Override
+    public List<Attendance> listEmp(String empId) throws Exception {
+
+        return attendanceRepository.findAllByEmpId(empId);
+    }
 }

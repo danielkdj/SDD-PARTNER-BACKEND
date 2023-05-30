@@ -2,7 +2,7 @@ package com.sdd.sddpartner.service;
 
 import com.sdd.sddpartner.domain.Employee;
 
-import com.sdd.sddpartner.domain.EmployeeAuth;
+
 
 import com.sdd.sddpartner.repository.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,9 +12,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -182,6 +179,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Transactional
 	public void delete(String empId) {
 		repository.deleteById(empId);
+	}
+
+	@Override
+	public int countByEmpStatus(Integer status) {
+		return repository.countByEmpStatus(status);
 	}
 
 

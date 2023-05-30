@@ -16,4 +16,5 @@ public interface AttendanceService {
 
     public List<Attendance> list() throws Exception;
 
+    public List<Attendance> listEmp(String empId) throws Exception;
 }
