@@ -2,7 +2,6 @@ package com.sdd.sddpartner.service;
 
 import com.sdd.sddpartner.domain.Ea;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 public interface UseService {

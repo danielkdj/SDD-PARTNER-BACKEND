@@ -58,7 +58,38 @@ public class ComController {
 		Long comCount = service.count(eduIds,completions,year,quarters);
 		return new ResponseEntity<>(comCount, HttpStatus.OK);
 	}
-	@PostMapping("{eduId}/{years}/{quarters}")
+	@GetMapping("/countAll/{year}/{quarter}")
+	public ResponseEntity<List<Long>> countAll(
+			@PathVariable(value = "year") Long year,
+			@PathVariable(value = "quarter") Long quarter) throws Exception {
+		log.info("count");
+		List<Long> countList = new ArrayList<Long>(16);
+
+		//1-1~4Q
+		for(int i = 1; i<5; i++){
+		Long count1 = service.count(getEduIdsDefaltList(1L),getCompletionsDefaltList('A'),year,getQuarterDefaltList((long) i));
+		countList.add(count1);
+		}
+		//2~5 0Q
+		for(int i = 2; i<6; i++){
+		Long count1 = service.count(getEduIdsDefaltList((long)i),getCompletionsDefaltList('A'),year,getQuarterDefaltList(0L));
+		countList.add(count1);
+		}
+		//1-1~4Q
+		for(int i = 1; i<5; i++){
+		Long count1 = service.count(getEduIdsDefaltList(1L),getCompletionsDefaltList('Y'),year,getQuarterDefaltList(Long.valueOf(i)));
+		countList.add(count1);
+		}
+		//2~5 0Q
+		for(int i = 2; i<6; i++){
+		Long count1 = service.count(getEduIdsDefaltList(Long.valueOf(i)),getCompletionsDefaltList('Y'),year,getQuarterDefaltList(0L));
+		countList.add(count1);
+		}
+
+
+		return new ResponseEntity<>(countList, HttpStatus.OK);
+	}
+	@PostMapping("/{eduId}/{years}/{quarters}")
 	public ResponseEntity<List<Completion>> register(
 			@PathVariable("eduId") Long eduId,
 		 	@PathVariable("years") Long years,
