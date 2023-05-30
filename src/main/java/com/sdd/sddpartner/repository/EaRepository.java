@@ -46,7 +46,7 @@ public interface EaRepository extends JpaRepository<Ea, Long> {
             "ORDER BY e.documentNo DESC ")
     public List<Object[]> findEaAffair();
 
-    @Query("SELECT e.documentNo, e.employee.empId, emp.name, e.categoryItem.categoryId, c.category, c.subCategory, e.title, e.content, e.startDate,e.endDate, e.approvalStatus, e.createdAt " +
+    @Query("SELECT e.documentNo, e.employee.empId, emp.name, e.categoryItem.categoryId, c.category, c.subCategory, e.title, e.content, e.startDate,e.endDate, e.approvalStatus, e.createdAt, emp.dept.deptNo, emp.dept.deptName " +
             "FROM Ea e " +
             "LEFT JOIN CategoryItem c ON (e.categoryItem.categoryId = c.categoryId) " +
             "LEFT JOIN Employee emp ON (e.employee.empId = emp.empId) " +
