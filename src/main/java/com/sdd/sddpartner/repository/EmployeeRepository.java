@@ -28,6 +28,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, String>{
 			+ "ORDER BY e.hireDate DESC")
 	List<Object[]> listAllEmployee();
 
-
+	//attendance 사용
+	int countByEmpStatus(Integer empStatus);
 }
 

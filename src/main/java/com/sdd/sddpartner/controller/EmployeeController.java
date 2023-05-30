@@ -49,6 +49,36 @@ public class EmployeeController {
 		Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
 	}
 
+	//attendance 사용 메소드
+
+	//findAll count
+	@GetMapping("/ep/count")
+	public ResponseEntity<Integer> countAllEmployees() throws Exception {
+		List<Employee> empList = service.findAll();
+		int count = empList.size();
+
+		return new ResponseEntity<>(count, HttpStatus.OK);
+	}
+	@GetMapping("/ep/onleave/count")
+	public ResponseEntity<Integer> countEmployeesOnLeave() throws Exception {
+		int count = service.countByEmpStatus(3);  // 휴가 상태
+
+		return new ResponseEntity<>(count, HttpStatus.OK);
+	}
+
+	@GetMapping("/ep/overworking/count")
+	public ResponseEntity<Integer> countEmployeesOverWorking() throws Exception {
+		int count = service.countByEmpStatus(4);  // 연장근무 상태
+
+		return new ResponseEntity<>(count, HttpStatus.OK);
+	}
+
+	@GetMapping("/ep/working/count")
+	public ResponseEntity<Integer> countEmployeesWorking() throws Exception {
+		int count = service.countByEmpStatus(1);  // 출근 상태
+
+		return new ResponseEntity<>(count, HttpStatus.OK);
+	}
 
 	// HR 사용 메소드
 	@GetMapping("/ep")
