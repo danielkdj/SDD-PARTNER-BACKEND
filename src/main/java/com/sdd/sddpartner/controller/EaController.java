@@ -67,8 +67,6 @@ public class EaController {
 
     @GetMapping("/eaHRList")
     public ResponseEntity<List<EaDto>> eaHRList() throws Exception {
-        log.info("eaHRList");
-
         return new ResponseEntity<>(service.eaHRList(), HttpStatus.OK);
     }
 
