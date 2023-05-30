@@ -32,7 +32,6 @@ public class EaController {
     @GetMapping("/eaList")
     public ResponseEntity<List<Ea>> listEa() throws Exception {
         log.info("list");
-
         List<Ea> eaList = service.list();
 
         return new ResponseEntity<>(eaList, HttpStatus.OK);
@@ -72,7 +71,7 @@ public class EaController {
 
     @PostMapping(value = "/createEa")
     public ResponseEntity<Ea> createEA(@Validated @RequestBody Ea ea
-                                       ) throws Exception {
+    ) throws Exception {
         service.register(ea);
 
         log.info("createEA");
@@ -91,7 +90,7 @@ public class EaController {
 
     @PutMapping("/eaApprovalStatus/{documentNo}")
     public ResponseEntity<Ea> modifyApprovalStatus(@PathVariable("documentNo") Long documentNo,
-                                                  @Validated @RequestBody Ea ea) throws Exception {
+                                                   @Validated @RequestBody Ea ea) throws Exception {
         ea.setDocumentNo(documentNo);
         service.modifyApproval(ea);
 
@@ -106,7 +105,4 @@ public class EaController {
 
         return new ResponseEntity<>(ea, HttpStatus.OK);
     }
-
-
-
 }
