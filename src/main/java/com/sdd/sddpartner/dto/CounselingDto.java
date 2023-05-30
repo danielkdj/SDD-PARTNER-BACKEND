@@ -2,10 +2,17 @@ package com.sdd.sddpartner.dto;
 
 import com.sdd.sddpartner.domain.Employee;
 import com.sdd.sddpartner.domain.Counseling;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
+@Data
+@NoArgsConstructor
+@EqualsAndHashCode(of="counId")
 public class CounselingDto {
+
     private Long counId;
     private String empId;
     private String name;

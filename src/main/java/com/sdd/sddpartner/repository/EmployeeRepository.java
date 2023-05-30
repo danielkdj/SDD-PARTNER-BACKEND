@@ -1,7 +1,9 @@
 
 package com.sdd.sddpartner.repository;
 
+import com.sdd.sddpartner.domain.Ea;
 import com.sdd.sddpartner.domain.Employee;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -12,7 +14,7 @@ import java.util.List;
 @Repository("employeeRepository")
 public interface EmployeeRepository extends JpaRepository<Employee, String>{
 
-	List<Employee> findByEmpId(String empId);
+	Employee findByEmpId(String empId);
 
 	@Query("SELECT e FROM Employee e WHERE LOWER(e.name) LIKE LOWER(CONCAT('%', :name, '%'))")
 	List<Employee> findByName(@Param("name") String name);
@@ -28,6 +30,8 @@ public interface EmployeeRepository extends JpaRepository<Employee, String>{
 			+ "ORDER BY e.hireDate DESC")
 	List<Object[]> listAllEmployee();
 
+	// attendance 사용
+	int countByEmpStatus(Integer empStatus);
 
 }
 

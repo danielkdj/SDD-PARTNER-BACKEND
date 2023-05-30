@@ -20,15 +20,12 @@ import java.time.LocalDate;
 public class Counseling {
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "emp_id", referencedColumnName = "emp_id", insertable = false, updatable = false)
+    @JoinColumn(name = "emp_id")
     private Employee employee;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long counId;
-
-    @Column(name = "emp_id")
-    private String empId;
 
     @Column(name = "coun_title")
     private String counTitle;
@@ -41,12 +38,10 @@ public class Counseling {
 
     @JsonFormat(pattern="yyyy-MM-dd")
     @Column(name = "request_at")
-    @CreationTimestamp
     private LocalDate requestAt;
 
     @JsonFormat(pattern="yyyy-MM-dd")
     @Column(name = "requested_at")
-    @UpdateTimestamp
     private LocalDate requestedAt;
 
     @JsonFormat(pattern="yyyy-MM-dd")
@@ -68,6 +63,9 @@ public class Counseling {
         }
         if (other.getRequestAt() != null) {
             setRequestAt(other.getRequestAt());
+        }
+        if (other.getRequestedAt() != null) {
+            setRequestedAt(other.getRequestedAt());
         }
         if (other.getCounAt() != null) {
             setCounAt(other.getCounAt());

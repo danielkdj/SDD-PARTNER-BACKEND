@@ -4,14 +4,18 @@ import com.sdd.sddpartner.domain.Counseling;
 import com.sdd.sddpartner.dto.CounselingDto;
 import com.sdd.sddpartner.repository.CounselingRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class CounselingServiceImpl implements CounselingService {
 
 	private final CounselingRepository repository;
@@ -30,7 +34,10 @@ public class CounselingServiceImpl implements CounselingService {
 	@Override
 	@Transactional
 	public Counseling update(Long counId, Counseling coun) throws Exception {
-		return repository.getReferenceById(counId);
+		Counseling existingCoun = repository.getReferenceById(counId);
+		existingCoun.setCounAnswer(coun.getCounAnswer());
+		existingCoun.setCounAt(LocalDate.now());
+		return repository.save(existingCoun);
 	}
 
 	@Override
@@ -39,12 +46,14 @@ public class CounselingServiceImpl implements CounselingService {
 	}
 
 	@Override
-	public List<CounselingDto> list() throws Exception {
-		List<Counseling> coun = repository.findAllByOrderByCounIdDesc();
+	public List<CounselingDto> list() {
+		List<Counseling> counselingList = repository.findAll();
+		List<CounselingDto> counselingDtoList = new ArrayList<>();
 
-		return coun.stream()
-				.map(CounselingDto::fromEntity)
-				.collect(Collectors.toList());
+		for (Counseling counseling : counselingList) {
+			counselingDtoList.add(CounselingDto.fromEntity(counseling));
+		}
+		return counselingDtoList;
 	}
 
 	@Override
