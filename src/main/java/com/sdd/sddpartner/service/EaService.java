@@ -22,7 +22,7 @@ public interface EaService {
 
     public List<EaDto> eaAffairList() throws Exception;
 
-    public List<EaDto> eaHRList() throws Exception;
+    List<EaDto> eaHRList() throws Exception;
 
     public void modifyApproval(Ea ea);
 

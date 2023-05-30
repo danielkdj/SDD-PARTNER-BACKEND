@@ -58,4 +58,21 @@ public class EaDto {
         this.deptNo = ea.getEmployee().getDept().getDeptNo();
         this.deptName = ea.getEmployee().getDept().getDeptName();
     }
+
+    public EaDto(Object[] columns) {
+        this.documentNo = (Long) columns[0];
+        this.empId = (String) columns[1];
+        this.name = (String) columns[2];
+        this.categoryId = (Long) columns[3];
+        this.category = (String) columns[4];
+        this.subCategory = (String) columns[5];
+        this.title = (String) columns[6];
+        this.content = (String) columns[7];
+        this.startDate = (LocalDateTime) columns[8];
+        this.endDate = (LocalDateTime) columns[9];
+        this.approvalStatus = (Long) columns[10];
+        this.createdAt = (LocalDate) columns[11];
+        this.deptNo = (Long) columns[12];
+        this.deptName = (String) columns[13];
+    }
 }

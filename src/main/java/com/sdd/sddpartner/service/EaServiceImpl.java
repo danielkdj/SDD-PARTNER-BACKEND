@@ -187,34 +187,9 @@ public class EaServiceImpl implements EaService{
 
         return eaList;
     }
-
     @Override
-    public List<EaDto> eaHRList() throws Exception {
-        List<Object[]> valueArrays = repository.findEaHR();
-
-        List<EaDto> eaList = new ArrayList<>();
-
-
-        for(Object[] valueArray : valueArrays) {
-            EaDto ea = new EaDto();
-
-            ea.setDocumentNo((Long)valueArray[0]);
-            ea.setEmpId((String)valueArray[1]);
-            ea.setName((String)valueArray[2]);
-            ea.setCategoryId((Long)valueArray[3]);
-            ea.setCategory((String)valueArray[4]);
-            ea.setSubCategory((String)valueArray[5]);
-            ea.setTitle((String)valueArray[6]);
-            ea.setContent((String)valueArray[7]);
-            ea.setStartDate((LocalDateTime) valueArray[8]);
-            ea.setEndDate((LocalDateTime) valueArray[9]);
-            ea.setApprovalStatus((Long)valueArray[10]);
-            ea.setCreatedAt((LocalDate) valueArray[11]);
-
-            eaList.add(ea);
-        }
-
-        return eaList;
+    public List<EaDto> eaHRList() {
+        return repository.findEaHR();
     }
 
     @Override
