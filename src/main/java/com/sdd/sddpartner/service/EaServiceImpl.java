@@ -37,13 +37,13 @@ public class EaServiceImpl implements EaService{
 
     @Override
     public void register(Ea ea) throws Exception {
-       String empId =  ea.getEmployee().getEmpId();
+        String empId =  ea.getEmployee().getEmpId();
 
-       Employee emp = empRepository.getOne(empId);
+        Employee emp = empRepository.getOne(empId);
 
-       ea.setEmployee(emp);
+        ea.setEmployee(emp);
 
-       ea.setCreatedAt(LocalDate.now());
+        ea.setCreatedAt(LocalDate.now());
 //        Ea eaEntity = new Ea();
 //
 //        eaEntity.setTitle(ea.getTitle());
@@ -99,6 +99,11 @@ public class EaServiceImpl implements EaService{
         }
 
         return eaList;
+    }
+
+    @Override
+    public List<EaDto> eaHRList() {
+        return repository.findEaHR();
     }
 
     @Override
@@ -187,10 +192,8 @@ public class EaServiceImpl implements EaService{
 
         return eaList;
     }
-    @Override
-    public List<EaDto> eaHRList() {
-        return repository.findEaHR();
-    }
+
+
 
     @Override
     public void modifyApproval(Ea ea) {
