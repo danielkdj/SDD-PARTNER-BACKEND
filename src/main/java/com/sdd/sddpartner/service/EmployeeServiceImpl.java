@@ -1,9 +1,12 @@
 package com.sdd.sddpartner.service;
 
+import com.sdd.sddpartner.domain.Ea;
 import com.sdd.sddpartner.domain.Employee;
 
 import com.sdd.sddpartner.domain.EmployeeAuth;
 
+import com.sdd.sddpartner.dto.EaDto;
+import com.sdd.sddpartner.repository.EaRepository;
 import com.sdd.sddpartner.repository.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +20,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -136,6 +140,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return null; *//*emp.getCoin();*//*
 	}*/
 
+	// attendance 사용
+	@Override
+	public int countByEmpStatus(Integer status) {
+		return repository.countByEmpStatus(status);
+	}
+
 	// HR 사용
 	@Override
 	public List<Employee> findAll() throws Exception {
@@ -154,6 +164,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 			System.err.println("데이터베이스 저장 중 오류 발생: " + e.getMessage());
 			throw e;
 		}
+	}
+
+	@Override
+	public Employee findByEmpId(String empId) {
+		return repository.findByEmpId(empId);
 	}
 
 	@Override
@@ -183,6 +198,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public void delete(String empId) {
 		repository.deleteById(empId);
 	}
+
 
 
 }

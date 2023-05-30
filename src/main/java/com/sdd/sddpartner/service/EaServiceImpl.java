@@ -37,13 +37,13 @@ public class EaServiceImpl implements EaService{
 
     @Override
     public void register(Ea ea) throws Exception {
-       String empId =  ea.getEmployee().getEmpId();
+        String empId =  ea.getEmployee().getEmpId();
 
-       Employee emp = empRepository.getOne(empId);
+        Employee emp = empRepository.getOne(empId);
 
-       ea.setEmployee(emp);
+        ea.setEmployee(emp);
 
-       ea.setCreatedAt(LocalDate.now());
+        ea.setCreatedAt(LocalDate.now());
 //        Ea eaEntity = new Ea();
 //
 //        eaEntity.setTitle(ea.getTitle());
@@ -73,7 +73,7 @@ public class EaServiceImpl implements EaService{
 
         repository.save(eaEntity);
     }
-    public List<EaDto> eaApprovallist() throws Exception {
+    public List<EaDto> eaApprovalList() throws Exception {
         List<Object[]> valueArrays = repository.findEaApproval();
 
         List<EaDto> eaList = new ArrayList<>();
@@ -100,6 +100,100 @@ public class EaServiceImpl implements EaService{
 
         return eaList;
     }
+
+    @Override
+    public List<EaDto> eaHRList() {
+        return repository.findEaHR();
+    }
+
+    @Override
+    public List<EaDto> eaAttendanceList() throws Exception {
+        List<Object[]> valueArrays = repository.findEaAttendance();
+
+        List<EaDto> eaList = new ArrayList<>();
+
+
+        for(Object[] valueArray : valueArrays) {
+            EaDto ea = new EaDto();
+
+            ea.setDocumentNo((Long)valueArray[0]);
+            ea.setEmpId((String)valueArray[1]);
+            ea.setName((String)valueArray[2]);
+            ea.setCategoryId((Long)valueArray[3]);
+            ea.setCategory((String)valueArray[4]);
+            ea.setSubCategory((String)valueArray[5]);
+            ea.setTitle((String)valueArray[6]);
+            ea.setContent((String)valueArray[7]);
+            ea.setStartDate((LocalDateTime) valueArray[8]);
+            ea.setEndDate((LocalDateTime) valueArray[9]);
+            ea.setApprovalStatus((Long)valueArray[10]);
+            ea.setCreatedAt((LocalDate) valueArray[11]);
+
+            eaList.add(ea);
+        }
+
+        return eaList;
+    }
+
+    @Override
+    public List<EaDto> eaVacationList() throws Exception {
+        List<Object[]> valueArrays = repository.findEaVacation();
+
+        List<EaDto> eaList = new ArrayList<>();
+
+
+        for(Object[] valueArray : valueArrays) {
+            EaDto ea = new EaDto();
+
+            ea.setDocumentNo((Long)valueArray[0]);
+            ea.setEmpId((String)valueArray[1]);
+            ea.setName((String)valueArray[2]);
+            ea.setCategoryId((Long)valueArray[3]);
+            ea.setCategory((String)valueArray[4]);
+            ea.setSubCategory((String)valueArray[5]);
+            ea.setTitle((String)valueArray[6]);
+            ea.setContent((String)valueArray[7]);
+            ea.setStartDate((LocalDateTime) valueArray[8]);
+            ea.setEndDate((LocalDateTime) valueArray[9]);
+            ea.setApprovalStatus((Long)valueArray[10]);
+            ea.setCreatedAt((LocalDate) valueArray[11]);
+
+            eaList.add(ea);
+        }
+
+        return eaList;
+    }
+
+    @Override
+    public List<EaDto> eaAffairList() throws Exception {
+        List<Object[]> valueArrays = repository.findEaAffair();
+
+        List<EaDto> eaList = new ArrayList<>();
+
+
+        for(Object[] valueArray : valueArrays) {
+            EaDto ea = new EaDto();
+
+            ea.setDocumentNo((Long)valueArray[0]);
+            ea.setEmpId((String)valueArray[1]);
+            ea.setName((String)valueArray[2]);
+            ea.setCategoryId((Long)valueArray[3]);
+            ea.setCategory((String)valueArray[4]);
+            ea.setSubCategory((String)valueArray[5]);
+            ea.setTitle((String)valueArray[6]);
+            ea.setContent((String)valueArray[7]);
+            ea.setStartDate((LocalDateTime) valueArray[8]);
+            ea.setEndDate((LocalDateTime) valueArray[9]);
+            ea.setApprovalStatus((Long)valueArray[10]);
+            ea.setCreatedAt((LocalDate) valueArray[11]);
+
+            eaList.add(ea);
+        }
+
+        return eaList;
+    }
+
+
 
     @Override
     public void modifyApproval(Ea ea) {

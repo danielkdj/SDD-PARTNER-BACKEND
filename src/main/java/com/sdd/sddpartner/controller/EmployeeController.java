@@ -1,6 +1,8 @@
 package com.sdd.sddpartner.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.sdd.sddpartner.domain.Ea;
+import com.sdd.sddpartner.service.EaService;
 import com.twilio.Twilio;
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;
@@ -24,10 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.PostConstruct;
 import java.io.File;
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -37,18 +36,48 @@ import java.util.Objects;
 public class EmployeeController {
 
 	private final EmployeeService service;
+	private final EaService eaService;
+
 	private final PasswordEncoder passwordEncoder;
 	private final MessageSource messageSource;
 	private final ShopProperties shopProperties;
 
 	private final String ACCOUNT_SID = "AC3773a6b49ca7ffaf5c1fb3104188844a";
-	private final String AUTH_TOKEN = "243158d500afd4c91f3b0789705ee282";
+	private final String AUTH_TOKEN = "e4e6323bd91564134637b1e5a1479dfb";
 	private final String FROM_NUMBER = "+13158175187";
 	@PostConstruct
 	public void init() {
 		Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
 	}
 
+	// SALARY 사용
+	@GetMapping("/ep/count")
+	public ResponseEntity<Integer> countAllEmployees() throws Exception {
+		List<Employee> empList = service.findAll();
+		int count = empList.size();
+
+		return new ResponseEntity<>(count, HttpStatus.OK);
+	}
+	@GetMapping("/ep/onleave/count")
+	public ResponseEntity<Integer> countEmployeesOnLeave() throws Exception {
+		int count = service.countByEmpStatus(3);  // 휴가 상태
+
+		return new ResponseEntity<>(count, HttpStatus.OK);
+	}
+
+	@GetMapping("/ep/overworking/count")
+	public ResponseEntity<Integer> countEmployeesOverWorking() throws Exception {
+		int count = service.countByEmpStatus(4);  // 연장근무 상태
+
+		return new ResponseEntity<>(count, HttpStatus.OK);
+	}
+
+	@GetMapping("/ep/working/count")
+	public ResponseEntity<Integer> countEmployeesWorking() throws Exception {
+		int count = service.countByEmpStatus(1);  // 출근 상태
+
+		return new ResponseEntity<>(count, HttpStatus.OK);
+	}
 
 	// HR 사용 메소드
 	@GetMapping("/ep")
@@ -163,6 +192,10 @@ public class EmployeeController {
 	public List<Employee> getEmployeeByName(@PathVariable String name) throws Exception{
 		return service.findByName(name);
 	}
+	@GetMapping("/ep/id/{empId}")
+	public Employee getEmployeeById(@PathVariable String empId) throws Exception{
+		return service.findByEmpId(empId);
+	}
 
 	@DeleteMapping("/ep/delete/{empId}")
 	public ResponseEntity<Void> deleteEmployee(@PathVariable String empId) throws Exception{
@@ -201,4 +234,16 @@ public class EmployeeController {
 		}
 		return new ResponseEntity<>("로그인 성공", HttpStatus.OK);
 	}
+
+	@GetMapping("/ep/ea")
+	public ResponseEntity<List<Ea>> listEa() throws Exception {
+		log.info("list");
+
+		List<Ea> eaList = eaService.list();
+
+		return new ResponseEntity<>(eaList, HttpStatus.OK);
+	}
+
+
+
 }

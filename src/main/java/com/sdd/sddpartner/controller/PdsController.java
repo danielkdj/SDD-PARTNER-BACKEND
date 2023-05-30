@@ -76,15 +76,15 @@ public class PdsController {
 		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 	}
 
-	@PreAuthorize("hasRole('ADMIN')")
+/*	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping(value = "/upload", produces = "text/plain;charset=UTF-8")
 	public ResponseEntity<String> upload(MultipartFile file) throws Exception {
 		String savedName = UploadFileUtils.uploadFile(shopProperties.getUploadPath(), file.getOriginalFilename(), file.getBytes());
 
 		return new ResponseEntity<String>(savedName, HttpStatus.CREATED);
-	}
+	}*/
 
-	@GetMapping("/download")
+	/*@GetMapping("/download")
 	public ResponseEntity<byte[]> download(String fullName) throws Exception {
 		ResponseEntity<byte[]> entity = null;
 
@@ -106,7 +106,7 @@ public class PdsController {
 		}
 		
 		return entity;
-	}
+	}*/
 
 	@GetMapping("/attach/{itemId}")
 	public List<String> attach(@PathVariable("itemId") Long itemId) throws Exception {

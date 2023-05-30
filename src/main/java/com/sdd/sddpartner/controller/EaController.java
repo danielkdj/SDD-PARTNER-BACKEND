@@ -32,7 +32,6 @@ public class EaController {
     @GetMapping("/eaList")
     public ResponseEntity<List<Ea>> listEa() throws Exception {
         log.info("list");
-
         List<Ea> eaList = service.list();
 
         return new ResponseEntity<>(eaList, HttpStatus.OK);
@@ -42,12 +41,37 @@ public class EaController {
     public ResponseEntity<List<EaDto>> eaApprovalList() throws Exception {
         log.info("eaApprovalList");
 
-        return new ResponseEntity<>(service.eaApprovallist(), HttpStatus.OK);
+        return new ResponseEntity<>(service.eaApprovalList(), HttpStatus.OK);
+    }
+
+    @GetMapping("/eaAttendanceList")
+    public ResponseEntity<List<EaDto>> eaAttendanceList() throws Exception {
+        log.info("eaAttendanceList");
+
+        return new ResponseEntity<>(service.eaAttendanceList(), HttpStatus.OK);
+    }
+    @GetMapping("/eaVacationList")
+    public ResponseEntity<List<EaDto>> eaVacationList() throws Exception {
+        log.info("eaVacationList");
+
+        return new ResponseEntity<>(service.eaVacationList(), HttpStatus.OK);
+    }
+
+    @GetMapping("/eaAffairList")
+    public ResponseEntity<List<EaDto>> eaAffairList() throws Exception {
+        log.info("eaAffairList");
+
+        return new ResponseEntity<>(service.eaAffairList(), HttpStatus.OK);
+    }
+
+    @GetMapping("/eaHRList")
+    public ResponseEntity<List<EaDto>> eaHRList() throws Exception {
+        return new ResponseEntity<>(service.eaHRList(), HttpStatus.OK);
     }
 
     @PostMapping(value = "/createEa")
     public ResponseEntity<Ea> createEA(@Validated @RequestBody Ea ea
-                                       ) throws Exception {
+    ) throws Exception {
         service.register(ea);
 
         log.info("createEA");
@@ -66,7 +90,7 @@ public class EaController {
 
     @PutMapping("/eaApprovalStatus/{documentNo}")
     public ResponseEntity<Ea> modifyApprovalStatus(@PathVariable("documentNo") Long documentNo,
-                                                  @Validated @RequestBody Ea ea) throws Exception {
+                                                   @Validated @RequestBody Ea ea) throws Exception {
         ea.setDocumentNo(documentNo);
         service.modifyApproval(ea);
 
@@ -81,5 +105,4 @@ public class EaController {
 
         return new ResponseEntity<>(ea, HttpStatus.OK);
     }
-
 }

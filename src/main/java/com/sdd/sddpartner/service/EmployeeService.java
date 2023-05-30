@@ -1,7 +1,6 @@
 package com.sdd.sddpartner.service;
 
 import com.sdd.sddpartner.domain.Employee;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -23,6 +22,9 @@ public interface EmployeeService {
 
 	public String getCoin(String empId) throws Exception;*/
 
+	// attendance 사용
+	int countByEmpStatus(Integer empStatus);
+
 	// HR 사용
 	List<Employee> findAll() throws Exception;
 
@@ -30,11 +32,12 @@ public interface EmployeeService {
 
 	Employee findById(String empId) throws Exception;
 
+	Employee findByEmpId(String empId);
+
 	List<Employee> findByName(String name) throws Exception;
 
 	Employee update(String empId, Employee emp) throws Exception;
 
 	void delete(String empId) throws Exception;
-
 
 }

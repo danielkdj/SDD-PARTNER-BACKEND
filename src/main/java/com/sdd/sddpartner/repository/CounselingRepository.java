@@ -15,5 +15,4 @@ public interface CounselingRepository extends JpaRepository<Counseling, Long>{
 
 	@Query("SELECT c FROM Counseling c WHERE LOWER(c.counTitle) LIKE LOWER(CONCAT('%', :counTitle, '%'))")
 	List<Counseling> findByTitle(@Param("counTitle") String counTitle);
-
 }
