@@ -5,6 +5,7 @@ import com.sdd.sddpartner.domain.DocumentBox;
 import com.sdd.sddpartner.domain.TeamCalendar;
 
 import java.util.List;
+import java.util.concurrent.ExecutorService;
 
 public interface DocumentBoxService {
 
@@ -12,5 +13,7 @@ public interface DocumentBoxService {
     public void remove(String id) throws Exception;
     public void write(DocumentBox documentBox) throws Exception;
     public void modify(DocumentBox documentBox) throws Exception;
+
+    DocumentBox detail(String id) throws Exception;
 
 }
