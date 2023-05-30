@@ -1,9 +1,7 @@
 package com.sdd.sddpartner.config;
 
 import java.util.Arrays;
-/*import lombok.Data;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;*/
+
 import com.sdd.sddpartner.common.security.CustomAccessDeniedHandler;
 import com.sdd.sddpartner.common.security.RestAuthenticationEntryPoint;
 import com.sdd.sddpartner.common.security.jwt.filter.JwtAuthenticationFilter;
@@ -38,16 +36,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	@Autowired
 	private ShopProperties shopProperties;
 
-	/*@Data
-	@Configuration
-	@ConfigurationProperties(prefix = "twilio")
-	public class TwilioConfig {
-
-		private String accountSid;
-		private String authToken;
-		private String fromNumber;
-
-	}*/
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -71,17 +59,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 				.antMatchers("/").permitAll()
 				.antMatchers("/codes/**").access("permitAll")
 				.antMatchers("/users/**").access("permitAll")
-				.antMatchers("/use/**").permitAll()
-				.antMatchers("/notice/**").permitAll()
-				.antMatchers("/drv/**").permitAll()
-				.antMatchers("/com/**").permitAll()
 				.antMatchers("/employee/**").permitAll()
-				.antMatchers("/counseling/**").permitAll()
-				.antMatchers("/attendance/**").access("permitAll")
-				.antMatchers("/dayOffs/**").access("permitAll")
-				.antMatchers("/dayOffDistinctions/**").access("permitAll")
-				.antMatchers("/salary/**").access("permitAll")
-				.antMatchers("/ea/**").permitAll()
+				.antMatchers("/teamCalendar/**").permitAll()
 				.antMatchers("/codegroups/**").access("hasRole('ADMIN')")
 				.antMatchers("/codedetails/**").access("hasRole('ADMIN')")
 				.antMatchers("/boards/**").access("request.method == 'GET' ? permitAll : hasAnyRole('MEMBER', 'ADMIN')")
@@ -90,6 +69,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 				.antMatchers("/coins/**").access("hasRole('MEMBER')")
 				.antMatchers("/useritems/**").access("hasAnyRole('MEMBER', 'ADMIN')")
 				.antMatchers("/pds/**").access("request.method == 'GET' ? permitAll : hasRole('ADMIN')")
+				.antMatchers("/use/**").permitAll()
+				.antMatchers("/notice/**").permitAll()
+				.antMatchers("/drv/**").permitAll()
+				.antMatchers("/com/**").permitAll()
+				.antMatchers("/counseling/**").permitAll()
+				.antMatchers("/attendance/**").access("permitAll")
+				.antMatchers("/dayOffs/**").access("permitAll")
+				.antMatchers("/dayOffDistinctions/**").access("permitAll")
+				.antMatchers("/salary/**").access("permitAll")
+				.antMatchers("/ea/**").permitAll()
+				.antMatchers("/document/**").permitAll()
 				.anyRequest().authenticated();
 
 		http.exceptionHandling()
@@ -119,6 +109,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
 		config.addAllowedOrigin("http://localhost:3030/");
+		config.addAllowedOrigin("http://localhost:3030/**");
         config.addAllowedHeader("*");
         config.addAllowedMethod("OPTIONS");
         config.addAllowedMethod("HEAD");
