@@ -18,7 +18,7 @@ public class DocumentBoxServiceImpl implements DocumentBoxService{
 
     @Override
     public List<DocumentBox> list() throws Exception {
-        return documentBoxRepository.findAll(/*Sort.by(Sort.Direction.DESC, "createAt")*/);
+        return documentBoxRepository.findAll(Sort.by(Sort.Direction.DESC, "createAt"));
     }
 
     @Override
@@ -38,6 +38,11 @@ public class DocumentBoxServiceImpl implements DocumentBoxService{
         documentBoxEntity.setTitle(documentBox.getTitle());
         documentBoxEntity.setContent(documentBox.getContent());
         documentBoxRepository.save(documentBoxEntity);
+    }
+
+    @Override
+    public DocumentBox detail(String id) throws Exception {
+        return documentBoxRepository.getReferenceById(id);
     }
 
 }

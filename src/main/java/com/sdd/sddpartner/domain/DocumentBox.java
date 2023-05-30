@@ -16,30 +16,30 @@ import java.time.LocalDateTime;
 @Setter
 @ToString
 @Entity
-@Table(name="document_box")
+@Table(name="DOCUMENT_BOX")
 public class DocumentBox {
     @Id
-    @Column(name = "ID", length = 50, nullable = false)
+    @Column(name = "ID")
     private String id;
 
-    @Column(name = "TITLE", length = 50)
+    @Column(name = "TITLE")
     private String title;
 
     @Lob
     @Column(name = "CONTENT")
     private String content;
 
-
     @CreationTimestamp
-    @Column(name = "CREATE_AT", nullable = false)
-    private LocalDateTime createdAt;
+    @Column(name = "CREATE_AT")
+    private LocalDateTime createAt;
 
     @UpdateTimestamp
-    @Column(name = "MODIFIED_AT", nullable = false)
+    @Column(name = "MODIFIED_AT")
     private LocalDateTime modifiedAt;
 
-    @Column(name = "EMP_ID", length = 50, nullable = false)
+    @Column(name = "EMP_ID")
     private String employeeId;
-
-
+//    @ManyToOne(fetch=FetchType.EAGER)
+//    @JoinColumn(name = "EMP_ID")
+//    private Employee employee;
 }

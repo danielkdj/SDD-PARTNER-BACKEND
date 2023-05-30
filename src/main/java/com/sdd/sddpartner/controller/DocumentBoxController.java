@@ -24,6 +24,13 @@ public class DocumentBoxController {
         log.info("list");
         return new ResponseEntity<>(documentBoxService.list(), HttpStatus.OK);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<DocumentBox> detail(@PathVariable("id") String id) throws Exception {
+        log.info("list");
+        return new ResponseEntity<>(documentBoxService.detail(id), HttpStatus.OK);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> remove(@PathVariable("id") String id) throws Exception {
         log.info("remove");
