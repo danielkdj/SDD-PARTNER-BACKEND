@@ -32,6 +32,9 @@ public interface EmployeeService {
 
 	Employee findById(String empId) throws Exception;
 
+
+	boolean isEmployeeRegistered(String empId) throws Exception;
+
 	Employee findByEmpId(String empId);
 
 	List<Employee> findByName(String name) throws Exception;

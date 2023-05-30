@@ -129,6 +129,12 @@ public class EmployeeController {
 				emp.setHireDate(LocalDate.now());
 			}
 
+			if (service.isEmployeeRegistered(emp.getEmpId())) {
+				response.put("success", false);
+				response.put("message", "이미 등록된 사원입니다.");
+				return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+			}
+
 			String rawPassword = emp.getPassword();
 
 			if (file != null && !file.isEmpty()) {
@@ -138,7 +144,7 @@ public class EmployeeController {
 
 			Employee createdEmployee = service.save(emp);
 
-			if(createdEmployee != null) {
+			if (createdEmployee != null) {
 				String formattedPhoneNumber = convertToE164Format(createdEmployee.getPhone());
 				String msg = "SSD-Partner 입니다. 당신의 사번: " + createdEmployee.getEmpId() + "이며, 초기비밀번호: " + rawPassword + " 입니다. 비밀번호는 꼭 변경해서 사용하세요!";
 				sendSms(formattedPhoneNumber, msg);
@@ -154,7 +160,6 @@ public class EmployeeController {
 			return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-
 	private void sendSms(String phoneNumber, String msg) {
 		Message message = Message.creator(
 						new PhoneNumber(phoneNumber),
@@ -164,7 +169,6 @@ public class EmployeeController {
 
 		System.out.println("Sent message w/ SID: " + message.getSid());
 	}
-
 	private String convertToE164Format(String phoneNumber) {
 		String formattedPhoneNumber = phoneNumber.replaceAll("-", "");
 		formattedPhoneNumber = "+82" + formattedPhoneNumber.substring(1);

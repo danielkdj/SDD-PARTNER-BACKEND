@@ -25,8 +25,13 @@ public class AttendanceController {
         return new ResponseEntity<>(attendance, HttpStatus.CREATED);
     }
 
-    @GetMapping("/List")
+    @GetMapping("/list")
     public ResponseEntity<List<Attendance>> list() throws Exception {
+
+        return new ResponseEntity<>(service.list(), HttpStatus.OK);
+    }
+    @GetMapping("/list/id/{empId}")
+    public ResponseEntity<List<Attendance>> listEmp() throws Exception {
 
         return new ResponseEntity<>(service.list(), HttpStatus.OK);
     }
