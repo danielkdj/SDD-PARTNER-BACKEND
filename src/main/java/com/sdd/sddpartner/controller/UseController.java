@@ -41,10 +41,10 @@ public class UseController {
 	public ResponseEntity<List<Long>> mainCount() throws Exception {
 		log.info("list");
 		//approv 1 , categoryId 12,13 | 14,15
-		Long holdApprove = 1L;
+//		Long holdApprove = 1L;
 		List<Long> countList = new ArrayList<>(2);
-		countList.add(service.mainCount(holdApprove,getRoomCategoryId()));
-		countList.add(service.mainCount(holdApprove,getCarCategoryId()));
+		countList.add(service.mainCount(getRoomCategoryId()));
+		countList.add(service.mainCount(getCarCategoryId()));
 		return new ResponseEntity<>(countList, HttpStatus.OK);
 	}
 
@@ -52,8 +52,8 @@ public class UseController {
 	public ResponseEntity<List<LocalDate>> mainDate() throws Exception {
 		List<LocalDate> dateList = new ArrayList<>(2);
 
-		Ea oldestRoomNotApprove = service.mainDate(getRoomCategoryId(), 1L);
-		Ea oldestCarNotApprove = service.mainDate(getCarCategoryId(),1L);
+		Ea oldestRoomNotApprove = service.mainDate(getRoomCategoryId());
+		Ea oldestCarNotApprove = service.mainDate(getCarCategoryId());
 
 		if(oldestRoomNotApprove!=null){
 			dateList.add(0,oldestRoomNotApprove.getCreatedAt());

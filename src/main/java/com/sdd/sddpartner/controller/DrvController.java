@@ -53,6 +53,13 @@ public class DrvController {
 		return new ResponseEntity<>(drvDto, HttpStatus.OK);
 	}
 
+	@DeleteMapping("/{drvNo}")
+	public ResponseEntity<Void> remove(@PathVariable("drvNo") Long drvNo) throws Exception {
+		service.remove(drvNo);
+
+		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+	}
+
     //entityList를 dtoList로 변환
     private List<DrvDto> getDrvDtoList(List<Drv> drvList){
         List<DrvDto> drvDtoList = new ArrayList<>();

@@ -8,7 +8,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -33,14 +32,14 @@ public class UseServiceImpl implements UseService {
 	}
 
 	@Override
-	public Long mainCount(Long holdApprove, List<Long> categoryIdList) {
+	public Long mainCount(List<Long> categoryIdList) {
 		return repository.countByApprovalStatusAndCategoryItem_CategoryIdIn(
-				holdApprove, categoryIdList);
+				1L, categoryIdList);
 	}
 	@Override
-	public Ea mainDate(List<Long> categoryIdList, Long approve) {
+	public Ea mainDate(List<Long> categoryIdList) {
 		return repository.findTopByCategoryItem_CategoryIdInAndApprovalStatus(
-				Sort.by(Direction.ASC, "createdAt"), categoryIdList, approve);
+				Sort.by(Direction.ASC, "createdAt"), categoryIdList, 1L);
 	}
 
 	@Override

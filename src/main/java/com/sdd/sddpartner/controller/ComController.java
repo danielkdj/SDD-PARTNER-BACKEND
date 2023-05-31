@@ -67,41 +67,38 @@ public class ComController {
 	public ResponseEntity<List<Long>> countAll( @PathVariable(value = "year") Long year,
 						@PathVariable(value = "quarter") Long quarter) throws Exception {
 		List<Long> countList = new ArrayList<Long>(16);
-		//1-1~4Q
-		for(int i = 1; i<5; i++){
+
+		for(int i = 1; i<5; i++){ //1-1~4Q
 			Long count1 = service.count(getEduIdsDefaltList(1L),
 					getCompletionsDefaltList('A'),year,getQuarterDefaltList((long) i));
 			countList.add(count1);
 		}
-		//2~5 0Q
-		for(int i = 2; i<6; i++){
+		for(int i = 2; i<6; i++){ //2~5 0Q
 			Long count1 = service.count(getEduIdsDefaltList((long)i),
 					getCompletionsDefaltList('A'),year,getQuarterDefaltList(0L));
 			countList.add(count1);
 		}
-		//1-1~4Q
-		for(int i = 1; i<5; i++){
+		for(int i = 1; i<5; i++){ //1-1~4Q
 			Long count1 = service.count(getEduIdsDefaltList(1L),
-					getCompletionsDefaltList('Y'),year,getQuarterDefaltList(Long.valueOf(i)));
+					getCompletionsDefaltList('Y'),year,getQuarterDefaltList((long)i));
 			countList.add(count1);
 		}
-		//2~5 0Q
-		for(int i = 2; i<6; i++){
-			Long count1 = service.count(getEduIdsDefaltList(Long.valueOf(i)),
+		for(int i = 2; i<6; i++){ //2~5 0Q
+			Long count1 = service.count(getEduIdsDefaltList((long)i),
 					getCompletionsDefaltList('Y'),year,getQuarterDefaltList(0L));
 			countList.add(count1);
 		}
 		return new ResponseEntity<>(countList, HttpStatus.OK);
 	}
 
-	@PostMapping("/{eduId}/{years}/{quarters}")
+	@PostMapping("/{eduId}/{year}/{quarter}")
 	public ResponseEntity<List<Completion>> register(
 			@PathVariable("eduId") Long eduId,
-			@PathVariable("years") Long years,
-			@PathVariable("quarters") Long quarters) throws Exception {
+			@PathVariable("year") Long year,
+			@PathVariable("quarter") Long quarter) throws Exception {
 
-		log.info("completion register: "+ eduId.toString(),years.toString(),quarters.toString());
-		return new ResponseEntity<>(service.register(eduId,years,quarters), HttpStatus.OK);
+		log.info("completion register: "+ eduId.toString(),year.toString(),quarter.toString());
+		return new ResponseEntity<>(service.register(eduId,year,quarter), HttpStatus.OK);
 	}
 
 	@PatchMapping("/{comNo}")

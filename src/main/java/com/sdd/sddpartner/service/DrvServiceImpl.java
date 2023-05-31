@@ -29,8 +29,8 @@ public class DrvServiceImpl implements DrvService {
 	}
 
 	@Override
-	public Drv read(Long documentNo) throws Exception {
-		return repository.getOne(documentNo);
+	public Drv read(Long drvNo) throws Exception {
+		return repository.getOne(drvNo);
 	}
 
 	@Override
