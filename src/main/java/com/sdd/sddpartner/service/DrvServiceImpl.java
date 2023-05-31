@@ -23,7 +23,7 @@ public class DrvServiceImpl implements DrvService {
 	@Override
 	public Drv register(Long documentNo) throws Exception {
 		Ea ea = useRepository.getOne(documentNo);
-		log.info("유저정보 출력"+ ea);
+		log.info("전자결재 정보 출력"+ ea);
 		Drv drv = new Drv(ea);
 		return repository.save(drv);
 	}

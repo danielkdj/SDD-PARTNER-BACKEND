@@ -58,7 +58,6 @@ public class NoticeServiceImpl implements NoticeService {
 	public List<Notice> threelist() throws Exception {
 		return repository.findTop3By(Sort.by(Direction.DESC, "noticeNo"));
 	}
-
 	@Override
 	public List<Notice> searchlist(String title) throws Exception {
 		return repository.findByTitleContaining(Sort.by(Direction.DESC, "noticeNo"),title);

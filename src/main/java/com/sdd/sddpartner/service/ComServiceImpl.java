@@ -30,8 +30,10 @@ public class ComServiceImpl implements ComService {
 	}
 
 	@Override
-	public List<Completion> searchList(List<Long> eduIds, List<Character> completions,List<Long> deptNos, Long years, List<Long> quarters) {
-		return repository.findByEduInfo_EduIdInAndCompletionInAndEmployee_Dept_DeptNoInAndYearsAndQuartersIn(Sort.by(Direction.ASC, "comNo"), eduIds, completions, deptNos, years, quarters);
+	public List<Completion> searchList(List<Long> eduIds, List<Character> completions,
+									   List<Long> deptNos, Long years, List<Long> quarters) {
+		return repository.findByEduInfo_EduIdInAndCompletionInAndEmployee_Dept_DeptNoInAndYearsAndQuartersIn(
+				Sort.by(Direction.ASC, "comNo"), eduIds, completions, deptNos, years, quarters);
 	}
 	@Override
 	public Long count(List<Long> eduIds, List<Character> completions, Long years, List<Long> quarters) {
@@ -45,7 +47,8 @@ public class ComServiceImpl implements ComService {
 		List<Employee> allEmployeeList =employeeRepository.findAll();
 
 		for(Employee e : allEmployeeList) {
-			if(!repository.existsByYearsAndQuartersAndEmployee_EmpIdAndEduInfo_EduId(years, quarters, e.getEmpId(), eduId)){
+			if(!repository.existsByYearsAndQuartersAndEmployee_EmpIdAndEduInfo_EduId(
+												years, quarters, e.getEmpId(), eduId)){
 				Completion newCompletion = new Completion();
 				newCompletion.setCompletion('N');
 				newCompletion.setYears(years);
@@ -67,10 +70,8 @@ public class ComServiceImpl implements ComService {
 				.map(completion -> {
 					if(completion.getCompletion()=='N'){
 						completion.setCompletion('Y');
-
 					}else{
 						completion.setCompletion('N');
-
 					}
 					return repository.save(completion);
 				})

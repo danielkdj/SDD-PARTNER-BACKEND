@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Slf4j
@@ -17,8 +18,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/com")
 public class ComController {
-	
+
 	private final ComService service;
+
 	@GetMapping
 	public ResponseEntity<List<ComDto>> list() throws Exception {
 		log.info("list");
@@ -40,9 +42,11 @@ public class ComController {
 		List<Long> quarters = getQuarterDefaltList(quarter);
 
 		log.info("list");
-		List<ComDto> comDtoList = getComDtoList(service.searchList(eduIds,completions, deptNos, year, quarters));
+		List<ComDto> comDtoList = getComDtoList(
+				service.searchList(eduIds,completions, deptNos, year, quarters));
 		return new ResponseEntity<>(comDtoList, HttpStatus.OK);
 	}
+
 	@GetMapping("/count/{eduId}/{completion}/{year}/{quarter}")
 	public ResponseEntity<Long> count(
 			@PathVariable("eduId") Long eduId,
@@ -58,41 +62,42 @@ public class ComController {
 		Long comCount = service.count(eduIds,completions,year,quarters);
 		return new ResponseEntity<>(comCount, HttpStatus.OK);
 	}
+
 	@GetMapping("/countAll/{year}/{quarter}")
-	public ResponseEntity<List<Long>> countAll(
-			@PathVariable(value = "year") Long year,
-			@PathVariable(value = "quarter") Long quarter) throws Exception {
-		log.info("count");
+	public ResponseEntity<List<Long>> countAll( @PathVariable(value = "year") Long year,
+						@PathVariable(value = "quarter") Long quarter) throws Exception {
 		List<Long> countList = new ArrayList<Long>(16);
-
 		//1-1~4Q
 		for(int i = 1; i<5; i++){
-		Long count1 = service.count(getEduIdsDefaltList(1L),getCompletionsDefaltList('A'),year,getQuarterDefaltList((long) i));
-		countList.add(count1);
+			Long count1 = service.count(getEduIdsDefaltList(1L),
+					getCompletionsDefaltList('A'),year,getQuarterDefaltList((long) i));
+			countList.add(count1);
 		}
 		//2~5 0Q
 		for(int i = 2; i<6; i++){
-		Long count1 = service.count(getEduIdsDefaltList((long)i),getCompletionsDefaltList('A'),year,getQuarterDefaltList(0L));
-		countList.add(count1);
+			Long count1 = service.count(getEduIdsDefaltList((long)i),
+					getCompletionsDefaltList('A'),year,getQuarterDefaltList(0L));
+			countList.add(count1);
 		}
 		//1-1~4Q
 		for(int i = 1; i<5; i++){
-		Long count1 = service.count(getEduIdsDefaltList(1L),getCompletionsDefaltList('Y'),year,getQuarterDefaltList(Long.valueOf(i)));
-		countList.add(count1);
+			Long count1 = service.count(getEduIdsDefaltList(1L),
+					getCompletionsDefaltList('Y'),year,getQuarterDefaltList(Long.valueOf(i)));
+			countList.add(count1);
 		}
 		//2~5 0Q
 		for(int i = 2; i<6; i++){
-		Long count1 = service.count(getEduIdsDefaltList(Long.valueOf(i)),getCompletionsDefaltList('Y'),year,getQuarterDefaltList(0L));
-		countList.add(count1);
+			Long count1 = service.count(getEduIdsDefaltList(Long.valueOf(i)),
+					getCompletionsDefaltList('Y'),year,getQuarterDefaltList(0L));
+			countList.add(count1);
 		}
-
-
 		return new ResponseEntity<>(countList, HttpStatus.OK);
 	}
+
 	@PostMapping("/{eduId}/{years}/{quarters}")
 	public ResponseEntity<List<Completion>> register(
 			@PathVariable("eduId") Long eduId,
-		 	@PathVariable("years") Long years,
+			@PathVariable("years") Long years,
 			@PathVariable("quarters") Long quarters) throws Exception {
 
 		log.info("completion register: "+ eduId.toString(),years.toString(),quarters.toString());
@@ -100,7 +105,8 @@ public class ComController {
 	}
 
 	@PatchMapping("/{comNo}")
-	public ResponseEntity<Completion> modify(@PathVariable("comNo") Long comNo) throws Exception {
+	public ResponseEntity<Completion> modify(
+			@PathVariable("comNo") Long comNo) throws Exception {
 		service.modify(comNo);
 		return new ResponseEntity<>( HttpStatus.OK);
 	}
@@ -116,51 +122,41 @@ public class ComController {
 	}
 
 	private List<Long> getEduIdsDefaltList(Long eduId){
-		List<Long> eduIds = new ArrayList<>();
-			if(eduId==0){
-				eduIds.add(1L);
-				eduIds.add(2L);
-				eduIds.add(3L);
-				eduIds.add(4L);
-				eduIds.add(5L);
-			}else{
-				eduIds.add(eduId);
-			}
+		List<Long> eduIds;
+		if(eduId==0){
+			eduIds = Arrays.asList(1L,2L,3L,4L,5L);
+		}else{
+			eduIds = Arrays.asList(eduId);
+		}
 		return eduIds;
 	}
+
 	private List<Character> getCompletionsDefaltList(Character completion){
-		List<Character> completions = new ArrayList<>();
-			if(completion.equals('A')){
-				completions.add('Y');
-				completions.add('N');
-			}else{
-				completions.add(completion);
-			}
+		List<Character> completions;
+		if(completion.equals('A')){
+			completions = Arrays.asList('Y','N');
+		}else{
+			completions = Arrays.asList(completion);
+		}
 		return completions;
 	}
+
 	private List<Long> getDeptNoDefaltList(Long deptNo){
-		List<Long> deptNos = new ArrayList<>();
-			if(deptNo == 0){
-				deptNos.add(1L);
-				deptNos.add(2L);
-				deptNos.add(3L);
-				deptNos.add(4L);
-			}else{
-				deptNos.add(deptNo);
-			}
+		List<Long> deptNos;
+		if(deptNo == 0){
+			deptNos = Arrays.asList(0L,1L,2L,3L,4L);
+		}else{
+			deptNos = Arrays.asList(deptNo);
+		}
 		return deptNos;
 	}
+
 	private List<Long> getQuarterDefaltList(Long quarter){
-		List<Long> quarters = new ArrayList<>();
+		List<Long> quarters;
 		if(quarter == 0){
-			quarters.add(0L);
-			quarters.add(1L);
-			quarters.add(2L);
-			quarters.add(3L);
-			quarters.add(4L);
+			quarters = Arrays.asList(0L,1L,2L,3L,4L);
 		}else {
-			quarters.add(0L);
-			quarters.add(quarter);
+			quarters = Arrays.asList(0L,quarter);
 		}
 		return quarters;
 	}

@@ -9,6 +9,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -25,24 +26,21 @@ public class UseServiceImpl implements UseService {
 
 	@Override
 	public List<Ea> fourList() throws Exception {
-		List<Long> categoryId = new ArrayList<>();
-		categoryId.add(12L);
-		categoryId.add(13L);
-		categoryId.add(14L);
-		categoryId.add(15L);
-
-		List<Ea> uses = repository.findTop4ByCategoryItem_CategoryIdIn(Sort.by(Direction.DESC, "documentNo"), categoryId);
+		List<Long> categoryId = Arrays.asList(12L,13L,14L,15L);
+		List<Ea> uses = repository.findTop4ByCategoryItem_CategoryIdIn(
+				Sort.by(Direction.DESC, "documentNo"), categoryId);
 		return uses;
 	}
 
 	@Override
 	public Long mainCount(Long holdApprove, List<Long> categoryIdList) {
-		return repository.countByApprovalStatusAndCategoryItem_CategoryIdIn(holdApprove, categoryIdList);
+		return repository.countByApprovalStatusAndCategoryItem_CategoryIdIn(
+				holdApprove, categoryIdList);
 	}
-
 	@Override
 	public Ea mainDate(List<Long> categoryIdList, Long approve) {
-		return repository.findTopByCategoryItem_CategoryIdInAndApprovalStatus(Sort.by(Direction.ASC, "createdAt"), categoryIdList, approve);
+		return repository.findTopByCategoryItem_CategoryIdInAndApprovalStatus(
+				Sort.by(Direction.ASC, "createdAt"), categoryIdList, approve);
 	}
 
 	@Override
@@ -79,8 +77,5 @@ public class UseServiceImpl implements UseService {
 					return repository.save(ea);
 				})
 				.orElseThrow();
-
-
-
 	}
 }

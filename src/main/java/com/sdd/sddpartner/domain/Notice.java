@@ -32,7 +32,6 @@ public class Notice{
 	
 	@JsonFormat(pattern="yyyy-MM-dd HH:mm")
 	@CreationTimestamp
-	//@DateTimeFormat(pattern="yyyy-MM-dd HH:mm")
 	private LocalDateTime createdAt;
 
 	@ManyToOne(fetch=FetchType.EAGER)
